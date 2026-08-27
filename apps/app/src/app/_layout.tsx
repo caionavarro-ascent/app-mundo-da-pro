@@ -16,9 +16,11 @@ import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 
 import { ProvedorDemo } from '../contexto/demo';
+import { ativarMouseComoToque } from '../web/mouse-como-toque';
 import '../global.css';
 
 SplashScreen.preventAutoHideAsync();
+ativarMouseComoToque();
 
 export default function LayoutRaiz() {
   const [fontesProntas] = useFonts({

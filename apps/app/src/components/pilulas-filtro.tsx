@@ -12,7 +12,6 @@ import { useState } from 'react';
 import { Modal, Pressable, ScrollView, Text, View } from 'react-native';
 
 import { useDemo } from '../contexto/demo';
-import { useArrastarMouseWeb } from '../hooks/arrastar-mouse-web';
 
 type Folha = 'nivel' | 'ano' | 'categorias' | null;
 
@@ -24,12 +23,10 @@ type Folha = 'nivel' | 'ano' | 'categorias' | null;
 export function PilulasFiltro({ aoTocarNovidades }: { aoTocarNovidades?: () => void }) {
   const demo = useDemo();
   const [folha, setFolha] = useState<Folha>(null);
-  const refPilulas = useArrastarMouseWeb<ScrollView>();
 
   return (
     <View>
       <ScrollView
-        ref={refPilulas}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerClassName="gap-2 px-4 py-2"

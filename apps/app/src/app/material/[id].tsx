@@ -20,7 +20,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Prateleira } from '../../components/prateleira';
 import { useDemo } from '../../contexto/demo';
-import { useArrastarMouseWeb } from '../../hooks/arrastar-mouse-web';
 
 const PAGINAS_AMOSTRA = 2; // virá de configuracoes.paginas_amostra (Bloco 7)
 
@@ -31,7 +30,6 @@ export default function FichaMaterial() {
   const demo = useDemo();
   const [aba, setAba] = useState<'sobre' | 'como-usar'>('sobre');
   const [paywallAberto, setPaywallAberto] = useState(false);
-  const refPreview = useArrastarMouseWeb<ScrollView>();
 
   const material = materialPorId(id);
   if (!material) {
@@ -124,7 +122,6 @@ export default function FichaMaterial() {
         {/* preview: amostra liberada, restante trancado (A10) */}
         {material.paginas > 0 && (
           <ScrollView
-            ref={refPreview}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerClassName="gap-2 px-4"
