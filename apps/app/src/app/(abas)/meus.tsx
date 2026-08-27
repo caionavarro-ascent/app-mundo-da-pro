@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { materiaisDemo, produtoPorId } from '@mdp/core/src/mock/acervo';
+import { estaLiberado, materiaisDemo, produtoPorId } from '@mdp/core/src/mock/acervo';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -10,8 +10,8 @@ import { useDemo } from '../../contexto/demo';
 export default function MeusMateriais() {
   const demo = useDemo();
   const favoritos = materiaisDemo.filter((m) => demo.favoritos.has(m.id));
-  const possuidos = materiaisDemo.filter((m) =>
-    m.produtoIds.some((id) => demo.posse.includes(id)),
+  const possuidos = materiaisDemo.filter(
+    (m) => !m.gratuito && estaLiberado(m, demo.posse),
   );
 
   const emBreve = (recurso: string, bloco: string) => () =>
@@ -34,6 +34,11 @@ export default function MeusMateriais() {
           <Text className="font-corpo-forte text-sm uppercase text-texto-2">
             Meus acessos
           </Text>
+          {demo.posse.length === 0 && (
+            <Text className="font-corpo text-sm text-texto-2">
+              Nenhum produto neste cenário de teste — só os materiais gratuitos.
+            </Text>
+          )}
           {demo.posse.map((id) => {
             const produto = produtoPorId(id);
             if (!produto) return null;

@@ -15,6 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Destaque } from '../../components/destaque';
 import { PilulasFiltro } from '../../components/pilulas-filtro';
 import { Prateleira } from '../../components/prateleira';
+import { SeletorAcesso } from '../../components/seletor-acesso';
 import { useDemo } from '../../contexto/demo';
 
 /** Home da vitrine (Bloco 7), estrutura da referência bloco a bloco. */
@@ -41,6 +42,7 @@ export default function Inicio() {
             <Text className="font-titulo-semi text-lg text-texto">Início</Text>
           </View>
           <View className="flex-row items-center gap-4">
+            <SeletorAcesso />
             <Pressable
               hitSlop={8}
               onPress={() => Alert.alert('Baixados', 'O download offline chega no Bloco 9.')}

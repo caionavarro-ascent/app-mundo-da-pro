@@ -8,10 +8,37 @@ import type { MaterialDemo } from '@mdp/core/src/mock/acervo';
  * os filtros permanecem.
  */
 
+/** Cenários do seletor de teste: simulam estados de posse da conta */
+export const cenariosAcesso = [
+  { id: 'nenhum', rotulo: 'Nenhum produto', descricao: 'Só os materiais gratuitos', posse: [] },
+  {
+    id: 'um',
+    rotulo: '1 produto',
+    descricao: 'Possui o EducaKits',
+    posse: ['educakits'],
+  },
+  {
+    id: 'dois',
+    rotulo: '2 produtos',
+    descricao: 'Possui EducaKits e Cadernos FlaEduca',
+    posse: ['educakits', 'flaeduca'],
+  },
+  {
+    id: 'total',
+    rotulo: 'Acesso Total',
+    descricao: 'O combo: tudo liberado',
+    posse: ['acesso-total'],
+  },
+] as const;
+
+export type CenarioAcesso = (typeof cenariosAcesso)[number]['id'];
+
 interface EstadoDemo {
   nome: string;
   /** ids de produtos possuídos na demonstração */
   posse: string[];
+  cenario: CenarioAcesso;
+  definirCenario: (c: CenarioAcesso) => void;
   favoritos: Set<string>;
   alternarFavorito: (materialId: string) => void;
   // filtros das pílulas (A1)
@@ -36,6 +63,7 @@ function alternar<T>(conjunto: Set<T>, item: T): Set<T> {
 }
 
 export function ProvedorDemo({ children }: { children: ReactNode }) {
+  const [cenario, setCenario] = useState<CenarioAcesso>('um');
   const [favoritos, setFavoritos] = useState<Set<string>>(new Set());
   const [niveis, setNiveis] = useState<Set<NivelEscrita>>(new Set());
   const [anos, setAnos] = useState<Set<AnoEscolar>>(new Set());
@@ -45,7 +73,9 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
     const temFiltro = niveis.size > 0 || anos.size > 0 || tipos.size > 0;
     return {
       nome: 'Ana',
-      posse: ['educakits'],
+      posse: [...(cenariosAcesso.find((c) => c.id === cenario)?.posse ?? [])],
+      cenario,
+      definirCenario: setCenario,
       favoritos,
       alternarFavorito: (id) => setFavoritos((f) => alternar(f, id)),
       niveis,
@@ -70,7 +100,7 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
                 (tipos.size === 0 || tipos.has(m.tipo)),
             ),
     };
-  }, [favoritos, niveis, anos, tipos]);
+  }, [cenario, favoritos, niveis, anos, tipos]);
 
   return <Contexto.Provider value={valor}>{children}</Contexto.Provider>;
 }

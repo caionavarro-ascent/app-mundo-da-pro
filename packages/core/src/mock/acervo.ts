@@ -388,7 +388,7 @@ export interface DestaqueResolvido {
 /** Prioridades de A2: material novo de produto possuído > sugestão > gratuito */
 export function resolverDestaque(posse: string[]): DestaqueResolvido {
   const novoPossuido = materiaisDemo.find(
-    (m) => m.novo && m.produtoIds.some((id) => posse.includes(id)),
+    (m) => m.novo && !m.gratuito && estaLiberado(m, posse),
   );
   if (novoPossuido) {
     return { material: novoPossuido, chamada: 'Novo no seu acervo', ctaPrimario: 'Baixar agora' };
