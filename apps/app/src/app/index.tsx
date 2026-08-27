@@ -43,6 +43,11 @@ export default function TelaFundacao() {
             Botão primário da referência
           </Text>
         </View>
+
+        <Text className="text-center font-corpo text-sm text-texto-2">
+          Amostra visual do tema — nada nesta tela é clicável ainda.{'\n'}
+          As abas chegam no Bloco 6 e a vitrine no Bloco 7.
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
