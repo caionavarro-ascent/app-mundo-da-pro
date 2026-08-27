@@ -1,6 +1,7 @@
 import type { MaterialDemo } from '@mdp/core/src/mock/acervo';
 import { FlatList, Text, View } from 'react-native';
 
+import { useArrastarMouseWeb } from '../hooks/arrastar-mouse-web';
 import { CardMaterial } from './card-material';
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export function Prateleira({ titulo, subtitulo, materiais, posse, comPosicao }: Props) {
+  const refLista = useArrastarMouseWeb<FlatList<MaterialDemo>>(materiais.length > 0);
   if (materiais.length === 0) return null;
 
   return (
@@ -27,6 +29,7 @@ export function Prateleira({ titulo, subtitulo, materiais, posse, comPosicao }: 
         ) : null}
       </View>
       <FlatList
+        ref={refLista}
         horizontal
         data={materiais}
         keyExtractor={(m) => m.id}
