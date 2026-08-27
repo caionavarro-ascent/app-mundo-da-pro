@@ -1,0 +1,13 @@
+{
+  "name": "mundo-da-pro",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "app": "npm run start --workspace apps/app",
+    "web": "npm run dev --workspace apps/web",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  }
+}

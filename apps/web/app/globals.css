@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/*
+ * Tema do painel de conteúdo e do site: claro, desktop-first.
+ * Valores espelham packages/core/src/tokens.ts (coresAdmin).
+ */
+:root {
+  --papel: #fcfcfa;
+  --tinta: #16265c;
+  --tinta-clara: #3a57c4;
+}
+
+@theme inline {
+  --color-papel: var(--papel);
+  --color-tinta: var(--tinta);
+  --color-tinta-clara: var(--tinta-clara);
+  --font-sans: var(--font-instrument-sans);
+}
+
+body {
+  background: var(--papel);
+  color: var(--tinta);
+}
