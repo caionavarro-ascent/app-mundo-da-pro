@@ -71,9 +71,9 @@ desejo mais forte da vitrine, e custa zero.
 ## Em aberto
 
 - **Preço e composição do Acesso Total.** Precisa existir como SKU no The Members antes do
-  Bloco 8.
-- **Compras antigas de Hotmart e Kiwify contam como posse?** Se sim, é necessário importar
-  essa base para `entitlements` antes do lançamento, com `origem = 'migracao'`.
+  Bloco 8. A D22 assume que o combo libera todo o acervo; se FDA/FPT ficarem de fora,
+  a função `tem_acesso` precisa de ajuste. Atenção: aulas do FDA abrem no The Members,
+  que tem controle de acesso próprio — o combo liberar a aula no app não libera lá.
 - **Quem escreve os pitches de cada produto** (para quem é / para que serve). São 8 pares
   de frases e definem a conversão da vitrine.
 - **Quem faz a curadoria e com quantas horas por semana.** Sem isso definido, o cronograma
@@ -83,15 +83,9 @@ desejo mais forte da vitrine, e custa zero.
   mas rende muito menos que arte feita à mão. Provável trabalho de Canva para a equipe.
 - **Fundo escuro combina com a identidade do Mundo da Prô?** Ver D14. Precisa de aval da
   Gi e da Flávia antes do Bloco 7.
-- **Lançar em uma ou duas ondas?** São 12 semanas de desenvolvimento e a Happy Friday é em
-  novembro, sem folga, com a primeira submissão quase sempre voltando com pedido de ajuste.
-  A alternativa de menor risco: **onda 1 em novembro, só web**, aproveitando que os Blocos
-  3 a 5 e 10 já entregam painel, acervo e venda, e usando a campanha para vender normalmente;
-  **onda 2 em janeiro, o app nas lojas**, junto da virada do ano letivo, que é quando a
-  professora está montando o planejamento e a atenção dela está no ponto mais alto.
-  Precisa de decisão antes do Bloco 6.
-- **Quem cuida das contas de desenvolvedor e do D-U-N-S?** Bloco -1. É o item que trava a
-  publicação e ninguém lembra dele até o fim.
+- **Quem cuida das contas de desenvolvedor e do D-U-N-S?** Bloco -1, **nada iniciado em
+  27/08**. Com a decisão D26 (lançamento em novembro), o D-U-N-S precisa ser solicitado
+  nesta semana ou a data não fecha. É o item que trava a publicação.
 - **Termos de uso e política de privacidade**, com URL pública. Necessários para publicar.
   Provavelmente exige apoio jurídico.
 - **A API v1 do The Members entrega URL de arquivo?** Se não, a ingestão do Bloco 5 vira
@@ -189,3 +183,46 @@ registro de compra pelo prazo fiscal.
 `configuracoes`, `destaques` e `produtos`.
 **Por quê:** trocar a oferta da Happy Friday não pode depender de uma nova versão passar
 pela revisão da Apple. Só mudança de tela ou de biblioteca nativa gera nova submissão.
+
+## Decisões do início do desenvolvimento (27/08)
+
+### D22 — Acesso Total tratado na função de acesso
+**Decidido.** `tem_acesso` considera entitlement ativo de qualquer produto `is_combo`
+como acesso a todo material. Nenhum vínculo por material é criado para o combo.
+**Por quê:** vincular todo material ao combo em `material_produto` exigiria trigger e
+manutenção; na função, material novo já nasce coberto e a regra mora num lugar só.
+**Pendência ligada:** a composição exata do combo segue em aberto (ver "Em aberto").
+
+### D23 — Supabase local até o fim do Bloco 1
+**Decidido.** Desenvolvimento começa com `supabase start` local; o projeto hospedado
+entra quando o schema estiver estável. Migrations versionadas tornam a troca trivial.
+**Pendência:** Docker não está instalado na máquina de desenvolvimento — precisa ser
+instalado antes do Bloco 1 (ou cair no plano B: criar já o projeto hospedado).
+
+### D24 — Nome da professora vem do The Members, com fallback
+**Decidido.** O nome entra pelo webhook/ingestão. Sem nome (ex.: entrou antes do
+webhook), a marca d'água carimba só o e-mail, a saudação usa o prefixo do e-mail
+capitalizado (`primeiroNome` em packages/core) e o perfil permite corrigir depois.
+
+### D25 — Compras antigas de Hotmart e Kiwify fora do lançamento
+**Decidido.** Só compras do The Members contam como posse. Cliente antiga é atendida
+caso a caso pela concessão manual do /admin/acessos (`origem = 'manual'`).
+**Reavaliar se:** o volume de chamados de suporte após o lançamento justificar importar
+as bases com `origem = 'migracao'`.
+
+### D26 — Lançamento em onda única, mirando novembro, com MVP local antes
+**Decidido pelo cliente.** Sem onda web separada. O marco imediato é o MVP local do fim
+do Bloco 8 — app navegável de ponta a ponta no celular da Gi e da Flávia — que destrava
+o interesse das sócias antes de qualquer investimento em publicação.
+**Risco registrado:** em 27/08 o Bloco -1 estava zerado; novembro só fecha se o D-U-N-S
+for pedido imediatamente e a primeira submissão não travar.
+
+### D27 — Monorepo com npm workspaces
+**Decidido.** npm workspaces, sem pnpm/yarn/turbo.
+**Por quê:** zero configuração extra, sem symlinks que quebram o Metro, e suportado
+nativamente pelo EAS Build. O Expo detecta o monorepo sozinho desde o SDK 52.
+
+### D28 — Identificador de pacote provisório
+**Decidido.** `com.mdp.app` no iOS e Android enquanto o MVP for local. Precisa virar
+definitivo ANTES da primeira publicação — no Android o pacote é imutável depois que o
+app entra no Play Console. Registrar aqui quando for trocado.

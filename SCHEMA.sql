@@ -145,7 +145,14 @@ create table entitlements (
   unique (user_id, produto_id, pedido_externo)
 );
 create index on entitlements (user_id) where revogado_em is null;
+-- Concessão manual/cortesia não tem pedido_externo, e NULL não conta no unique
+-- acima: este índice impede a duplicata (revogado fica fora para permitir reconceder)
+create unique index entitlements_sem_pedido_unico
+  on entitlements (user_id, produto_id)
+  where pedido_externo is null and revogado_em is null;
 
+-- Acesso: gratuito, entitlement de produto vinculado, ou combo Acesso Total.
+-- O combo (is_combo) libera todo o acervo pela regra, sem vínculo por material (D22).
 create or replace function public.tem_acesso(p_user uuid, p_material uuid)
 returns boolean language sql stable security definer set search_path = public as $$
   select exists (select 1 from materiais m where m.id = p_material and m.gratuito)
@@ -155,6 +162,15 @@ returns boolean language sql stable security definer set search_path = public as
           join entitlements e on e.produto_id = mp.produto_id
          where mp.material_id = p_material
            and e.user_id = p_user
+           and e.revogado_em is null
+           and (e.expira_em is null or e.expira_em > now())
+      )
+      or exists (
+        select 1
+          from entitlements e
+          join produtos p on p.id = e.produto_id
+         where e.user_id = p_user
+           and p.is_combo
            and e.revogado_em is null
            and (e.expira_em is null or e.expira_em > now())
       );
