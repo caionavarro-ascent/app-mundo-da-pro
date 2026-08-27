@@ -15,6 +15,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 
+import { ProvedorDemo } from '../contexto/demo';
 import '../global.css';
 
 SplashScreen.preventAutoHideAsync();
@@ -36,14 +37,17 @@ export default function LayoutRaiz() {
   if (!fontesProntas) return null;
 
   return (
-    <>
+    <ProvedorDemo>
       <StatusBar style="light" />
       <Stack
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: coresApp.fundo },
         }}
-      />
-    </>
+      >
+        <Stack.Screen name="(abas)" />
+        <Stack.Screen name="material/[id]" />
+      </Stack>
+    </ProvedorDemo>
   );
 }

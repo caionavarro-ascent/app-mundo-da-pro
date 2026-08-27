@@ -226,3 +226,13 @@ nativamente pelo EAS Build. O Expo detecta o monorepo sozinho desde o SDK 52.
 **Decidido.** `com.mdp.app` no iOS e Android enquanto o MVP for local. Precisa virar
 definitivo ANTES da primeira publicação — no Android o pacote é imutável depois que o
 app entra no Play Console. Registrar aqui quando for trocado.
+
+### D29 — MVP de demonstração sem Supabase (27/08)
+**Decidido pelo cliente.** A casca (Bloco 6) e a vitrine (Bloco 7) foram adiantadas com
+um acervo de exemplo em `packages/core/src/mock/acervo.ts`, para colocar o app navegável
+na mão das sócias antes de instalar banco. As telas consomem só as funções desse módulo,
+que espelham as regras do servidor (A2, A5); quando o Supabase entrar (Blocos 1–5), a
+fonte de dados troca e as telas ficam.
+**Fora da demo:** login, download com marca d'água, compra e push — viram alertas
+"chega no Bloco N". A regra de ouro 8 (nada de dado falso após o Bloco 5) segue valendo:
+o mock morre na ingestão.
