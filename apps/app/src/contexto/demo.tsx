@@ -41,6 +41,8 @@ interface EstadoDemo {
   definirCenario: (c: CenarioAcesso) => void;
   favoritos: Set<string>;
   alternarFavorito: (materialId: string) => void;
+  buscasRecentes: string[];
+  registrarBusca: (termo: string) => void;
   // filtros das pílulas (A1)
   niveis: Set<NivelEscrita>;
   anos: Set<AnoEscolar>;
@@ -65,6 +67,7 @@ function alternar<T>(conjunto: Set<T>, item: T): Set<T> {
 export function ProvedorDemo({ children }: { children: ReactNode }) {
   const [cenario, setCenario] = useState<CenarioAcesso>('um');
   const [favoritos, setFavoritos] = useState<Set<string>>(new Set());
+  const [buscasRecentes, setBuscasRecentes] = useState<string[]>([]);
   const [niveis, setNiveis] = useState<Set<NivelEscrita>>(new Set());
   const [anos, setAnos] = useState<Set<AnoEscolar>>(new Set());
   const [tipos, setTipos] = useState<Set<TipoMaterial>>(new Set());
@@ -78,6 +81,15 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
       definirCenario: setCenario,
       favoritos,
       alternarFavorito: (id) => setFavoritos((f) => alternar(f, id)),
+      buscasRecentes,
+      registrarBusca: (termo) => {
+        const limpo = termo.trim();
+        if (!limpo) return;
+        setBuscasRecentes((lista) => [
+          limpo,
+          ...lista.filter((t) => t.toLowerCase() !== limpo.toLowerCase()),
+        ].slice(0, 8));
+      },
       niveis,
       anos,
       tipos,
@@ -100,7 +112,7 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
                 (tipos.size === 0 || tipos.has(m.tipo)),
             ),
     };
-  }, [cenario, favoritos, niveis, anos, tipos]);
+  }, [cenario, favoritos, buscasRecentes, niveis, anos, tipos]);
 
   return <Contexto.Provider value={valor}>{children}</Contexto.Provider>;
 }

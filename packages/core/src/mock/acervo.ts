@@ -4,7 +4,14 @@
  * entrar (Blocos 1–5), a implementação troca e as telas ficam.
  * Não importar em nada além do app de demonstração.
  */
-import type { AnoEscolar, NivelEscrita, TipoMaterial } from '../tokens';
+import {
+  nomeAno,
+  nomeNivel,
+  nomeTipo,
+  type AnoEscolar,
+  type NivelEscrita,
+  type TipoMaterial,
+} from '../tokens';
 
 export interface ProdutoDemo {
   id: string;
@@ -683,17 +690,31 @@ export function parecidosCom(material: MaterialDemo): MaterialDemo[] {
   ).slice(0, 8);
 }
 
-export function buscarMateriais(termo: string): MaterialDemo[] {
-  const normalizado = termo
+function semAcentos(texto: string): string {
+  return texto
     .toLowerCase()
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '');
-  if (!normalizado.trim()) return [];
-  return materiaisDemo.filter((m) =>
-    `${m.titulo} ${m.descricao}`
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[̀-ͯ]/g, '')
-      .includes(normalizado),
-  );
+}
+
+/**
+ * Busca ao vivo: título, descrição e também os nomes de tipo, ano e nível —
+ * "jogo", "1º ano" e "silábico" encontram materiais. Cada palavra digitada
+ * precisa aparecer em algum campo.
+ */
+export function buscarMateriais(termo: string): MaterialDemo[] {
+  const palavras = semAcentos(termo).split(/\s+/).filter(Boolean);
+  if (palavras.length === 0) return [];
+  return materiaisDemo.filter((m) => {
+    const palheiro = semAcentos(
+      [
+        m.titulo,
+        m.descricao,
+        nomeTipo[m.tipo],
+        ...m.anos.map((a) => nomeAno[a]),
+        ...m.niveis.map((n) => nomeNivel[n]),
+      ].join(' '),
+    );
+    return palavras.every((p) => palheiro.includes(p));
+  });
 }
