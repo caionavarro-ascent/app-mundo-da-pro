@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { Modal, Pressable, ScrollView, Text, View } from 'react-native';
 
 import { useDemo } from '../contexto/demo';
+import { useCores } from '../hooks/use-cores';
 
 type Folha = 'nivel' | 'ano' | 'categorias' | null;
 
@@ -22,6 +23,7 @@ type Folha = 'nivel' | 'ano' | 'categorias' | null;
  */
 export function PilulasFiltro({ aoTocarNovidades }: { aoTocarNovidades?: () => void }) {
   const demo = useDemo();
+  const cores = useCores();
   const [folha, setFolha] = useState<Folha>(null);
 
   return (
@@ -48,7 +50,7 @@ export function PilulasFiltro({ aoTocarNovidades }: { aoTocarNovidades?: () => v
             onPress={demo.limparFiltros}
             className="h-9 flex-row items-center gap-1 rounded-full px-3"
           >
-            <Ionicons name="close-circle" size={16} color="#A2A8B4" />
+            <Ionicons name="close-circle" size={16} color={cores.texto2} />
             <Text className="font-corpo-medio text-sm text-texto-2">limpar</Text>
           </Pressable>
         )}
@@ -62,7 +64,7 @@ export function PilulasFiltro({ aoTocarNovidades }: { aoTocarNovidades?: () => v
             aoTocar={() => demo.alternarNivel(nivel)}
             rotulo={nomeNivel[nivel]}
             extra={
-              <Text className="font-manuscrito text-xl text-marca">{exemploNivel[nivel]}</Text>
+              <Text className="font-manuscrito text-xl text-marca-legivel">{exemploNivel[nivel]}</Text>
             }
           />
         ))}
@@ -138,6 +140,7 @@ function FolhaInferior({
   aoFechar: () => void;
   children: React.ReactNode;
 }) {
+  const cores = useCores();
   return (
     <Modal visible={visivel} transparent animationType="slide" onRequestClose={aoFechar}>
       <Pressable className="flex-1 justify-end bg-black/60" onPress={aoFechar}>
@@ -148,7 +151,7 @@ function FolhaInferior({
           <View className="mb-1 flex-row items-center justify-between">
             <Text className="font-titulo-semi text-xl text-texto">{titulo}</Text>
             <Pressable onPress={aoFechar} hitSlop={12}>
-              <Ionicons name="close" size={22} color="#A2A8B4" />
+              <Ionicons name="close" size={22} color={cores.texto2} />
             </Pressable>
           </View>
           {children}
@@ -169,6 +172,7 @@ function Opcao({
   rotulo: string;
   extra?: React.ReactNode;
 }) {
+  const cores = useCores();
   return (
     <Pressable
       onPress={aoTocar}
@@ -180,7 +184,7 @@ function Opcao({
         <Ionicons
           name={marcado ? 'checkmark-circle' : 'ellipse-outline'}
           size={22}
-          color={marcado ? '#FFD84D' : '#A2A8B4'}
+          color={marcado ? cores.marcaLegivel : cores.texto2}
         />
         <Text className="font-corpo-medio text-base text-texto">{rotulo}</Text>
       </View>

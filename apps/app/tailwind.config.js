@@ -4,14 +4,20 @@ const { coresApp } = require('@mdp/core/src/tokens');
 module.exports = {
   content: ['./src/**/*.{ts,tsx}'],
   presets: [require('nativewind/preset')],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        fundo: coresApp.fundo,
-        superficie: coresApp.superficie,
-        'superficie-2': coresApp.superficie2,
-        texto: coresApp.texto,
-        'texto-2': coresApp.texto2,
+        // temáticos: valores vêm das variáveis do global.css (claro/escuro)
+        fundo: 'var(--fundo)',
+        superficie: 'var(--superficie)',
+        'superficie-2': 'var(--superficie-2)',
+        texto: 'var(--texto)',
+        'texto-2': 'var(--texto-2)',
+        'botao-prim': 'var(--botao-prim)',
+        'botao-prim-texto': 'var(--botao-prim-texto)',
+        'marca-legivel': 'var(--marca-legivel)',
+        // fixos nos dois temas
         marca: coresApp.marca,
         coral: coresApp.coral,
         verde: coresApp.verde,

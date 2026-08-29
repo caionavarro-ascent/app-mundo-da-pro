@@ -11,11 +11,31 @@ export const coresApp = {
   texto: '#F5F6F8',
   texto2: '#A2A8B4',
   marca: '#FFD84D',
+  /** marca quando usada como TEXTO/ícone: precisa de contraste no fundo */
+  marcaLegivel: '#FFD84D',
   coral: '#E4574E',
   verde: '#1F9E77',
   /** Botão primário sempre branco com texto escuro, como na referência */
   botaoPrimarioFundo: '#FFFFFF',
   botaoPrimarioTexto: '#0B0D12',
+} as const;
+
+/**
+ * App da Professora — tema claro (D14 em avaliação: o switch existe na demo
+ * para a Gi e a Flávia compararem os dois fundos). Marca e apoios não mudam.
+ */
+export const coresAppClara = {
+  fundo: '#F4F4F2',
+  superficie: '#FFFFFF',
+  superficie2: '#E7E8EA',
+  texto: '#16191F',
+  texto2: '#5B626E',
+  marca: '#FFD84D',
+  marcaLegivel: '#8A6D1A',
+  coral: '#E4574E',
+  verde: '#1F9E77',
+  botaoPrimarioFundo: '#16191F',
+  botaoPrimarioTexto: '#FFFFFF',
 } as const;
 
 /** Painel de conteúdo — tema claro (é planilha, não vitrine) */

@@ -20,6 +20,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Prateleira } from '../../components/prateleira';
 import { useDemo } from '../../contexto/demo';
+import { useCores } from '../../hooks/use-cores';
 
 const PAGINAS_AMOSTRA = 2; // virá de configuracoes.paginas_amostra (Bloco 7)
 
@@ -28,6 +29,7 @@ export default function FichaMaterial() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const demo = useDemo();
+  const cores = useCores();
   const [aba, setAba] = useState<'sobre' | 'como-usar'>('sobre');
   const [paywallAberto, setPaywallAberto] = useState(false);
 
@@ -68,19 +70,19 @@ export default function FichaMaterial() {
             <Pressable
               onPress={() => router.back()}
               hitSlop={8}
-              className="rounded-full bg-fundo/50 p-2"
+              className="rounded-full bg-black/50 p-2"
             >
-              <Ionicons name="chevron-back" size={20} color="#F5F6F8" />
+              <Ionicons name="chevron-back" size={20} color="#FFFFFF" />
             </Pressable>
             <Pressable
               onPress={() => demo.alternarFavorito(material.id)}
               hitSlop={8}
-              className="rounded-full bg-fundo/50 p-2"
+              className="rounded-full bg-black/50 p-2"
             >
               <Ionicons
                 name={favoritado ? 'checkmark' : 'add'}
                 size={20}
-                color="#F5F6F8"
+                color="#FFFFFF"
               />
             </Pressable>
           </View>
@@ -102,14 +104,14 @@ export default function FichaMaterial() {
         <View className="px-4">
           <Pressable
             onPress={acaoPrincipal}
-            className="flex-row items-center justify-center gap-2 rounded-lg bg-white py-3.5"
+            className="flex-row items-center justify-center gap-2 rounded-lg bg-botao-prim py-3.5"
           >
             <Ionicons
               name={cursoExterno ? 'play' : liberado ? 'download' : 'lock-open'}
               size={18}
-              color="#0B0D12"
+              color={cores.botaoPrimarioTexto}
             />
-            <Text className="font-corpo-forte text-base text-fundo">
+            <Text className="font-corpo-forte text-base text-botao-prim-texto">
               {cursoExterno
                 ? 'Assistir no The Members'
                 : liberado
@@ -132,13 +134,13 @@ export default function FichaMaterial() {
                 <View
                   key={i}
                   className={`h-36 w-28 items-center justify-center rounded-md ${
-                    naAmostra ? 'bg-texto' : 'bg-superficie-2'
+                    naAmostra ? 'border border-superficie-2 bg-white' : 'bg-superficie-2'
                   }`}
                 >
                   {naAmostra ? (
-                    <Text className="font-corpo text-xs text-fundo">página {i + 1}</Text>
+                    <Text className="font-corpo text-xs text-[#16191F]">página {i + 1}</Text>
                   ) : (
-                    <Ionicons name="lock-closed" size={16} color="#A2A8B4" />
+                    <Ionicons name="lock-closed" size={16} color={cores.texto2} />
                   )}
                 </View>
               );
@@ -196,7 +198,7 @@ export default function FichaMaterial() {
                     <Text className="font-corpo-medio text-sm text-texto">
                       {nomeNivel[nivel]}
                     </Text>
-                    <Text className="font-manuscrito text-lg text-marca">
+                    <Text className="font-manuscrito text-lg text-marca-legivel">
                       {exemploNivel[nivel]}
                     </Text>
                   </View>
@@ -207,7 +209,7 @@ export default function FichaMaterial() {
             <View className="gap-3">
               {material.passos.map((passo, i) => (
                 <View key={i} className="flex-row gap-3 rounded-xl bg-superficie p-4">
-                  <Text className="font-titulo text-lg text-marca">{i + 1}</Text>
+                  <Text className="font-titulo text-lg text-marca-legivel">{i + 1}</Text>
                   <Text className="flex-1 font-corpo text-sm leading-relaxed text-texto">
                     {passo}
                   </Text>
@@ -253,7 +255,7 @@ export default function FichaMaterial() {
                 {produto?.pitchParaQue}
               </Text>
               <Pressable
-                className="mt-1 h-12 items-center justify-center rounded-lg bg-white"
+                className="mt-1 h-12 items-center justify-center rounded-lg bg-botao-prim"
                 onPress={() =>
                   Alert.alert(
                     'Checkout',
@@ -261,7 +263,7 @@ export default function FichaMaterial() {
                   )
                 }
               >
-                <Text className="font-corpo-forte text-base text-fundo">
+                <Text className="font-corpo-forte text-base text-botao-prim-texto">
                   {formatarPreco(produto?.precoCentavos ?? 0)} · {produto?.parcelasTexto}
                 </Text>
               </Pressable>
@@ -270,7 +272,7 @@ export default function FichaMaterial() {
             <View className="gap-2 rounded-2xl border border-marca bg-superficie-2 p-4">
               <View className="flex-row items-center gap-2">
                 <View className="rounded-full bg-marca px-2 py-0.5">
-                  <Text className="font-corpo-forte text-[10px] uppercase text-fundo">
+                  <Text className="font-corpo-forte text-[10px] uppercase text-[#16191F]">
                     Happy Friday
                   </Text>
                 </View>
@@ -290,7 +292,7 @@ export default function FichaMaterial() {
                   )
                 }
               >
-                <Text className="font-corpo-forte text-base text-fundo">
+                <Text className="font-corpo-forte text-base text-[#16191F]">
                   {formatarPreco(produtoPorId('acesso-total')?.precoCentavos ?? 0)} ·{' '}
                   {produtoPorId('acesso-total')?.parcelasTexto}
                 </Text>

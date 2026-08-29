@@ -38,9 +38,9 @@ export function CardMaterial({ material, posse, posicao, largura = 112 }: Props)
 
           {!liberado && (
             // Desfoque leve, não opaco: ela precisa ver que tem coisa boa ali (A9)
-            <View className="absolute inset-0 items-end justify-end bg-fundo/40 p-1.5">
-              <View className="rounded-full bg-fundo/70 p-1.5">
-                <Ionicons name="lock-closed" size={12} color="#F5F6F8" />
+            <View className="absolute inset-0 items-end justify-end bg-black/40 p-1.5">
+              <View className="rounded-full bg-black/70 p-1.5">
+                <Ionicons name="lock-closed" size={12} color="#FFFFFF" />
               </View>
             </View>
           )}

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Modal, Pressable, Text, View } from 'react-native';
 
 import { cenariosAcesso, useDemo } from '../contexto/demo';
+import { useCores } from '../hooks/use-cores';
 
 /**
  * SÓ DO AMBIENTE DE TESTE (D29): botão de frasco que troca o cenário de posse
@@ -11,6 +12,7 @@ import { cenariosAcesso, useDemo } from '../contexto/demo';
  */
 export function SeletorAcesso() {
   const demo = useDemo();
+  const cores = useCores();
   const [aberto, setAberto] = useState(false);
 
   return (
@@ -20,8 +22,8 @@ export function SeletorAcesso() {
         onPress={() => setAberto(true)}
         className="flex-row items-center gap-1 rounded-full bg-superficie-2 px-2.5 py-1.5"
       >
-        <Ionicons name="flask" size={14} color="#FFD84D" />
-        <Text className="font-corpo-forte text-[11px] text-marca">teste</Text>
+        <Ionicons name="flask" size={14} color={cores.marcaLegivel} />
+        <Text className="font-corpo-forte text-[11px] text-marca-legivel">teste</Text>
       </Pressable>
 
       <Modal
@@ -43,7 +45,7 @@ export function SeletorAcesso() {
                 </Text>
               </View>
               <Pressable onPress={() => setAberto(false)} hitSlop={12}>
-                <Ionicons name="close" size={22} color="#A2A8B4" />
+                <Ionicons name="close" size={22} color={cores.texto2} />
               </Pressable>
             </View>
 
@@ -63,7 +65,7 @@ export function SeletorAcesso() {
                   <Ionicons
                     name={ativo ? 'radio-button-on' : 'radio-button-off'}
                     size={22}
-                    color={ativo ? '#FFD84D' : '#A2A8B4'}
+                    color={ativo ? cores.marcaLegivel : cores.texto2}
                   />
                   <View className="flex-1">
                     <Text className="font-corpo-forte text-base text-texto">{c.rotulo}</Text>

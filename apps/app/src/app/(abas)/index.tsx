@@ -17,11 +17,13 @@ import { PilulasFiltro } from '../../components/pilulas-filtro';
 import { Prateleira } from '../../components/prateleira';
 import { SeletorAcesso } from '../../components/seletor-acesso';
 import { useDemo } from '../../contexto/demo';
+import { useCores } from '../../hooks/use-cores';
 
 /** Home da vitrine (Bloco 7), estrutura da referência bloco a bloco. */
 export default function Inicio() {
   const demo = useDemo();
   const router = useRouter();
+  const cores = useCores();
   const destaque = resolverDestaque(demo.posse);
   const acessoTotal = produtoPorId('acesso-total')!;
 
@@ -37,7 +39,7 @@ export default function Inicio() {
         <View className="flex-row items-center justify-between px-4 pt-2">
           <View className="flex-row items-center gap-2">
             <View className="h-7 w-7 items-center justify-center rounded-md bg-marca">
-              <Text className="font-titulo text-base text-fundo">M</Text>
+              <Text className="font-titulo text-base text-[#16191F]">M</Text>
             </View>
             <Text className="font-titulo-semi text-lg text-texto">Início</Text>
           </View>
@@ -47,11 +49,11 @@ export default function Inicio() {
               hitSlop={8}
               onPress={() => Alert.alert('Baixados', 'O download offline chega no Bloco 9.')}
             >
-              <Ionicons name="arrow-down-circle-outline" size={24} color="#F5F6F8" />
+              <Ionicons name="arrow-down-circle-outline" size={24} color={cores.texto} />
             </Pressable>
             <Pressable hitSlop={8} onPress={() => router.navigate('/meus')}>
               <View className="h-7 w-7 items-center justify-center rounded-full bg-marca">
-                <Text className="font-corpo-forte text-xs text-fundo">
+                <Text className="font-corpo-forte text-xs text-[#16191F]">
                   {demo.nome.charAt(0)}
                 </Text>
               </View>
@@ -105,7 +107,7 @@ export default function Inicio() {
           <View className="mx-4 gap-3 rounded-2xl bg-superficie p-5">
             <View className="flex-row items-center gap-2">
               <View className="rounded-full bg-marca px-2 py-0.5">
-                <Text className="font-corpo-forte text-[10px] uppercase text-fundo">
+                <Text className="font-corpo-forte text-[10px] uppercase text-[#16191F]">
                   Happy Friday
                 </Text>
               </View>
@@ -116,12 +118,12 @@ export default function Inicio() {
               {acessoTotal.parcelasTexto}.
             </Text>
             <Pressable
-              className="h-12 items-center justify-center rounded-lg bg-white"
+              className="h-12 items-center justify-center rounded-lg bg-botao-prim"
               onPress={() =>
                 Alert.alert('Acesso Total', 'O checkout externo chega no Bloco 10.')
               }
             >
-              <Text className="font-corpo-forte text-base text-fundo">
+              <Text className="font-corpo-forte text-base text-botao-prim-texto">
                 Quero o acesso total
               </Text>
             </Pressable>

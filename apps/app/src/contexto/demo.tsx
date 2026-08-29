@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
 import type { AnoEscolar, NivelEscrita, TipoMaterial } from '@mdp/core';
-import type { MaterialDemo } from '@mdp/core/src/mock/acervo';
+import type { DiaDaSemana, MaterialDemo } from '@mdp/core/src/mock/acervo';
 
 /**
  * Estado do MVP de demonstração (D29): sessão simulada e filtros das pílulas.
@@ -43,6 +43,13 @@ interface EstadoDemo {
   alternarFavorito: (materialId: string) => void;
   buscasRecentes: string[];
   registrarBusca: (termo: string) => void;
+  /** materiais já aplicados em cada turma (D30) */
+  aplicadas: Record<string, Set<string>>;
+  alternarAplicada: (turmaId: string, materialId: string) => void;
+  /** plano da semana por turma (D30) — espelha a tabela plano_semana */
+  plano: Record<string, Partial<Record<DiaDaSemana, string[]>>>;
+  adicionarAoPlano: (turmaId: string, dia: DiaDaSemana, materialId: string) => void;
+  removerDoPlano: (turmaId: string, dia: DiaDaSemana, materialId: string) => void;
   // filtros das pílulas (A1)
   niveis: Set<NivelEscrita>;
   anos: Set<AnoEscolar>;
@@ -68,6 +75,15 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
   const [cenario, setCenario] = useState<CenarioAcesso>('um');
   const [favoritos, setFavoritos] = useState<Set<string>>(new Set());
   const [buscasRecentes, setBuscasRecentes] = useState<string[]>([]);
+  const [aplicadas, setAplicadas] = useState<Record<string, Set<string>>>({
+    // a demo começa com algumas atividades já passadas na 1º ano A
+    'turma-1a': new Set(['bingo-sons', 'alfabeto-movel']),
+  });
+  const [plano, setPlano] = useState<
+    Record<string, Partial<Record<DiaDaSemana, string[]>>>
+  >({
+    'turma-2b': { seg: ['trilha-leitura'], qua: ['jogo-forca-silabas'] },
+  });
   const [niveis, setNiveis] = useState<Set<NivelEscrita>>(new Set());
   const [anos, setAnos] = useState<Set<AnoEscolar>>(new Set());
   const [tipos, setTipos] = useState<Set<TipoMaterial>>(new Set());
@@ -81,6 +97,31 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
       definirCenario: setCenario,
       favoritos,
       alternarFavorito: (id) => setFavoritos((f) => alternar(f, id)),
+      plano,
+      adicionarAoPlano: (turmaId, dia, materialId) =>
+        setPlano((atual) => {
+          const daTurma = atual[turmaId] ?? {};
+          const doDia = daTurma[dia] ?? [];
+          if (doDia.includes(materialId)) return atual;
+          return { ...atual, [turmaId]: { ...daTurma, [dia]: [...doDia, materialId] } };
+        }),
+      removerDoPlano: (turmaId, dia, materialId) =>
+        setPlano((atual) => {
+          const daTurma = atual[turmaId] ?? {};
+          return {
+            ...atual,
+            [turmaId]: {
+              ...daTurma,
+              [dia]: (daTurma[dia] ?? []).filter((id) => id !== materialId),
+            },
+          };
+        }),
+      aplicadas,
+      alternarAplicada: (turmaId, materialId) =>
+        setAplicadas((atual) => ({
+          ...atual,
+          [turmaId]: alternar(atual[turmaId] ?? new Set(), materialId),
+        })),
       buscasRecentes,
       registrarBusca: (termo) => {
         const limpo = termo.trim();
@@ -112,7 +153,7 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
                 (tipos.size === 0 || tipos.has(m.tipo)),
             ),
     };
-  }, [cenario, favoritos, buscasRecentes, niveis, anos, tipos]);
+  }, [cenario, favoritos, buscasRecentes, aplicadas, plano, niveis, anos, tipos]);
 
   return <Contexto.Provider value={valor}>{children}</Contexto.Provider>;
 }

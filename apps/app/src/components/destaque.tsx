@@ -5,6 +5,7 @@ import { Link } from 'expo-router';
 import { Pressable, Text, View, useWindowDimensions } from 'react-native';
 
 import { useDemo } from '../contexto/demo';
+import { useCores } from '../hooks/use-cores';
 
 /**
  * Bloco de destaque da dobra (A2): card grande 4:5, botão primário branco e
@@ -13,6 +14,7 @@ import { useDemo } from '../contexto/demo';
  */
 export function Destaque({ destaque }: { destaque: DestaqueResolvido }) {
   const demo = useDemo();
+  const cores = useCores();
   const { width } = useWindowDimensions();
   const largura = Math.min(width - 48, 360);
   const { material } = destaque;
@@ -27,7 +29,7 @@ export function Destaque({ destaque }: { destaque: DestaqueResolvido }) {
         >
           <View className="flex-1 justify-between p-5">
             <View className="flex-row items-center gap-2">
-              <View className="h-6 w-6 items-center justify-center rounded bg-fundo/70">
+              <View className="h-6 w-6 items-center justify-center rounded bg-black/60">
                 <Text className="font-titulo text-xs text-marca">M</Text>
               </View>
               <Text className="font-corpo-forte text-xs uppercase text-white/90">
@@ -52,9 +54,9 @@ export function Destaque({ destaque }: { destaque: DestaqueResolvido }) {
           href={{ pathname: '/material/[id]', params: { id: material.id } }}
           asChild
         >
-          <Pressable className="h-12 flex-1 flex-row items-center justify-center gap-2 rounded-lg bg-white">
-            <Ionicons name="download" size={18} color="#0B0D12" />
-            <Text className="font-corpo-forte text-base text-fundo">
+          <Pressable className="h-12 flex-1 flex-row items-center justify-center gap-2 rounded-lg bg-botao-prim">
+            <Ionicons name="download" size={18} color={cores.botaoPrimarioTexto} />
+            <Text className="font-corpo-forte text-base text-botao-prim-texto">
               {destaque.ctaPrimario}
             </Text>
           </Pressable>
@@ -66,7 +68,7 @@ export function Destaque({ destaque }: { destaque: DestaqueResolvido }) {
           <Ionicons
             name={favoritado ? 'checkmark' : 'add'}
             size={20}
-            color="#F5F6F8"
+            color={cores.texto}
           />
           <Text className="font-corpo-forte text-base text-texto">Salvar</Text>
         </Pressable>

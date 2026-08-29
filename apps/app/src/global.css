@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+ * Tokens dos dois temas (D14). O escuro é o padrão do app — o _layout liga
+ * a classe .dark na inicialização; o switch em Meus materiais alterna.
+ * Valores espelham packages/core/src/tokens.ts.
+ */
+@layer base {
+  :root {
+    --fundo: #f4f4f2;
+    --superficie: #ffffff;
+    --superficie-2: #e7e8ea;
+    --texto: #16191f;
+    --texto-2: #5b626e;
+    --botao-prim: #16191f;
+    --botao-prim-texto: #ffffff;
+    --marca-legivel: #8a6d1a;
+  }
+
+  .dark {
+    --fundo: #0b0d12;
+    --superficie: #16191f;
+    --superficie-2: #1f232b;
+    --texto: #f5f6f8;
+    --texto-2: #a2a8b4;
+    --botao-prim: #ffffff;
+    --botao-prim-texto: #0b0d12;
+    --marca-legivel: #ffd84d;
+  }
+}

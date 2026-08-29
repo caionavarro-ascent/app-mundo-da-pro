@@ -236,3 +236,10 @@ fonte de dados troca e as telas ficam.
 **Fora da demo:** login, download com marca d'água, compra e push — viram alertas
 "chega no Bloco N". A regra de ouro 8 (nada de dado falso após o Bloco 5) segue valendo:
 o mock morre na ingestão.
+
+### D30 — Aba "Turmas" antecipada da fase 2, a pedido do cliente (27/08)
+**Decidido pelo cliente.** A professora vê as turmas que atende e marca quais
+atividades já passou em cada uma. As tabelas `turmas` e `plano_semana` já existiam no
+schema como fase 2; as telas entram agora na demo (mock, D29).
+**Atenção:** o PRD A8 definia quatro abas no rodapé; com Turmas são cinco. Validar o
+desenho com a Gi e a Flávia junto do restante da demo, e atualizar o PRD A8 se ficar.

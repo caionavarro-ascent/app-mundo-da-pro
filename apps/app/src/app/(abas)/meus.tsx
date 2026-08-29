@@ -1,14 +1,18 @@
 import { Ionicons } from '@expo/vector-icons';
 import { estaLiberado, materiaisDemo, produtoPorId } from '@mdp/core/src/mock/acervo';
-import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
+import { useColorScheme } from 'nativewind';
+import { Alert, Pressable, ScrollView, Switch, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Prateleira } from '../../components/prateleira';
 import { useDemo } from '../../contexto/demo';
+import { useCores } from '../../hooks/use-cores';
 
 /** Aba Meus materiais (A8): possuídos, favoritos, baixados e conta. */
 export default function MeusMateriais() {
   const demo = useDemo();
+  const cores = useCores();
+  const { colorScheme: esquema, setColorScheme } = useColorScheme();
   const favoritos = materiaisDemo.filter((m) => demo.favoritos.has(m.id));
   const possuidos = materiaisDemo.filter(
     (m) => !m.gratuito && estaLiberado(m, demo.posse),
@@ -22,7 +26,7 @@ export default function MeusMateriais() {
       <ScrollView contentContainerClassName="gap-6 py-4 pb-10">
         <View className="flex-row items-center gap-3 px-4">
           <View className="h-14 w-14 items-center justify-center rounded-full bg-marca">
-            <Text className="font-titulo text-xl text-fundo">{demo.nome.charAt(0)}</Text>
+            <Text className="font-titulo text-xl text-[#16191F]">{demo.nome.charAt(0)}</Text>
           </View>
           <View>
             <Text className="font-titulo-semi text-xl text-texto">{demo.nome}</Text>
@@ -80,6 +84,26 @@ export default function MeusMateriais() {
           </Text>
         </View>
 
+        <View className="mx-4 flex-row items-center gap-3 rounded-xl bg-superficie p-4">
+          <Ionicons
+            name={esquema === 'light' ? 'sunny-outline' : 'moon-outline'}
+            size={20}
+            color={cores.texto2}
+          />
+          <View className="flex-1">
+            <Text className="font-corpo-medio text-base text-texto">Tema escuro</Text>
+            <Text className="font-corpo text-xs text-texto-2">
+              Compare os dois fundos — decisão em aberto com a equipe (D14)
+            </Text>
+          </View>
+          <Switch
+            value={esquema !== 'light'}
+            onValueChange={(escuro) => setColorScheme(escuro ? 'dark' : 'light')}
+            trackColor={{ false: cores.superficie2, true: '#1F9E77' }}
+            thumbColor="#FFFFFF"
+          />
+        </View>
+
         <View className="mx-4 overflow-hidden rounded-xl bg-superficie">
           {(
             [
@@ -97,7 +121,7 @@ export default function MeusMateriais() {
                 i > 0 ? 'border-t border-superficie-2' : ''
               }`}
             >
-              <Ionicons name={icone} size={20} color="#A2A8B4" />
+              <Ionicons name={icone} size={20} color={cores.texto2} />
               <Text className="font-corpo-medio text-base text-texto">{rotulo}</Text>
             </Pressable>
           ))}

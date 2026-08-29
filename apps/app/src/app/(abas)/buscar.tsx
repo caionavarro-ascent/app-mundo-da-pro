@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CardMaterial } from '../../components/card-material';
 import { useDemo } from '../../contexto/demo';
+import { useCores } from '../../hooks/use-cores';
 
 /**
  * Aba Buscar (A8): campo em tela cheia, resultado ao vivo a cada letra,
@@ -14,6 +15,7 @@ import { useDemo } from '../../contexto/demo';
  */
 export default function Buscar() {
   const demo = useDemo();
+  const cores = useCores();
   const [termo, setTermo] = useState('');
   const resultados = buscarMateriais(termo);
   const buscando = termo.trim().length > 0;
@@ -22,13 +24,13 @@ export default function Buscar() {
     <SafeAreaView className="flex-1 bg-fundo" edges={['top']}>
       <View className="flex-1 gap-4 p-4">
         <View className="flex-row items-center gap-2 rounded-xl bg-superficie px-3">
-          <Ionicons name="search" size={18} color="#A2A8B4" />
+          <Ionicons name="search" size={18} color={cores.texto2} />
           <TextInput
             value={termo}
             onChangeText={setTermo}
             onSubmitEditing={() => demo.registrarBusca(termo)}
             placeholder="Atividade, jogo, 1º ano, silábico…"
-            placeholderTextColor="#A2A8B4"
+            placeholderTextColor={cores.texto2}
             className="h-12 flex-1 font-corpo text-base text-texto"
             autoCorrect={false}
             returnKeyType="search"
@@ -41,7 +43,7 @@ export default function Buscar() {
               }}
               hitSlop={8}
             >
-              <Ionicons name="close-circle" size={18} color="#A2A8B4" />
+              <Ionicons name="close-circle" size={18} color={cores.texto2} />
             </Pressable>
           )}
         </View>
@@ -60,7 +62,7 @@ export default function Buscar() {
                       onPress={() => setTermo(busca)}
                       className="flex-row items-center gap-1.5 rounded-full bg-superficie px-4 py-2"
                     >
-                      <Ionicons name="time-outline" size={14} color="#A2A8B4" />
+                      <Ionicons name="time-outline" size={14} color={cores.texto2} />
                       <Text className="font-corpo-medio text-sm text-texto">{busca}</Text>
                     </Pressable>
                   ))}
@@ -91,7 +93,7 @@ export default function Buscar() {
           </View>
         ) : resultados.length === 0 ? (
           <View className="items-center gap-2 pt-8">
-            <Ionicons name="search" size={32} color="#A2A8B4" />
+            <Ionicons name="search" size={32} color={cores.texto2} />
             <Text className="text-center font-corpo text-sm text-texto-2">
               Nada encontrado para “{termo}”.{'\n'}Tente “jogo”, “avaliação” ou um nível,
               como “silábico”.

@@ -596,6 +596,82 @@ export const materiaisDemo: MaterialDemo[] = [
 ];
 
 // ---------------------------------------------------------------------------
+// Turmas (D30) — espelham a tabela `turmas` da fase 2 do schema
+// ---------------------------------------------------------------------------
+
+export interface TurmaDemo {
+  id: string;
+  nome: string;
+  ano: AnoEscolar;
+  alunos: number;
+  /** distribuição da turma por nível de escrita, como na sondagem */
+  dist: Record<NivelEscrita, number>;
+}
+
+export const turmasDemo: TurmaDemo[] = [
+  {
+    id: 'turma-1a',
+    nome: '1º ano A — manhã',
+    ano: '1ano',
+    alunos: 24,
+    dist: { pre: 6, sil: 10, sa: 5, alf: 3 },
+  },
+  {
+    id: 'turma-2b',
+    nome: '2º ano B — tarde',
+    ano: '2ano',
+    alunos: 26,
+    dist: { pre: 4, sil: 9, sa: 8, alf: 5 },
+  },
+];
+
+export const diasDaSemana = ['seg', 'ter', 'qua', 'qui', 'sex'] as const;
+export type DiaDaSemana = (typeof diasDaSemana)[number];
+
+export const nomeDia: Record<DiaDaSemana, string> = {
+  seg: 'Segunda',
+  ter: 'Terça',
+  qua: 'Quarta',
+  qui: 'Quinta',
+  sex: 'Sexta',
+};
+
+/** Frase de orientação a partir do nível dominante da sondagem. */
+export function insightDaTurma(turma: TurmaDemo): string {
+  const dominante = (Object.keys(turma.dist) as NivelEscrita[]).reduce((a, b) =>
+    turma.dist[b] > turma.dist[a] ? b : a,
+  );
+  const frases: Record<NivelEscrita, string> = {
+    pre: 'A maioria ainda está no pré-silábico. Priorize consciência fonológica, nome próprio e escrita espontânea.',
+    sil: 'A maioria está no silábico. Priorize consciência fonológica e princípio alfabético.',
+    sa: 'A maioria está no silábico-alfabético. Priorize leitura de palavras e ditados com apoio.',
+    alf: 'A maioria já escreve alfabeticamente. Priorize fluência, ortografia e produção de texto.',
+  };
+  return frases[dominante];
+}
+
+/** Materiais trancados que servem à turma — o cross-sell da tela (D30). */
+export function sugeridosParaTurma(turma: TurmaDemo, posse: string[]): MaterialDemo[] {
+  return materiaisDemo.filter(
+    (m) => m.tipo !== 'aula' && m.anos.includes(turma.ano) && !estaLiberado(m, posse),
+  );
+}
+
+export function turmaPorId(id: string): TurmaDemo | undefined {
+  return turmasDemo.find((t) => t.id === id);
+}
+
+/**
+ * Atividades que fazem sentido para a turma: materiais liberados (não aula)
+ * cujo ano bate com o da turma.
+ */
+export function atividadesParaTurma(turma: TurmaDemo, posse: string[]): MaterialDemo[] {
+  return materiaisDemo.filter(
+    (m) => m.tipo !== 'aula' && m.anos.includes(turma.ano) && estaLiberado(m, posse),
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Regras da vitrine — espelham o que o servidor fará (A2 e A5 do PRD)
 // ---------------------------------------------------------------------------
 
