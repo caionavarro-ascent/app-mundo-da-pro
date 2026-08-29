@@ -74,7 +74,7 @@ export default function FichaMaterial() {
         <View style={{ backgroundColor: cor }} className="gap-4 p-4 pb-6">
           <View className="flex-row items-center justify-between">
             <Pressable
-              onPress={() => router.back()}
+              onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
               hitSlop={8}
               className="rounded-full bg-black/50 p-2"
             >

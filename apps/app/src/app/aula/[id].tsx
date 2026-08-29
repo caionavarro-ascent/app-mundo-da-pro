@@ -40,7 +40,11 @@ export default function TelaAula() {
       <ScrollView contentContainerClassName="gap-5 pb-10">
         <View className="flex-row items-center gap-3 px-4 pt-2">
           <Pressable
-            onPress={() => router.back()}
+            onPress={() =>
+              router.canGoBack()
+                ? router.back()
+                : router.replace({ pathname: '/formacao/[id]', params: { id: aula.formacao } })
+            }
             hitSlop={8}
             className="rounded-full bg-superficie p-2"
           >

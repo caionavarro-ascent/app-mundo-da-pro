@@ -44,7 +44,7 @@ export default function FichaFormacao() {
       <ScrollView contentContainerClassName="gap-5 pb-10">
         <View style={{ backgroundColor: produto.cor }} className="gap-3 p-4 pb-6">
           <Pressable
-            onPress={() => router.back()}
+            onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
             hitSlop={8}
             className="self-start rounded-full bg-black/50 p-2"
           >

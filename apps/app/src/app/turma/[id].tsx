@@ -109,7 +109,7 @@ export default function FichaTurma() {
         {/* cabeçalho, como na referência: voltar, resumo e insight da sondagem */}
         <View className="gap-3 px-4">
           <Pressable
-            onPress={() => router.back()}
+            onPress={() => (router.canGoBack() ? router.back() : router.replace('/turmas'))}
             hitSlop={8}
             className="flex-row items-center gap-1 self-start"
           >
