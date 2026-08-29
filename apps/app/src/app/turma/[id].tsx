@@ -41,7 +41,12 @@ export default function FichaTurma() {
     );
   }
 
-  const atividades = atividadesParaTurma(turma, demo.posse);
+  const automaticas = atividadesParaTurma(turma, demo.posse);
+  const manuais = [...(demo.materiaisDaTurma[turma.id] ?? new Set<string>())]
+    .map(materialPorId)
+    .filter((m): m is MaterialDemo => m != null)
+    .filter((m) => !automaticas.some((a) => a.id === m.id));
+  const atividades = [...automaticas, ...manuais];
   const marcadas = demo.aplicadas[turma.id] ?? new Set<string>();
   const pendentes = atividades.filter((m) => !marcadas.has(m.id));
   const passadas = atividades.filter((m) => marcadas.has(m.id));

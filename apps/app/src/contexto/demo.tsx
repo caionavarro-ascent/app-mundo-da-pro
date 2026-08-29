@@ -46,6 +46,9 @@ interface EstadoDemo {
   /** materiais já aplicados em cada turma (D30) */
   aplicadas: Record<string, Set<string>>;
   alternarAplicada: (turmaId: string, materialId: string) => void;
+  /** materiais adicionados à mão em cada turma pelo botão Salvar */
+  materiaisDaTurma: Record<string, Set<string>>;
+  alternarMaterialDaTurma: (turmaId: string, materialId: string) => void;
   /** plano da semana por turma (D30) — espelha a tabela plano_semana */
   plano: Record<string, Partial<Record<DiaDaSemana, string[]>>>;
   adicionarAoPlano: (turmaId: string, dia: DiaDaSemana, materialId: string) => void;
@@ -79,6 +82,9 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
     // a demo começa com algumas atividades já passadas na 1º ano A
     'turma-1a': new Set(['bingo-sons', 'alfabeto-movel']),
   });
+  const [materiaisDaTurma, setMateriaisDaTurma] = useState<Record<string, Set<string>>>(
+    {},
+  );
   const [plano, setPlano] = useState<
     Record<string, Partial<Record<DiaDaSemana, string[]>>>
   >({
@@ -116,6 +122,12 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
             },
           };
         }),
+      materiaisDaTurma,
+      alternarMaterialDaTurma: (turmaId, materialId) =>
+        setMateriaisDaTurma((atual) => ({
+          ...atual,
+          [turmaId]: alternar(atual[turmaId] ?? new Set(), materialId),
+        })),
       aplicadas,
       alternarAplicada: (turmaId, materialId) =>
         setAplicadas((atual) => ({
@@ -153,7 +165,17 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
                 (tipos.size === 0 || tipos.has(m.tipo)),
             ),
     };
-  }, [cenario, favoritos, buscasRecentes, aplicadas, plano, niveis, anos, tipos]);
+  }, [
+    cenario,
+    favoritos,
+    buscasRecentes,
+    aplicadas,
+    materiaisDaTurma,
+    plano,
+    niveis,
+    anos,
+    tipos,
+  ]);
 
   return <Contexto.Provider value={valor}>{children}</Contexto.Provider>;
 }

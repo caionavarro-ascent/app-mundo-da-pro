@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { exemploNivel, nomeAno, nomeNivel, type NivelEscrita } from '@mdp/core';
-import { atividadesParaTurma, turmasDemo } from '@mdp/core/src/mock/acervo';
+import { atividadesParaTurma, materialPorId, turmasDemo } from '@mdp/core/src/mock/acervo';
 import { Link } from 'expo-router';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -42,7 +42,14 @@ export default function MinhasTurmas() {
         </View>
 
         {turmasDemo.map((turma) => {
-          const atividades = atividadesParaTurma(turma, demo.posse);
+          const automaticas = atividadesParaTurma(turma, demo.posse);
+          const manuais = [...(demo.materiaisDaTurma[turma.id] ?? new Set<string>())]
+            .map(materialPorId)
+            .filter(
+              (m): m is NonNullable<typeof m> =>
+                m != null && !automaticas.some((a) => a.id === m.id),
+            );
+          const atividades = [...automaticas, ...manuais];
           const passadas = atividades.filter((m) =>
             demo.aplicadas[turma.id]?.has(m.id),
           ).length;

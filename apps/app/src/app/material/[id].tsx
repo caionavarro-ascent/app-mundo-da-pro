@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { Alert, Modal, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { FolhaSalvar } from '../../components/folha-salvar';
 import { Prateleira } from '../../components/prateleira';
 import { useDemo } from '../../contexto/demo';
 import { useCores } from '../../hooks/use-cores';
@@ -32,6 +33,7 @@ export default function FichaMaterial() {
   const cores = useCores();
   const [aba, setAba] = useState<'sobre' | 'como-usar'>('sobre');
   const [paywallAberto, setPaywallAberto] = useState(false);
+  const [salvarAberto, setSalvarAberto] = useState(false);
 
   const material = materialPorId(id);
   if (!material) {
@@ -45,7 +47,9 @@ export default function FichaMaterial() {
   const produto = produtoPorId(material.produtoIds[0]);
   const liberado = estaLiberado(material, demo.posse);
   const cursoExterno = produto?.cursoExterno ?? false;
-  const favoritado = demo.favoritos.has(material.id);
+  const salvo =
+    demo.favoritos.has(material.id) ||
+    Object.values(demo.materiaisDaTurma).some((conjunto) => conjunto.has(material.id));
   const cor = corDoMaterial(material);
 
   const acaoPrincipal = () => {
@@ -75,15 +79,11 @@ export default function FichaMaterial() {
               <Ionicons name="chevron-back" size={20} color="#FFFFFF" />
             </Pressable>
             <Pressable
-              onPress={() => demo.alternarFavorito(material.id)}
+              onPress={() => setSalvarAberto(true)}
               hitSlop={8}
               className="rounded-full bg-black/50 p-2"
             >
-              <Ionicons
-                name={favoritado ? 'checkmark' : 'add'}
-                size={20}
-                color="#FFFFFF"
-              />
+              <Ionicons name={salvo ? 'checkmark' : 'add'} size={20} color="#FFFFFF" />
             </Pressable>
           </View>
           <View className="gap-1 pt-8">
@@ -229,6 +229,12 @@ export default function FichaMaterial() {
           posse={demo.posse}
         />
       </ScrollView>
+
+      <FolhaSalvar
+        material={material}
+        visivel={salvarAberto}
+        aoFechar={() => setSalvarAberto(false)}
+      />
 
       {/* A11 — paywall em folha inferior, com as duas ofertas */}
       <Modal
