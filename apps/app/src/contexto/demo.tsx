@@ -73,6 +73,7 @@ interface EstadoDemo {
   /** primeira abertura (A15): as três telas puláveis, uma única vez */
   viuAbertura: boolean;
   concluirAbertura: () => void;
+  reverAbertura: () => void;
   /** estado salvo já carregado do aparelho? evita piscar a primeira abertura */
   hidratado: boolean;
   /** materiais abertos recentemente — alimenta o "Continue de onde parou" (A3) */
@@ -231,6 +232,7 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
       fecharSalvar: () => setMaterialSalvando(null),
       viuAbertura,
       concluirAbertura: () => setViuAbertura(true),
+      reverAbertura: () => setViuAbertura(false),
       hidratado,
       vistos,
       registrarVisto: (materialId) =>

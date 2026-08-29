@@ -268,3 +268,9 @@ arquivos do próprio repositório: `apps/web/dados/materiais.json` (fichas),
 **Desvio temporário do Bloco 3:** a capa e o texto são extraídos no NAVEGADOR
 (pdfjs-dist) e enviados junto com o PDF; o servidor confere as páginas com pdf-lib.
 No Supabase, o processamento volta inteiro para o servidor, como manda o PRD.
+
+### D34 — Onboarding visual completo, revendo o A15 (29/08)
+**Decidido pelo cliente.** A primeira abertura passa de 3 cartões (A15) para 7 telas
+deslizáveis, cada uma com um mini-mockup do próprio app: vitrine, código por e-mail,
+níveis de escrita, amostra/cadeado, offline, turmas e formações. Continua pulável e
+pode ser revista em Meus materiais → "Rever a apresentação do app".

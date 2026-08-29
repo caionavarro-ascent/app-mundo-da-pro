@@ -130,6 +130,17 @@ export default function MeusMateriais() {
           />
         </View>
 
+        <Pressable
+          onPress={demo.reverAbertura}
+          className="mx-4 flex-row items-center gap-3 rounded-xl bg-superficie p-4"
+        >
+          <Ionicons name="sparkles-outline" size={20} color={cores.texto2} />
+          <Text className="flex-1 font-corpo-medio text-base text-texto">
+            Rever a apresentação do app
+          </Text>
+          <Ionicons name="chevron-forward" size={18} color={cores.texto2} />
+        </Pressable>
+
         <View className="mx-4 overflow-hidden rounded-xl bg-superficie">
           {(
             [
