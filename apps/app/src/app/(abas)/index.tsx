@@ -3,10 +3,12 @@ import { formatarPreco } from '@mdp/core';
 import {
   comecePorAqui,
   maisBaixados,
+  materialPorId,
   novidades,
   prateleirasPorProduto,
   produtoPorId,
   resolverDestaque,
+  type MaterialDemo,
 } from '@mdp/core/src/mock/acervo';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
@@ -79,12 +81,26 @@ export default function Inicio() {
         {/* A2 — destaque personalizado por posse */}
         <Destaque destaque={destaque} />
 
-        {/* A3 — nunca aparece vazia: sem histórico vira "Comece por aqui, é seu" */}
-        <Prateleira
-          titulo="Comece por aqui, é seu"
-          materiais={demo.filtrar(comecePorAqui(demo.posse))}
-          posse={demo.posse}
-        />
+        {/* A3 — com histórico vira "Continue de onde parou"; nunca aparece vazia */}
+        {(() => {
+          const continuar = demo.vistos
+            .map(materialPorId)
+            .filter((m): m is MaterialDemo => m != null);
+          const comHistorico = continuar.length > 0;
+          return (
+            <Prateleira
+              titulo={
+                comHistorico
+                  ? `Continue de onde parou, ${demo.nome}`
+                  : 'Comece por aqui, é seu'
+              }
+              materiais={demo.filtrar(
+                comHistorico ? continuar : comecePorAqui(demo.posse),
+              )}
+              posse={demo.posse}
+            />
+          );
+        })()}
 
         {/* A4 — prova social com número de posição */}
         <Prateleira

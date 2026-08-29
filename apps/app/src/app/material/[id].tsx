@@ -14,7 +14,7 @@ import {
   produtoPorId,
 } from '@mdp/core/src/mock/acervo';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, Modal, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -33,6 +33,12 @@ export default function FichaMaterial() {
   const cores = useCores();
   const [aba, setAba] = useState<'sobre' | 'como-usar'>('sobre');
   const [paywallAberto, setPaywallAberto] = useState(false);
+  const registrarVisto = demo.registrarVisto;
+
+  // A3/C5: material_visto alimenta o "Continue de onde parou"
+  useEffect(() => {
+    if (id) registrarVisto(id);
+  }, [id, registrarVisto]);
 
   const material = materialPorId(id);
   if (!material) {

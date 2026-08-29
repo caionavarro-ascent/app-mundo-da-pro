@@ -1,6 +1,17 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { colorScheme as esquemaGlobal, useColorScheme } from 'nativewind';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
 import type { AnoEscolar, NivelEscrita, TipoMaterial } from '@mdp/core';
 import type { DiaDaSemana, MaterialDemo } from '@mdp/core/src/mock/acervo';
+
+const CHAVE_ARMAZENAMENTO = 'mdp-demo-v1';
 
 /**
  * Estado do MVP de demonstração (D29): sessão simulada e filtros das pílulas.
@@ -59,9 +70,14 @@ interface EstadoDemo {
   materialSalvando: MaterialDemo | null;
   abrirSalvar: (material: MaterialDemo) => void;
   fecharSalvar: () => void;
-  /** primeira abertura (A15): as três telas puláveis, uma vez por sessão */
+  /** primeira abertura (A15): as três telas puláveis, uma única vez */
   viuAbertura: boolean;
   concluirAbertura: () => void;
+  /** estado salvo já carregado do aparelho? evita piscar a primeira abertura */
+  hidratado: boolean;
+  /** materiais abertos recentemente — alimenta o "Continue de onde parou" (A3) */
+  vistos: string[];
+  registrarVisto: (materialId: string) => void;
   /** plano da semana por turma (D30) — espelha a tabela plano_semana */
   plano: Record<string, Partial<Record<DiaDaSemana, string[]>>>;
   adicionarAoPlano: (turmaId: string, dia: DiaDaSemana, materialId: string) => void;
@@ -109,6 +125,78 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
   const [niveis, setNiveis] = useState<Set<NivelEscrita>>(new Set());
   const [anos, setAnos] = useState<Set<AnoEscolar>>(new Set());
   const [tipos, setTipos] = useState<Set<TipoMaterial>>(new Set());
+  const [vistos, setVistos] = useState<string[]>([]);
+  const [hidratado, setHidratado] = useState(false);
+  const { colorScheme: esquemaAtual } = useColorScheme();
+
+  // carrega o estado salvo no aparelho (uma vez, na abertura)
+  useEffect(() => {
+    (async () => {
+      try {
+        const bruto = await AsyncStorage.getItem(CHAVE_ARMAZENAMENTO);
+        if (bruto) {
+          const d = JSON.parse(bruto);
+          const paraSets = (obj: Record<string, string[]> | undefined) =>
+            Object.fromEntries(
+              Object.entries(obj ?? {}).map(([k, v]) => [k, new Set(v)]),
+            );
+          if (d.cenario) setCenario(d.cenario);
+          if (d.favoritos) setFavoritos(new Set(d.favoritos));
+          if (d.buscasRecentes) setBuscasRecentes(d.buscasRecentes);
+          if (d.aplicadas) setAplicadas(paraSets(d.aplicadas));
+          if (d.materiaisDaTurma) setMateriaisDaTurma(paraSets(d.materiaisDaTurma));
+          if (d.plano) setPlano(d.plano);
+          if (d.niveis) setNiveis(new Set(d.niveis));
+          if (d.anos) setAnos(new Set(d.anos));
+          if (d.tipos) setTipos(new Set(d.tipos));
+          if (d.vistos) setVistos(d.vistos);
+          if (d.viuAbertura) setViuAbertura(true);
+          if (d.tema === 'light' || d.tema === 'dark') esquemaGlobal.set(d.tema);
+        }
+      } catch {
+        // estado corrompido ou indisponível: segue com os padrões
+      }
+      setHidratado(true);
+    })();
+  }, []);
+
+  // salva a cada mudança (depois de hidratar, para não sobrescrever com o padrão)
+  useEffect(() => {
+    if (!hidratado) return;
+    const deSets = (obj: Record<string, Set<string>>) =>
+      Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, [...v]]));
+    AsyncStorage.setItem(
+      CHAVE_ARMAZENAMENTO,
+      JSON.stringify({
+        cenario,
+        favoritos: [...favoritos],
+        buscasRecentes,
+        aplicadas: deSets(aplicadas),
+        materiaisDaTurma: deSets(materiaisDaTurma),
+        plano,
+        niveis: [...niveis],
+        anos: [...anos],
+        tipos: [...tipos],
+        vistos,
+        viuAbertura,
+        tema: esquemaAtual,
+      }),
+    ).catch(() => {});
+  }, [
+    hidratado,
+    cenario,
+    favoritos,
+    buscasRecentes,
+    aplicadas,
+    materiaisDaTurma,
+    plano,
+    niveis,
+    anos,
+    tipos,
+    vistos,
+    viuAbertura,
+    esquemaAtual,
+  ]);
 
   const valor = useMemo<EstadoDemo>(() => {
     const temFiltro = niveis.size > 0 || anos.size > 0 || tipos.size > 0;
@@ -143,6 +231,12 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
       fecharSalvar: () => setMaterialSalvando(null),
       viuAbertura,
       concluirAbertura: () => setViuAbertura(true),
+      hidratado,
+      vistos,
+      registrarVisto: (materialId) =>
+        setVistos((lista) =>
+          [materialId, ...lista.filter((id) => id !== materialId)].slice(0, 12),
+        ),
       materiaisDaTurma,
       alternarMaterialDaTurma: (turmaId, materialId) =>
         setMateriaisDaTurma((atual) => ({
@@ -194,6 +288,8 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
     materiaisDaTurma,
     materialSalvando,
     viuAbertura,
+    hidratado,
+    vistos,
     plano,
     niveis,
     anos,

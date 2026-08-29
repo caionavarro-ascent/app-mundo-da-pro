@@ -33,7 +33,7 @@ export function PrimeiraAbertura() {
   const cores = useCores();
   const [indice, setIndice] = useState(0);
 
-  if (demo.viuAbertura) return null;
+  if (!demo.hidratado || demo.viuAbertura) return null;
   const cartao = CARTOES[indice];
   const ultimo = indice === CARTOES.length - 1;
 
