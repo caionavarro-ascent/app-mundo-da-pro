@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { estaLiberado, materiaisDemo, produtoPorId } from '@mdp/core/src/mock/acervo';
+import { Link } from 'expo-router';
 import { useColorScheme } from 'nativewind';
 import { Alert, Pressable, ScrollView, Switch, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -60,6 +61,31 @@ export default function MeusMateriais() {
                 </Text>
                 <Text className="font-corpo text-xs text-texto-2">liberado</Text>
               </View>
+            );
+          })}
+        </View>
+
+        <View className="gap-2 px-4">
+          <Text className="font-corpo-forte text-sm uppercase text-texto-2">
+            Formações
+          </Text>
+          {(['fda', 'fpt'] as const).map((id) => {
+            const formacao = produtoPorId(id);
+            if (!formacao) return null;
+            return (
+              <Link
+                key={id}
+                href={{ pathname: '/formacao/[id]', params: { id } }}
+                asChild
+              >
+                <Pressable className="flex-row items-center gap-3 rounded-xl bg-superficie p-4">
+                  <Ionicons name="play-circle" size={20} color={formacao.cor} />
+                  <Text className="flex-1 font-corpo-medio text-base text-texto">
+                    {formacao.nome}
+                  </Text>
+                  <Ionicons name="chevron-forward" size={18} color={cores.texto2} />
+                </Pressable>
+              </Link>
             );
           })}
         </View>

@@ -102,6 +102,11 @@ export default function Inicio() {
             subtitulo={p.subtitulo}
             materiais={p.materiais}
             posse={demo.posse}
+            href={
+              p.id === 'fda' || p.id === 'fpt'
+                ? { pathname: '/formacao/[id]', params: { id: p.id } }
+                : undefined
+            }
           />
         ))}
 

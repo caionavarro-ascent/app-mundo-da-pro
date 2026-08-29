@@ -19,6 +19,13 @@ export function primeiroNome(nome: string | null | undefined, email: string): st
   return antes.charAt(0).toUpperCase() + antes.slice(1);
 }
 
+/** Segundos → "12 min", para as aulas em vídeo */
+export function formatarDuracao(segundos: number): string {
+  if (!segundos) return '';
+  const min = Math.round(segundos / 60);
+  return min < 1 ? '1 min' : `${min} min`;
+}
+
 /** Bytes → "12,3 MB", para a tela de baixados (PRD A12) */
 export function formatarTamanho(bytes: number): string {
   if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
