@@ -259,3 +259,12 @@ de LOJAS segue valendo — o app continua não sendo uma WebView embrulhada.
 o banco nasce direto num projeto hospedado no supabase.com. Migration inicial, seed e
 teste de acesso prontos em `supabase/`; falta o cliente criar o projeto e fornecer as
 chaves para o push.
+
+### D33 — Painel de conteúdo sem banco, com armazenamento local (29/08)
+**Decidido pelo cliente.** O painel /admin nasce antes do Supabase, gravando em
+arquivos do próprio repositório: `apps/web/dados/materiais.json` (fichas),
+`apps/web/dados/arquivos/` (PDFs originais, fora do git) e `public/demo-capas/`
+(capas). Sem login nesta fase.
+**Desvio temporário do Bloco 3:** a capa e o texto são extraídos no NAVEGADOR
+(pdfjs-dist) e enviados junto com o PDF; o servidor confere as páginas com pdf-lib.
+No Supabase, o processamento volta inteiro para o servidor, como manda o PRD.
