@@ -24,6 +24,12 @@ export const cenariosAcesso = [
     posse: ['educakits', 'flaeduca'],
   },
   {
+    id: 'fda',
+    rotulo: 'Aluna do FDA',
+    descricao: 'Possui EducaKits e a Formação Destrava Aluno',
+    posse: ['educakits', 'fda'],
+  },
+  {
     id: 'total',
     rotulo: 'Acesso Total',
     descricao: 'O combo: tudo liberado',
@@ -82,7 +88,8 @@ function alternar<T>(conjunto: Set<T>, item: T): Set<T> {
 }
 
 export function ProvedorDemo({ children }: { children: ReactNode }) {
-  const [cenario, setCenario] = useState<CenarioAcesso>('um');
+  // "Aluna do FDA" como padrão da demo: as aulas já abrem destravadas
+  const [cenario, setCenario] = useState<CenarioAcesso>('fda');
   const [favoritos, setFavoritos] = useState<Set<string>>(new Set());
   const [buscasRecentes, setBuscasRecentes] = useState<string[]>([]);
   const [aplicadas, setAplicadas] = useState<Record<string, Set<string>>>({
