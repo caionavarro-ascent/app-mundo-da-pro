@@ -109,8 +109,8 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
   const [favoritos, setFavoritos] = useState<Set<string>>(new Set());
   const [buscasRecentes, setBuscasRecentes] = useState<string[]>([]);
   const [aplicadas, setAplicadas] = useState<Record<string, Set<string>>>({
-    // a demo começa com algumas atividades já passadas na 1º ano A
-    'turma-1a': new Set(['bingo-sons', 'alfabeto-movel']),
+    // a demo começa com uma atividade já passada na turma de exemplo
+    'turma-2b': new Set(['trilha-leitura']),
   });
   const [materiaisDaTurma, setMateriaisDaTurma] = useState<Record<string, Set<string>>>(
     {},

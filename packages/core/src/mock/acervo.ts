@@ -567,13 +567,6 @@ export interface TurmaDemo {
 
 export const turmasDemo: TurmaDemo[] = [
   {
-    id: 'turma-1a',
-    nome: '1º ano A — manhã',
-    ano: '1ano',
-    alunos: 24,
-    dist: { pre: 6, sil: 10, sa: 5, alf: 3 },
-  },
-  {
     id: 'turma-2b',
     nome: '2º ano B — tarde',
     ano: '2ano',
