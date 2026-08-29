@@ -237,7 +237,11 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
       vistos,
       registrarVisto: (materialId) =>
         setVistos((lista) =>
-          [materialId, ...lista.filter((id) => id !== materialId)].slice(0, 12),
+          // já está no topo: devolve a MESMA referência para não re-renderizar
+          // (senão a ficha entra em loop de registrar → renderizar → registrar)
+          lista[0] === materialId
+            ? lista
+            : [materialId, ...lista.filter((id) => id !== materialId)].slice(0, 12),
         ),
       materiaisDaTurma,
       alternarMaterialDaTurma: (turmaId, materialId) =>

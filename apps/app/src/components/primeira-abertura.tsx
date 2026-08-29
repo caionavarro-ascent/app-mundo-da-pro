@@ -267,9 +267,14 @@ export function PrimeiraAbertura() {
   if (!demo.hidratado || demo.viuAbertura) return null;
   const ultimo = indice === TELAS.length - 1;
 
+  const irPara = (destino: number) => {
+    lista.current?.scrollToOffset({ offset: destino * width, animated: true });
+    setIndice(destino);
+  };
+
   const avancar = () => {
     if (ultimo) demo.concluirAbertura();
-    else lista.current?.scrollToIndex({ index: indice + 1, animated: true });
+    else irPara(indice + 1);
   };
 
   return (
@@ -312,11 +317,7 @@ export function PrimeiraAbertura() {
         <View className="gap-5 px-8 pb-8">
           <View className="flex-row justify-center gap-2">
             {TELAS.map((tela, i) => (
-              <Pressable
-                key={tela.titulo}
-                onPress={() => lista.current?.scrollToIndex({ index: i, animated: true })}
-                hitSlop={6}
-              >
+              <Pressable key={tela.titulo} onPress={() => irPara(i)} hitSlop={6}>
                 <View
                   className={`h-2 rounded-full ${
                     i === indice ? 'w-6' : 'w-2 bg-superficie-2'
