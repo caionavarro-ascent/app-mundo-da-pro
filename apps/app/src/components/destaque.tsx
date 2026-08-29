@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { nomeTipo } from '@mdp/core';
 import { corDoMaterial, type DestaqueResolvido } from '@mdp/core/src/mock/acervo';
+import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, Text, View, useWindowDimensions } from 'react-native';
@@ -34,9 +35,11 @@ export function Destaque({ destaque }: { destaque: DestaqueResolvido }) {
         >
           <View className="flex-1 justify-between p-5">
             <View className="flex-row items-center gap-2">
-              <View className="h-6 w-6 items-center justify-center rounded bg-black/60">
-                <Text className="font-titulo text-xs text-marca">M</Text>
-              </View>
+              <Image
+                source={require('../../assets/images/logo-contorno.png')}
+                style={{ width: 46, height: 22 }}
+                contentFit="contain"
+              />
               <Text className="font-corpo-forte text-xs uppercase text-white/90">
                 {destaque.chamada}
               </Text>

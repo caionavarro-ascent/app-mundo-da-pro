@@ -8,7 +8,9 @@ import {
   produtoPorId,
   resolverDestaque,
 } from '@mdp/core/src/mock/acervo';
+import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
+import { useColorScheme } from 'nativewind';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -19,11 +21,17 @@ import { SeletorAcesso } from '../../components/seletor-acesso';
 import { useDemo } from '../../contexto/demo';
 import { useCores } from '../../hooks/use-cores';
 
+// Prancheta 33 (100% vazada) no tema claro; Prancheta 16 (contorno branco)
+// no escuro, onde o contorno garante a leitura do azul-marinho.
+const logoModoClaro = require('../../../assets/images/logo-vazado.png');
+const logoModoEscuro = require('../../../assets/images/logo-contorno.png');
+
 /** Home da vitrine (Bloco 7), estrutura da referência bloco a bloco. */
 export default function Inicio() {
   const demo = useDemo();
   const router = useRouter();
   const cores = useCores();
+  const { colorScheme: esquema } = useColorScheme();
   const destaque = resolverDestaque(demo.posse);
   const acessoTotal = produtoPorId('acesso-total')!;
 
@@ -37,10 +45,12 @@ export default function Inicio() {
       <ScrollView stickyHeaderIndices={[1]} contentContainerClassName="gap-6 pb-8">
         {/* A0 — topo enxuto, sem campo de busca */}
         <View className="flex-row items-center justify-between px-4 pt-2">
-          <View className="flex-row items-center gap-2">
-            <View className="h-7 w-7 items-center justify-center rounded-md bg-marca">
-              <Text className="font-titulo text-base text-[#16191F]">M</Text>
-            </View>
+          <View className="flex-row items-center gap-2.5">
+            <Image
+              source={esquema === 'light' ? logoModoClaro : logoModoEscuro}
+              style={{ width: 68, height: 32 }}
+              contentFit="contain"
+            />
             <Text className="font-titulo-semi text-lg text-texto">Início</Text>
           </View>
           <View className="flex-row items-center gap-4">
