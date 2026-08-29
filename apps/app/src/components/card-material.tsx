@@ -4,6 +4,8 @@ import { nomeTipo } from '@mdp/core';
 import { Link } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
+import { useDemo } from '../contexto/demo';
+
 interface Props {
   material: MaterialDemo;
   posse: string[];
@@ -17,12 +19,19 @@ interface Props {
  * quando o pipeline de capas existir (Bloco 3), vira imagem com expo-image.
  */
 export function CardMaterial({ material, posse, posicao, largura = 112 }: Props) {
+  const demo = useDemo();
   const liberado = estaLiberado(material, posse);
   const cor = corDoMaterial(material);
 
   return (
     <Link href={{ pathname: '/material/[id]', params: { id: material.id } }} asChild>
-      <Pressable className="gap-1.5" style={{ width: largura }}>
+      <Pressable
+        className="gap-1.5"
+        style={{ width: largura }}
+        // A9: toque longo abre o menu de salvar
+        onLongPress={() => demo.abrirSalvar(material)}
+        delayLongPress={350}
+      >
         <View
           className="overflow-hidden rounded-lg"
           style={{ width: largura, height: largura * 1.5, backgroundColor: cor }}

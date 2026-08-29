@@ -9,8 +9,21 @@ import { useCores } from '../hooks/use-cores';
 /**
  * Folha do botão Salvar: em vez de favoritar direto, a professora escolhe
  * onde guardar — nos favoritos e/ou numa turma. Cada linha é um toggle.
+ * Renderizada uma única vez no layout raiz; abre via demo.abrirSalvar().
  */
-export function FolhaSalvar({
+export function FolhaSalvarGlobal() {
+  const demo = useDemo();
+  if (!demo.materialSalvando) return null;
+  return (
+    <FolhaSalvar
+      material={demo.materialSalvando}
+      visivel
+      aoFechar={demo.fecharSalvar}
+    />
+  );
+}
+
+function FolhaSalvar({
   material,
   visivel,
   aoFechar,

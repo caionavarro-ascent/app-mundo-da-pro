@@ -49,6 +49,13 @@ interface EstadoDemo {
   /** materiais adicionados à mão em cada turma pelo botão Salvar */
   materiaisDaTurma: Record<string, Set<string>>;
   alternarMaterialDaTurma: (turmaId: string, materialId: string) => void;
+  /** folha Salvar global: aberta pelo botão + ou pelo toque longo num card */
+  materialSalvando: MaterialDemo | null;
+  abrirSalvar: (material: MaterialDemo) => void;
+  fecharSalvar: () => void;
+  /** primeira abertura (A15): as três telas puláveis, uma vez por sessão */
+  viuAbertura: boolean;
+  concluirAbertura: () => void;
   /** plano da semana por turma (D30) — espelha a tabela plano_semana */
   plano: Record<string, Partial<Record<DiaDaSemana, string[]>>>;
   adicionarAoPlano: (turmaId: string, dia: DiaDaSemana, materialId: string) => void;
@@ -85,6 +92,8 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
   const [materiaisDaTurma, setMateriaisDaTurma] = useState<Record<string, Set<string>>>(
     {},
   );
+  const [materialSalvando, setMaterialSalvando] = useState<MaterialDemo | null>(null);
+  const [viuAbertura, setViuAbertura] = useState(false);
   const [plano, setPlano] = useState<
     Record<string, Partial<Record<DiaDaSemana, string[]>>>
   >({
@@ -122,6 +131,11 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
             },
           };
         }),
+      materialSalvando,
+      abrirSalvar: setMaterialSalvando,
+      fecharSalvar: () => setMaterialSalvando(null),
+      viuAbertura,
+      concluirAbertura: () => setViuAbertura(true),
       materiaisDaTurma,
       alternarMaterialDaTurma: (turmaId, materialId) =>
         setMateriaisDaTurma((atual) => ({
@@ -171,6 +185,8 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
     buscasRecentes,
     aplicadas,
     materiaisDaTurma,
+    materialSalvando,
+    viuAbertura,
     plano,
     niveis,
     anos,

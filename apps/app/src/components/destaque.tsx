@@ -3,12 +3,10 @@ import { nomeTipo } from '@mdp/core';
 import { corDoMaterial, type DestaqueResolvido } from '@mdp/core/src/mock/acervo';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
-import { useState } from 'react';
 import { Pressable, Text, View, useWindowDimensions } from 'react-native';
 
 import { useDemo } from '../contexto/demo';
 import { useCores } from '../hooks/use-cores';
-import { FolhaSalvar } from './folha-salvar';
 
 /**
  * Bloco de destaque da dobra (A2): card grande 4:5, botão primário branco e
@@ -21,7 +19,6 @@ export function Destaque({ destaque }: { destaque: DestaqueResolvido }) {
   const { width } = useWindowDimensions();
   const largura = Math.min(width - 48, 360);
   const { material } = destaque;
-  const [salvarAberto, setSalvarAberto] = useState(false);
   const salvo =
     demo.favoritos.has(material.id) ||
     Object.values(demo.materiaisDaTurma).some((conjunto) => conjunto.has(material.id));
@@ -70,19 +67,13 @@ export function Destaque({ destaque }: { destaque: DestaqueResolvido }) {
           </Pressable>
         </Link>
         <Pressable
-          onPress={() => setSalvarAberto(true)}
+          onPress={() => demo.abrirSalvar(material)}
           className="h-12 flex-row items-center justify-center gap-2 rounded-lg bg-superficie-2 px-4"
         >
           <Ionicons name={salvo ? 'checkmark' : 'add'} size={20} color={cores.texto} />
           <Text className="font-corpo-forte text-base text-texto">Salvar</Text>
         </Pressable>
       </View>
-
-      <FolhaSalvar
-        material={material}
-        visivel={salvarAberto}
-        aoFechar={() => setSalvarAberto(false)}
-      />
     </View>
   );
 }

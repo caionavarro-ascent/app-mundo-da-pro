@@ -15,6 +15,8 @@ import { colorScheme, useColorScheme } from 'nativewind';
 import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 
+import { FolhaSalvarGlobal } from '../components/folha-salvar';
+import { PrimeiraAbertura } from '../components/primeira-abertura';
 import { ProvedorDemo } from '../contexto/demo';
 import { useCores } from '../hooks/use-cores';
 import { ativarMouseComoToque } from '../web/mouse-como-toque';
@@ -45,6 +47,8 @@ function Navegacao() {
         <Stack.Screen name="material/[id]" />
         <Stack.Screen name="turma/[id]" />
       </Stack>
+      <FolhaSalvarGlobal />
+      <PrimeiraAbertura />
     </>
   );
 }
