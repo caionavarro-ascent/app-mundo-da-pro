@@ -40,6 +40,8 @@ export interface MaterialDemo {
   posicaoTop?: number;
   descricao: string;
   passos: string[];
+  /** aulas: embed do Panda Video (D31) — mesmo vídeo de demonstração por ora */
+  embedUrl?: string;
 }
 
 export const produtosDemo: ProdutoDemo[] = [
@@ -351,6 +353,21 @@ export const materiaisDemo: MaterialDemo[] = [
     passos: passosPadrao,
   },
   {
+    id: 'aula-demo-sondagem',
+    titulo: 'Aula demonstrativa: Sondagem na Prática',
+    tipo: 'aula',
+    anos: ['1ano', '2ano', '3ano'],
+    niveis: ['pre', 'sil', 'sa', 'alf'],
+    paginas: 0,
+    gratuito: true,
+    novo: true,
+    produtoIds: ['fda'],
+    embedUrl: 'https://player-vz-a7d00cb7-df8.tv.pandavideo.com.br/embed/?v=82765efa-6d84-4cb6-8648-bb85c4c4cf31',
+    descricao:
+      'Aula aberta de demonstração: assista dentro do app e conheça o formato da Formação Destrava Aluno.',
+    passos: [],
+  },
+  {
     id: 'aula-fda-sondagem',
     titulo: 'Aula: Como Aplicar a Sondagem',
     tipo: 'aula',
@@ -359,6 +376,7 @@ export const materiaisDemo: MaterialDemo[] = [
     paginas: 0,
     gratuito: false,
     produtoIds: ['fda'],
+    embedUrl: 'https://player-vz-a7d00cb7-df8.tv.pandavideo.com.br/embed/?v=82765efa-6d84-4cb6-8648-bb85c4c4cf31',
     descricao: 'Aula em vídeo da Formação Destrava Aluno. Assiste-se na plataforma The Members.',
     passos: [],
   },
@@ -554,6 +572,7 @@ export const materiaisDemo: MaterialDemo[] = [
     paginas: 0,
     gratuito: false,
     produtoIds: ['fda'],
+    embedUrl: 'https://player-vz-a7d00cb7-df8.tv.pandavideo.com.br/embed/?v=82765efa-6d84-4cb6-8648-bb85c4c4cf31',
     descricao: 'Como montar duplas e grupos que fazem a hipótese de escrita avançar.',
     passos: [],
   },
@@ -566,6 +585,7 @@ export const materiaisDemo: MaterialDemo[] = [
     paginas: 0,
     gratuito: false,
     produtoIds: ['fda'],
+    embedUrl: 'https://player-vz-a7d00cb7-df8.tv.pandavideo.com.br/embed/?v=82765efa-6d84-4cb6-8648-bb85c4c4cf31',
     descricao: 'O que fazer com o aluno que estacionou no silábico: as perguntas que desestabilizam.',
     passos: [],
   },
@@ -578,6 +598,7 @@ export const materiaisDemo: MaterialDemo[] = [
     paginas: 0,
     gratuito: false,
     produtoIds: ['fpt'],
+    embedUrl: 'https://player-vz-a7d00cb7-df8.tv.pandavideo.com.br/embed/?v=82765efa-6d84-4cb6-8648-bb85c4c4cf31',
     descricao: 'Por que a criança trava diante da folha em branco e como abrir a escrita.',
     passos: [],
   },
@@ -590,6 +611,7 @@ export const materiaisDemo: MaterialDemo[] = [
     paginas: 0,
     gratuito: false,
     produtoIds: ['fpt'],
+    embedUrl: 'https://player-vz-a7d00cb7-df8.tv.pandavideo.com.br/embed/?v=82765efa-6d84-4cb6-8648-bb85c4c4cf31',
     descricao: 'Transformar a revisão de texto em etapa que a turma pede para fazer.',
     passos: [],
   },

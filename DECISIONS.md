@@ -243,3 +243,19 @@ atividades já passou em cada uma. As tabelas `turmas` e `plano_semana` já exis
 schema como fase 2; as telas entram agora na demo (mock, D29).
 **Atenção:** o PRD A8 definia quatro abas no rodapé; com Turmas são cinco. Validar o
 desenho com a Gi e a Flávia junto do restante da demo, e atualizar o PRD A8 se ficar.
+
+### D31 — Aulas tocam dentro do app, via Panda Video (29/08)
+**Decidido pelo cliente.** Revisa parcialmente a D3: as aulas em vídeo passam a tocar
+dentro do app, embutindo o player do Panda Video (WebView pontual no aparelho, iframe
+no web). Os vídeos continuam hospedados no Panda; progresso e certificado continuam no
+The Members — o app não os reconstrói.
+**Segurança:** na versão real, o embed é montado no servidor após checar o entitlement,
+usando os recursos do Panda (whitelist de domínio, HLS criptografado, anti-download).
+**Consequência:** aulas de demonstração gratuitas viram isca dentro da vitrine; a D23
+de LOJAS segue valendo — o app continua não sendo uma WebView embrulhada.
+
+### D32 — Supabase hospedado, direto (29/08)
+**Decidido pelo cliente.** Substitui a D23 (local até o Bloco 1): sem Docker na máquina,
+o banco nasce direto num projeto hospedado no supabase.com. Migration inicial, seed e
+teste de acesso prontos em `supabase/`; falta o cliente criar o projeto e fornecer as
+chaves para o push.

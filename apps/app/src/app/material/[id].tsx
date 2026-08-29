@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { Alert, Modal, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { PlayerAula } from '../../components/player-aula';
 import { Prateleira } from '../../components/prateleira';
 import { useDemo } from '../../contexto/demo';
 import { useCores } from '../../hooks/use-cores';
@@ -50,16 +51,19 @@ export default function FichaMaterial() {
     Object.values(demo.materiaisDaTurma).some((conjunto) => conjunto.has(material.id));
   const cor = corDoMaterial(material);
 
+  // D31: aula liberada com embed toca dentro do app, sem botão de ação
+  const tocaNoApp = Boolean(material.embedUrl) && liberado;
+
   const acaoPrincipal = () => {
-    if (cursoExterno) {
+    if (!liberado) {
+      setPaywallAberto(true);
+    } else if (cursoExterno) {
       Alert.alert('The Members', 'A aula abre no navegador do sistema (Bloco 8).');
-    } else if (liberado) {
+    } else {
       Alert.alert(
         'Download',
         'Na versão final, o PDF sai com marca d’água com seu nome e abre offline (Bloco 9).',
       );
-    } else {
-      setPaywallAberto(true);
     }
   };
 
@@ -98,26 +102,31 @@ export default function FichaMaterial() {
           </View>
         </View>
 
+        {/* aula liberada: o player do Panda no lugar do botão (D31) */}
+        {tocaNoApp && <PlayerAula url={material.embedUrl!} />}
+
         {/* ação principal */}
-        <View className="px-4">
-          <Pressable
-            onPress={acaoPrincipal}
-            className="flex-row items-center justify-center gap-2 rounded-lg bg-botao-prim py-3.5"
-          >
-            <Ionicons
-              name={cursoExterno ? 'play' : liberado ? 'download' : 'lock-open'}
-              size={18}
-              color={cores.botaoPrimarioTexto}
-            />
-            <Text className="font-corpo-forte text-base text-botao-prim-texto">
-              {cursoExterno
-                ? 'Assistir no The Members'
-                : liberado
-                  ? 'Baixar PDF'
-                  : `Desbloquear por ${formatarPreco(produto?.precoCentavos ?? 0)}`}
-            </Text>
-          </Pressable>
-        </View>
+        {!tocaNoApp && (
+          <View className="px-4">
+            <Pressable
+              onPress={acaoPrincipal}
+              className="flex-row items-center justify-center gap-2 rounded-lg bg-botao-prim py-3.5"
+            >
+              <Ionicons
+                name={!liberado ? 'lock-open' : cursoExterno ? 'play' : 'download'}
+                size={18}
+                color={cores.botaoPrimarioTexto}
+              />
+              <Text className="font-corpo-forte text-base text-botao-prim-texto">
+                {!liberado
+                  ? `Desbloquear por ${formatarPreco(produto?.precoCentavos ?? 0)}`
+                  : cursoExterno
+                    ? 'Assistir no The Members'
+                    : 'Baixar PDF'}
+              </Text>
+            </Pressable>
+          </View>
+        )}
 
         {/* preview: amostra liberada, restante trancado (A10) */}
         {material.paginas > 0 && (
