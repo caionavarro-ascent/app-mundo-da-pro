@@ -13,6 +13,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { colorScheme, useColorScheme } from 'nativewind';
 import { useEffect } from 'react';
+import { Platform, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 import { FolhaSalvarGlobal } from '../components/folha-salvar';
@@ -34,7 +35,7 @@ function Navegacao() {
   const cores = useCores();
   const { colorScheme: esquema } = useColorScheme();
 
-  return (
+  const conteudo = (
     <>
       <StatusBar style={esquema === 'light' ? 'dark' : 'light'} />
       <Stack
@@ -52,6 +53,25 @@ function Navegacao() {
       <FolhaSalvarGlobal />
       <PrimeiraAbertura />
     </>
+  );
+
+  // versão web em tela larga: o app vira uma coluna central, como um webapp
+  // de streaming — no aparelho, o palco é a tela inteira
+  if (Platform.OS !== 'web') return conteudo;
+  return (
+    <View className="flex-1 items-center" style={{ backgroundColor: cores.fundo }}>
+      <View
+        className="w-full flex-1"
+        style={{
+          maxWidth: 640,
+          borderLeftWidth: 1,
+          borderRightWidth: 1,
+          borderColor: cores.superficie2,
+        }}
+      >
+        {conteudo}
+      </View>
+    </View>
   );
 }
 
