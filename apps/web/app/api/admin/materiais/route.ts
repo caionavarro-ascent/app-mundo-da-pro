@@ -61,6 +61,7 @@ export async function POST(req: Request) {
     anos: [],
     niveis: [],
     gratuito: false,
+    produtoIds: [],
     status: "rascunho",
     paginas,
     arquivo: `${id}.pdf`,

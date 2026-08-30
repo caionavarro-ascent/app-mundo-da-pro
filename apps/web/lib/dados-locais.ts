@@ -16,6 +16,8 @@ export interface MaterialPainel {
   anos: AnoEscolar[];
   niveis: NivelEscrita[];
   gratuito: boolean;
+  /** ids dos produtos da demo aos quais o material pertence */
+  produtoIds: string[];
   status: "rascunho" | "publicado";
   paginas: number;
   arquivo: string; // nome do PDF em dados/arquivos

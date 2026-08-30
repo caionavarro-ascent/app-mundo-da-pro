@@ -42,6 +42,8 @@ export interface MaterialDemo {
   passos: string[];
   /** aulas: embed do Panda Video (D31) — mesmo vídeo de demonstração por ora */
   embedUrl?: string;
+  /** capa real vinda do painel (D33); sem ela o card usa a cor do produto */
+  capaUrl?: string;
 }
 
 export const produtosDemo: ProdutoDemo[] = [
@@ -551,6 +553,19 @@ export const materiaisDemo: MaterialDemo[] = [
     passos: passosPadrao,
   },
 ];
+
+// ---------------------------------------------------------------------------
+// Materiais vindos do painel (D33): entram no MESMO acervo que a demo usa,
+// então busca, prateleiras, novidades e destaque os enxergam sem mudanças.
+// ---------------------------------------------------------------------------
+
+export function registrarMateriaisExternos(novos: MaterialDemo[]): void {
+  for (const material of novos) {
+    const indice = materiaisDemo.findIndex((m) => m.id === material.id);
+    if (indice >= 0) materiaisDemo[indice] = material;
+    else materiaisDemo.unshift(material);
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Turmas (D30) — espelham a tabela `turmas` da fase 2 do schema

@@ -26,6 +26,7 @@ export async function PATCH(
     "anos",
     "niveis",
     "gratuito",
+    "produtoIds",
     "status",
   ] as const;
   const filtradas = Object.fromEntries(

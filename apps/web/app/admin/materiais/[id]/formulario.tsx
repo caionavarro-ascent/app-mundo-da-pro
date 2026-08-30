@@ -12,6 +12,8 @@ import {
   type TipoMaterial,
 } from "@mdp/core";
 
+import { produtosDemo } from "@mdp/core/src/mock/acervo";
+
 import type { MaterialPainel } from "@/lib/dados-locais";
 
 function alternarItem<T>(lista: T[], item: T): T[] {
@@ -85,6 +87,29 @@ export function FormularioFicha({ material }: { material: MaterialPainel }) {
               {nomeTipo[tipo]}
             </button>
           ))}
+        </div>
+      </fieldset>
+
+      <fieldset className="flex flex-col gap-2">
+        <legend className="text-sm font-semibold text-tinta">Produtos</legend>
+        <div className="flex flex-wrap gap-2">
+          {produtosDemo
+            .filter((p) => !p.isCombo)
+            .map((produto) => (
+              <button
+                key={produto.id}
+                type="button"
+                onClick={() =>
+                  setFicha({
+                    ...ficha,
+                    produtoIds: alternarItem(ficha.produtoIds ?? [], produto.id),
+                  })
+                }
+                className={classeChip((ficha.produtoIds ?? []).includes(produto.id))}
+              >
+                {produto.nome}
+              </button>
+            ))}
         </div>
       </fieldset>
 

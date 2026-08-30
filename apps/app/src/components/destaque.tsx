@@ -30,6 +30,17 @@ export function Destaque({ destaque }: { destaque: DestaqueResolvido }) {
           className="overflow-hidden rounded-2xl"
           style={{ width: largura, height: largura * 1.25, backgroundColor: corDoMaterial(material) }}
         >
+          {material.capaUrl && (
+            <>
+              <Image
+                source={{ uri: material.capaUrl }}
+                style={{ position: 'absolute', width: '100%', height: '100%' }}
+                contentFit="cover"
+              />
+              {/* garante a leitura do título sobre a página branca */}
+              <View className="absolute inset-0 bg-black/35" />
+            </>
+          )}
           <View className="flex-1 justify-between p-5">
             <View className="flex-row items-center gap-2">
               <Image
@@ -47,7 +58,7 @@ export function Destaque({ destaque }: { destaque: DestaqueResolvido }) {
               </Text>
               <Text className="font-corpo text-sm text-white/90">
                 {nomeTipo[material.tipo]}
-                {material.paginas > 0 ? ` completa, ${material.paginas} páginas` : ''}
+                {material.paginas > 0 ? ` · ${material.paginas} páginas` : ''}
               </Text>
             </View>
           </View>

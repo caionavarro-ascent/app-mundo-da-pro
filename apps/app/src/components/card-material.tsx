@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { corDoMaterial, estaLiberado, type MaterialDemo } from '@mdp/core/src/mock/acervo';
 import { nomeTipo } from '@mdp/core';
+import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
@@ -36,14 +37,26 @@ export function CardMaterial({ material, posse, posicao, largura = 112 }: Props)
           className="overflow-hidden rounded-lg"
           style={{ width: largura, height: largura * 1.5, backgroundColor: cor }}
         >
-          <View className="flex-1 justify-between p-2">
-            <Text className="font-corpo-forte text-[10px] uppercase text-white/80">
-              {nomeTipo[material.tipo]}
-            </Text>
-            <Text className="font-titulo-semi text-sm leading-tight text-white" numberOfLines={4}>
-              {material.titulo}
-            </Text>
-          </View>
+          {material.capaUrl ? (
+            // capa real gerada da página 1 do PDF (painel, D33)
+            <Image
+              source={{ uri: material.capaUrl }}
+              style={{ width: '100%', height: '100%' }}
+              contentFit="cover"
+            />
+          ) : (
+            <View className="flex-1 justify-between p-2">
+              <Text className="font-corpo-forte text-[10px] uppercase text-white/80">
+                {nomeTipo[material.tipo]}
+              </Text>
+              <Text
+                className="font-titulo-semi text-sm leading-tight text-white"
+                numberOfLines={4}
+              >
+                {material.titulo}
+              </Text>
+            </View>
+          )}
 
           {!liberado && (
             // Desfoque leve, não opaco: ela precisa ver que tem coisa boa ali (A9)

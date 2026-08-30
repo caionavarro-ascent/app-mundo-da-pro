@@ -9,7 +9,13 @@ import {
   type ReactNode,
 } from 'react';
 import type { AnoEscolar, NivelEscrita, TipoMaterial } from '@mdp/core';
-import type { DiaDaSemana, MaterialDemo } from '@mdp/core/src/mock/acervo';
+import {
+  registrarMateriaisExternos,
+  type DiaDaSemana,
+  type MaterialDemo,
+} from '@mdp/core/src/mock/acervo';
+
+import { buscarMateriaisDoPainel } from '../lib/painel';
 
 const CHAVE_ARMAZENAMENTO = 'mdp-demo-v1';
 
@@ -129,6 +135,19 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
   const [vistos, setVistos] = useState<string[]>([]);
   const [hidratado, setHidratado] = useState(false);
   const { colorScheme: esquemaAtual } = useColorScheme();
+
+  // busca os materiais publicados no painel (D33); sem painel no ar, segue só a demo
+  const [versaoAcervo, setVersaoAcervo] = useState(0);
+  useEffect(() => {
+    buscarMateriaisDoPainel()
+      .then((materiais) => {
+        if (materiais.length > 0) {
+          registrarMateriaisExternos(materiais);
+          setVersaoAcervo((v) => v + 1);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // carrega o estado salvo no aparelho (uma vez, na abertura)
   useEffect(() => {
@@ -300,6 +319,8 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
     niveis,
     anos,
     tipos,
+    // muda quando o acervo do painel chega — re-renderiza a vitrine
+    versaoAcervo,
   ]);
 
   return <Contexto.Provider value={valor}>{children}</Contexto.Provider>;
