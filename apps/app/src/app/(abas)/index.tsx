@@ -22,6 +22,7 @@ import { Prateleira } from '../../components/prateleira';
 import { SeletorAcesso } from '../../components/seletor-acesso';
 import { useDemo } from '../../contexto/demo';
 import { useCores } from '../../hooks/use-cores';
+import { useDesktopWeb } from '../../hooks/use-desktop-web';
 
 // Prancheta 33 (100% vazada) no tema claro; Prancheta 16 (contorno branco)
 // no escuro, onde o contorno garante a leitura do azul-marinho.
@@ -34,6 +35,7 @@ export default function Inicio() {
   const router = useRouter();
   const cores = useCores();
   const { colorScheme: esquema } = useColorScheme();
+  const desktop = useDesktopWeb();
   const destaque = resolverDestaque(demo.posse);
   const acessoTotal = produtoPorId('acesso-total')!;
 
@@ -47,14 +49,18 @@ export default function Inicio() {
       <ScrollView stickyHeaderIndices={[1]} contentContainerClassName="gap-6 pb-8">
         {/* A0 — topo enxuto, sem campo de busca */}
         <View className="flex-row items-center justify-between px-4 pt-2">
-          <View className="flex-row items-center gap-2.5">
-            <Image
-              source={esquema === 'light' ? logoModoClaro : logoModoEscuro}
-              style={{ width: 68, height: 32 }}
-              contentFit="contain"
-            />
-            <Text className="font-titulo-semi text-lg text-texto">Início</Text>
-          </View>
+          {desktop ? (
+            <Text className="font-titulo-semi text-2xl text-texto">Início</Text>
+          ) : (
+            <View className="flex-row items-center gap-2.5">
+              <Image
+                source={esquema === 'light' ? logoModoClaro : logoModoEscuro}
+                style={{ width: 68, height: 32 }}
+                contentFit="contain"
+              />
+              <Text className="font-titulo-semi text-lg text-texto">Início</Text>
+            </View>
+          )}
           <View className="flex-row items-center gap-4">
             <SeletorAcesso />
             <Pressable

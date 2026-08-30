@@ -41,7 +41,8 @@ export default function FichaFormacao() {
 
   return (
     <SafeAreaView className="flex-1 bg-fundo" edges={['top']}>
-      <ScrollView contentContainerClassName="gap-5 pb-10">
+      <ScrollView contentContainerStyle={{ maxWidth: 960, width: '100%', alignSelf: 'center' }}
+        contentContainerClassName="gap-5 pb-10">
         <View style={{ backgroundColor: produto.cor }} className="gap-3 p-4 pb-6">
           <Pressable
             onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}

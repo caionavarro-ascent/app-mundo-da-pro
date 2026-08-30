@@ -3,24 +3,32 @@ import { Tabs } from 'expo-router';
 import { useColorScheme } from 'nativewind';
 import { Text, View } from 'react-native';
 
+import { MenuLateral } from '../../components/menu-lateral';
 import { useDemo } from '../../contexto/demo';
 import { useCores } from '../../hooks/use-cores';
+import { useDesktopWeb } from '../../hooks/use-desktop-web';
 
-/** Barra de abas do rodapé (A8 + D30). */
+/** Barra de abas do rodapé (A8 + D30); no desktop web, menu lateral. */
 export default function LayoutAbas() {
   const demo = useDemo();
   const cores = useCores();
   const { colorScheme: esquema } = useColorScheme();
+  const desktop = useDesktopWeb();
 
   return (
+    <View className="flex-1 flex-row">
+      {desktop && <MenuLateral />}
+      <View className="flex-1">
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: {
-          backgroundColor:
-            esquema === 'light' ? 'rgba(244,244,242,0.96)' : 'rgba(11,13,18,0.96)',
-          borderTopColor: cores.superficie2,
-        },
+        tabBarStyle: desktop
+          ? { display: 'none' }
+          : {
+              backgroundColor:
+                esquema === 'light' ? 'rgba(244,244,242,0.96)' : 'rgba(11,13,18,0.96)',
+              borderTopColor: cores.superficie2,
+            },
         tabBarActiveTintColor: cores.texto,
         tabBarInactiveTintColor: cores.texto2,
         tabBarLabelStyle: { fontFamily: 'InstrumentSans_500Medium', fontSize: 10 },
@@ -80,5 +88,7 @@ export default function LayoutAbas() {
         }}
       />
     </Tabs>
+      </View>
+    </View>
   );
 }

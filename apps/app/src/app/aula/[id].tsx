@@ -37,7 +37,8 @@ export default function TelaAula() {
 
   return (
     <SafeAreaView className="flex-1 bg-fundo" edges={['top']}>
-      <ScrollView contentContainerClassName="gap-5 pb-10">
+      <ScrollView contentContainerStyle={{ maxWidth: 960, width: '100%', alignSelf: 'center' }}
+        contentContainerClassName="gap-5 pb-10">
         <View className="flex-row items-center gap-3 px-4 pt-2">
           <Pressable
             onPress={() =>

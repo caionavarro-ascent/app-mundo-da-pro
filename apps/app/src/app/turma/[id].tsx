@@ -105,7 +105,8 @@ export default function FichaTurma() {
 
   return (
     <SafeAreaView className="flex-1 bg-fundo" edges={['top']}>
-      <ScrollView contentContainerClassName="gap-6 py-4 pb-10">
+      <ScrollView contentContainerStyle={{ maxWidth: 960, width: '100%', alignSelf: 'center' }}
+        contentContainerClassName="gap-6 py-4 pb-10">
         {/* cabeçalho, como na referência: voltar, resumo e insight da sondagem */}
         <View className="gap-3 px-4">
           <Pressable
