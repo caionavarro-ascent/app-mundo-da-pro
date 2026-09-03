@@ -28,3 +28,4 @@ npm-debug.log*
 # painel demo sem banco (D33): PDFs reais ficam fora do git
 apps/web/dados/
 apps/web/public/demo-capas/
+segredos/

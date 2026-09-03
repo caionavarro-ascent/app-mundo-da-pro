@@ -274,3 +274,16 @@ No Supabase, o processamento volta inteiro para o servidor, como manda o PRD.
 deslizáveis, cada uma com um mini-mockup do próprio app: vitrine, código por e-mail,
 níveis de escrita, amostra/cadeado, offline, turmas e formações. Continua pulável e
 pode ser revista em Meus materiais → "Rever a apresentação do app".
+
+### D35 — Login sem senha no The Members via TheAccess (02/09)
+**Decidido pelo cliente.** O app usa o TheAccess para abrir o The Members com a
+professora já logada: nosso servidor emite JWT RS256 (e-mail + organization_id)
+validado pela chave pública cadastrada no painel deles. Elimina o atrito de senha
+no botão "Assistir no The Members" (D3) e no pós-compra.
+**O que NÃO muda:** o login do nosso app continua sendo OTP por e-mail (D19) — o
+TheAccess transporta a identidade para lá, não autentica aqui.
+**Segurança:** a chave privada emite acesso a qualquer conta de aluno; vive só no
+servidor (regra 5), e o token só é emitido após conferir a sessão (regra 4).
+**Pendências:** cadastrar a chave pública no painel (Plataforma → Configurações →
+Integrações → TheAccess), obter o organization_id, e confirmar com o suporte o
+formato exato da URL de entrada (a documentação não o especifica).
