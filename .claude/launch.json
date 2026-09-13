@@ -5,7 +5,8 @@
       "name": "app-expo-web",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "web", "--workspace", "apps/app"],
-      "port": 8081
+      "port": 8081,
+      "autoPort": true
     },
     {
       "name": "web-next",
