@@ -98,51 +98,66 @@ export default function Ferramentas() {
           </Text>
         </View>
 
-        <View className="flex-row flex-wrap justify-between gap-y-3">
-          {ferramentas.map((ferramenta) => (
-            <Pressable
-              key={ferramenta.nome}
-              onPress={ferramenta.aoTocar}
-              className={`gap-3 rounded-2xl p-4 ${
-                ferramenta.estado === 'sugestao'
-                  ? 'border border-dashed border-superficie-2'
-                  : 'bg-superficie'
-              }`}
-              style={{ width: '48.5%', minHeight: 148 }}
-            >
-              <View className="flex-row items-start justify-between">
-                <View
-                  className="h-11 w-11 items-center justify-center rounded-xl"
-                  style={{
-                    backgroundColor:
-                      ferramenta.estado === 'ativa' ? cores.marca : cores.superficie2,
-                  }}
+        {(
+          [
+            ['Disponíveis agora', ferramentas.filter((f) => f.estado === 'ativa')],
+            [
+              'Em breve',
+              ferramentas.filter((f) => f.estado !== 'ativa'),
+            ],
+          ] as const
+        ).map(([secao, lista]) => (
+          <View key={secao} className="gap-2.5">
+            <Text className="font-corpo-forte text-xs uppercase text-texto-2">
+              {secao}
+            </Text>
+            <View className="flex-row flex-wrap justify-between gap-y-3">
+              {lista.map((ferramenta) => (
+                <Pressable
+                  key={ferramenta.nome}
+                  onPress={ferramenta.aoTocar}
+                  className={`gap-3 rounded-2xl p-4 ${
+                    ferramenta.estado === 'sugestao'
+                      ? 'border border-dashed border-superficie-2'
+                      : 'bg-superficie'
+                  }`}
+                  style={{ width: '48.5%', minHeight: 148 }}
                 >
-                  <Ionicons
-                    name={ferramenta.icone}
-                    size={22}
-                    color={ferramenta.estado === 'ativa' ? '#16191F' : cores.texto2}
-                  />
-                </View>
-                {ferramenta.estado === 'em-breve' && (
-                  <View className="rounded-full bg-superficie-2 px-2 py-0.5">
-                    <Text className="font-corpo-forte text-[9px] uppercase text-texto-2">
-                      Em breve
+                  <View className="flex-row items-start justify-between">
+                    <View
+                      className="h-11 w-11 items-center justify-center rounded-xl"
+                      style={{
+                        backgroundColor:
+                          ferramenta.estado === 'ativa' ? cores.marca : cores.superficie2,
+                      }}
+                    >
+                      <Ionicons
+                        name={ferramenta.icone}
+                        size={22}
+                        color={ferramenta.estado === 'ativa' ? '#16191F' : cores.texto2}
+                      />
+                    </View>
+                    {ferramenta.estado === 'em-breve' && (
+                      <View className="rounded-full bg-superficie-2 px-2 py-0.5">
+                        <Text className="font-corpo-forte text-[9px] uppercase text-texto-2">
+                          Em breve
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                  <View className="gap-0.5">
+                    <Text className="font-corpo-forte text-[15px] leading-snug text-texto">
+                      {ferramenta.nome}
+                    </Text>
+                    <Text className="font-corpo text-xs leading-snug text-texto-2">
+                      {ferramenta.descricao}
                     </Text>
                   </View>
-                )}
-              </View>
-              <View className="gap-0.5">
-                <Text className="font-corpo-forte text-[15px] leading-snug text-texto">
-                  {ferramenta.nome}
-                </Text>
-                <Text className="font-corpo text-xs leading-snug text-texto-2">
-                  {ferramenta.descricao}
-                </Text>
-              </View>
-            </Pressable>
-          ))}
-        </View>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+        ))}
 
         <Text className="px-1 font-corpo text-xs leading-snug text-texto-2">
           As ferramentas chegam por atualização remota — quando uma ficar pronta, ela
