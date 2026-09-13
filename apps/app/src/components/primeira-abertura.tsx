@@ -173,11 +173,15 @@ export function PrimeiraAbertura() {
   const { width } = useWindowDimensions();
   const [indice, setIndice] = useState(0);
   const lista = useRef<FlatList<(typeof TELAS)[number]>>(null);
+  const [alturaLista, setAlturaLista] = useState(0);
 
   // O componente segue montado depois de fechado ("Rever a apresentação"
-  // reabre-o): sem zerar aqui, a reabertura herda o índice da visita anterior.
+  // reabre-o): sem zerar aqui, a reabertura herda o índice — e, no web, o
+  // navegador ainda restaura o scroll antigo da lista.
   useEffect(() => {
-    if (demo.viuAbertura) setIndice(0);
+    if (demo.viuAbertura) return;
+    setIndice(0);
+    lista.current?.scrollToOffset({ offset: 0, animated: false });
   }, [demo.viuAbertura]);
 
   if (!demo.hidratado || demo.viuAbertura) return null;
@@ -210,11 +214,18 @@ export function PrimeiraAbertura() {
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
+          className="flex-1"
+          onLayout={(evento) => setAlturaLista(evento.nativeEvent.layout.height)}
           onMomentumScrollEnd={(evento) =>
             setIndice(Math.round(evento.nativeEvent.contentOffset.x / width))
           }
           renderItem={({ item }) => (
-            <View style={{ width }} className="flex-1 justify-center gap-8 px-8">
+            // Altura medida via onLayout: o wrapper de célula da lista não
+            // estica o item, e sem altura o justify-center vai para o topo.
+            <View
+              style={{ width, height: alturaLista || undefined }}
+              className="justify-center gap-8 px-8"
+            >
               <View className="items-center">
                 <item.Visual />
               </View>
