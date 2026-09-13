@@ -62,11 +62,11 @@ export default function LayoutAbas() {
         }}
       />
       <Tabs.Screen
-        name="turmas"
+        name="ferramentas"
         options={{
-          title: 'Turmas',
+          title: 'Ferramentas',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="people" size={size} color={color} />
+            <Ionicons name="grid" size={size} color={color} />
           ),
         }}
       />

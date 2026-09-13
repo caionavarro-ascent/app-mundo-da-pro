@@ -11,7 +11,7 @@ create extension if not exists pg_trgm;
 -- ---------------------------------------------------------------------
 create type ano_escolar   as enum ('infantil','1ano','2ano','3ano','4ano','5ano');
 create type nivel_escrita as enum ('pre','sil','sa','alf');
-create type tipo_material as enum ('sequencia','atividade','jogo','avaliacao','cartaz','planner','aula');
+create type tipo_material as enum ('sequencia','atividade','jogo','avaliacao','cartaz','planner','aula','ebook');
 create type status_material as enum ('rascunho','agendado','publicado','arquivado');
 create type papel_usuario as enum ('professora','editor','admin');
 create type origem_acesso as enum ('compra','cortesia','migracao','manual');

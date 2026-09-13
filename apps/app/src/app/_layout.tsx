@@ -44,6 +44,7 @@ function Navegacao() {
         }}
       >
         <Stack.Screen name="(abas)" />
+        <Stack.Screen name="turmas" />
         <Stack.Screen name="material/[id]" />
         <Stack.Screen name="turma/[id]" />
         <Stack.Screen name="formacao/[id]" />

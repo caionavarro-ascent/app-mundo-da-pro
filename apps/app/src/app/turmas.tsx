@@ -1,12 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import { exemploNivel, nomeAno, nomeNivel, type NivelEscrita } from '@mdp/core';
 import { atividadesParaTurma, materialPorId, turmasDemo } from '@mdp/core/src/mock/acervo';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useDemo } from '../../contexto/demo';
-import { useCores } from '../../hooks/use-cores';
+import { useDemo } from '../contexto/demo';
+import { useCores } from '../hooks/use-cores';
 
 const CORES_NIVEL: Record<NivelEscrita, string> = {
   pre: '#E4574E',
@@ -26,10 +26,20 @@ const ROTULO_CURTO: Record<NivelEscrita, string> = {
 export default function MinhasTurmas() {
   const demo = useDemo();
   const cores = useCores();
+  const router = useRouter();
 
   return (
     <SafeAreaView className="flex-1 bg-fundo" edges={['top']}>
       <ScrollView contentContainerClassName="gap-4 p-4 pb-10">
+        <Pressable
+          onPress={() => (router.canGoBack() ? router.back() : router.replace('/ferramentas'))}
+          hitSlop={8}
+          className="flex-row items-center gap-1 self-start"
+        >
+          <Ionicons name="chevron-back" size={16} color={cores.texto2} />
+          <Text className="font-corpo-medio text-sm text-texto-2">Ferramentas</Text>
+        </Pressable>
+
         <View className="gap-1">
           <Text className="font-corpo-forte text-xs uppercase text-texto-2">
             Sondagem e planejamento

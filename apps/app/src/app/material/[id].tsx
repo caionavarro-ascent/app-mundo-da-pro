@@ -129,7 +129,9 @@ export default function FichaMaterial() {
                   ? `Desbloquear por ${formatarPreco(produto?.precoCentavos ?? 0)}`
                   : cursoExterno
                     ? 'Assistir no The Members'
-                    : 'Baixar PDF'}
+                    : material.tipo === 'ebook'
+                      ? 'Ler ebook'
+                      : 'Baixar PDF'}
               </Text>
             </Pressable>
           </View>

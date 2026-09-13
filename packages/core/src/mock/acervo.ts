@@ -355,6 +355,46 @@ export const materiaisDemo: MaterialDemo[] = [
     passos: passosPadrao,
   },
   {
+    id: 'ebook-rotina',
+    titulo: 'Ebook: Rotina da Alfabetizadora',
+    tipo: 'ebook',
+    anos: ['infantil', '1ano', '2ano'],
+    niveis: ['pre', 'sil', 'sa', 'alf'],
+    paginas: 64,
+    gratuito: false,
+    produtoIds: ['educakits'],
+    novo: true,
+    descricao:
+      'Guia completo de rotina semanal da alfabetização: agrupamentos, cantos de atividade e o que fazer com quem termina antes.',
+    passos: [],
+  },
+  {
+    id: 'ebook-consciencia',
+    titulo: 'Ebook: 50 Jogos de Consciência Fonológica',
+    tipo: 'ebook',
+    anos: ['infantil', '1ano'],
+    niveis: ['pre', 'sil'],
+    paginas: 88,
+    gratuito: false,
+    produtoIds: ['avulsos'],
+    descricao:
+      'Cinquenta propostas de jogos orais e com material concreto, organizadas da mais simples à mais desafiadora.',
+    passos: [],
+  },
+  {
+    id: 'ebook-sondagem',
+    titulo: 'Ebook: Guia da Sondagem',
+    tipo: 'ebook',
+    anos: ['1ano', '2ano', '3ano'],
+    niveis: ['pre', 'sil', 'sa', 'alf'],
+    paginas: 32,
+    gratuito: true,
+    produtoIds: ['fda'],
+    descricao:
+      'Como aplicar, classificar e usar a sondagem para agrupar a turma — o capítulo aberto da Formação Destrava Aluno.',
+    passos: [],
+  },
+  {
     id: 'aula-demo-sondagem',
     titulo: 'Aula demonstrativa: Sondagem na Prática',
     tipo: 'aula',
@@ -717,6 +757,11 @@ export function maisBaixados(): MaterialDemo[] {
 
 export function novidades(): MaterialDemo[] {
   return materiaisDemo.filter((m) => m.novo);
+}
+
+/** Prateleira própria de ebooks na home (D37) */
+export function ebooks(): MaterialDemo[] {
+  return materiaisDemo.filter((m) => m.tipo === 'ebook');
 }
 
 export function comecePorAqui(posse: string[]): MaterialDemo[] {

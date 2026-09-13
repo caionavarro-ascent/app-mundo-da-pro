@@ -287,3 +287,18 @@ servidor (regra 5), e o token só é emitido após conferir a sessão (regra 4).
 **Pendências:** cadastrar a chave pública no painel (Plataforma → Configurações →
 Integrações → TheAccess), obter o organization_id, e confirmar com o suporte o
 formato exato da URL de entrada (a documentação não o especifica).
+
+### D36 — Aba Turmas vira aba Ferramentas (13/09)
+**Decidido pelo cliente.** A quinta aba passa a ser "Ferramentas": um grid de 2 colunas
+com 6 espaços para utilitários da professora. Minhas turmas não morre — vira a primeira
+ferramenta do grid (a tela continua inteira, acessada por lá). Slots anunciados:
+Corretor de Provas e Adaptador de Provas para crianças atípicas (em breve).
+**Por quê:** posiciona o app além do download de PDF — é a casa da gestão de sala.
+Revisa a D30 (turmas como aba própria).
+
+### D37 — Ebooks entram como tipo de material (13/09)
+**Decidido pelo cliente.** Novo tipo `ebook` na taxonomia, com prateleira própria na
+home e leitura pelo mesmo caminho do PDF (offline + marca d'água, quando o banco entrar).
+Os cursos seguem na parte separada já construída (páginas de Formação).
+**Consequência:** o enum `tipo_material` do schema ganha o valor 'ebook' (ajustado em
+SCHEMA.sql e na migration inicial, ainda não aplicada).

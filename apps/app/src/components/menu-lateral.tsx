@@ -14,7 +14,7 @@ const ITENS = [
   { href: '/', icone: 'home', rotulo: 'Início' },
   { href: '/novidades', icone: 'sparkles', rotulo: 'Novidades' },
   { href: '/buscar', icone: 'search', rotulo: 'Buscar' },
-  { href: '/turmas', icone: 'people', rotulo: 'Turmas' },
+  { href: '/ferramentas', icone: 'grid', rotulo: 'Ferramentas' },
   { href: '/meus', icone: 'albums', rotulo: 'Meus materiais' },
 ] as const;
 

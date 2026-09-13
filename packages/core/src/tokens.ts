@@ -80,6 +80,7 @@ export const nomeTipo = {
   cartaz: 'Cartaz',
   planner: 'Planner',
   aula: 'Aula',
+  ebook: 'Ebook',
 } as const;
 
 export type NivelEscrita = keyof typeof nomeNivel;

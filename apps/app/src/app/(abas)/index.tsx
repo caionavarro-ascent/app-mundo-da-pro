@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { formatarPreco } from '@mdp/core';
 import {
   comecePorAqui,
+  ebooks,
   maisBaixados,
   materialPorId,
   novidades,
@@ -114,6 +115,14 @@ export default function Inicio() {
           materiais={demo.filtrar(maisBaixados())}
           posse={demo.posse}
           comPosicao
+        />
+
+        {/* Ebooks (D37): leitura longa, prateleira própria */}
+        <Prateleira
+          titulo="Ebooks"
+          subtitulo="Para ler no celular ou imprimir por capítulo."
+          materiais={demo.filtrar(ebooks())}
+          posse={demo.posse}
         />
 
         {/* A5 — uma prateleira por produto não possuído */}
