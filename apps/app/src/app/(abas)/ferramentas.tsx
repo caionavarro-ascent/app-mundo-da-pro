@@ -60,14 +60,6 @@ export default function Ferramentas() {
       aoTocar: emBreve('Sondagem Digital'),
     },
     {
-      icone: 'calendar',
-      nome: 'Plano da Semana',
-      descricao: 'Monte a semana e baixe num PDF único.',
-      estado: 'ativa',
-      aoTocar: () =>
-        router.push({ pathname: '/turma/[id]', params: { id: demo.turmas[0].id } }),
-    },
-    {
       icone: 'bulb',
       nome: 'Sugira uma ferramenta',
       descricao: 'O que facilitaria a sua semana? Conta pra gente.',
