@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { exemploNivel, nomeAno, nomeNivel, type NivelEscrita } from '@mdp/core';
-import { atividadesParaTurma, materialPorId, turmasDemo } from '@mdp/core/src/mock/acervo';
+import { atividadesParaTurma, materialPorId } from '@mdp/core/src/mock/acervo';
 import { Link, useRouter } from 'expo-router';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -51,7 +51,7 @@ export default function MinhasTurmas() {
           </Text>
         </View>
 
-        {turmasDemo.map((turma) => {
+        {demo.turmas.map((turma) => {
           const automaticas = atividadesParaTurma(turma, demo.posse);
           const manuais = [...(demo.materiaisDaTurma[turma.id] ?? new Set<string>())]
             .map(materialPorId)
@@ -135,9 +135,7 @@ export default function MinhasTurmas() {
         })}
 
         <Pressable
-          onPress={() =>
-            Alert.alert('Nova turma', 'Criar e editar turmas chega com a versão final.')
-          }
+          onPress={() => router.push('/turma/criar')}
           className="items-center rounded-2xl border border-dashed border-superficie-2 py-8"
         >
           <Text className="font-corpo-forte text-base text-texto-2">+ Criar turma</Text>

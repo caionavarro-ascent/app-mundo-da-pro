@@ -11,8 +11,10 @@ import {
 import type { AnoEscolar, NivelEscrita, TipoMaterial } from '@mdp/core';
 import {
   registrarMateriaisExternos,
+  turmasDemo,
   type DiaDaSemana,
   type MaterialDemo,
+  type TurmaDemo,
 } from '@mdp/core/src/mock/acervo';
 
 import { buscarMateriaisDoPainel } from '../lib/painel';
@@ -66,6 +68,9 @@ interface EstadoDemo {
   alternarFavorito: (materialId: string) => void;
   buscasRecentes: string[];
   registrarBusca: (termo: string) => void;
+  /** turmas da professora (D30/D36) — começa com a de exemplo */
+  turmas: TurmaDemo[];
+  criarTurma: (turma: Omit<TurmaDemo, 'id'>) => TurmaDemo;
   /** materiais já aplicados em cada turma (D30) */
   aplicadas: Record<string, Set<string>>;
   alternarAplicada: (turmaId: string, materialId: string) => void;
@@ -115,6 +120,7 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
   const [cenario, setCenario] = useState<CenarioAcesso>('fda');
   const [favoritos, setFavoritos] = useState<Set<string>>(new Set());
   const [buscasRecentes, setBuscasRecentes] = useState<string[]>([]);
+  const [turmas, setTurmas] = useState<TurmaDemo[]>([...turmasDemo]);
   const [aplicadas, setAplicadas] = useState<Record<string, Set<string>>>({
     // a demo começa com uma atividade já passada na turma de exemplo
     'turma-2b': new Set(['trilha-leitura']),
@@ -166,6 +172,7 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
           if (d.aplicadas) setAplicadas(paraSets(d.aplicadas));
           if (d.materiaisDaTurma) setMateriaisDaTurma(paraSets(d.materiaisDaTurma));
           if (d.plano) setPlano(d.plano);
+          if (d.turmas) setTurmas(d.turmas);
           if (d.niveis) setNiveis(new Set(d.niveis));
           if (d.anos) setAnos(new Set(d.anos));
           if (d.tipos) setTipos(new Set(d.tipos));
@@ -194,6 +201,7 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
         aplicadas: deSets(aplicadas),
         materiaisDaTurma: deSets(materiaisDaTurma),
         plano,
+        turmas,
         niveis: [...niveis],
         anos: [...anos],
         tipos: [...tipos],
@@ -210,6 +218,7 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
     aplicadas,
     materiaisDaTurma,
     plano,
+    turmas,
     niveis,
     anos,
     tipos,
@@ -262,6 +271,15 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
             ? lista
             : [materialId, ...lista.filter((id) => id !== materialId)].slice(0, 12),
         ),
+      turmas,
+      criarTurma: (dados) => {
+        const nova: TurmaDemo = {
+          ...dados,
+          id: `turma-${Date.now().toString(36)}`,
+        };
+        setTurmas((lista) => [...lista, nova]);
+        return nova;
+      },
       materiaisDaTurma,
       alternarMaterialDaTurma: (turmaId, materialId) =>
         setMateriaisDaTurma((atual) => ({
@@ -316,6 +334,7 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
     hidratado,
     vistos,
     plano,
+    turmas,
     niveis,
     anos,
     tipos,

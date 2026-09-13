@@ -8,7 +8,6 @@ import {
   materialPorId,
   nomeDia,
   sugeridosParaTurma,
-  turmaPorId,
   type DiaDaSemana,
   type MaterialDemo,
 } from '@mdp/core/src/mock/acervo';
@@ -32,7 +31,7 @@ export default function FichaTurma() {
   const cores = useCores();
   const [diaEscolhendo, setDiaEscolhendo] = useState<DiaDaSemana | null>(null);
 
-  const turma = turmaPorId(id);
+  const turma = demo.turmas.find((t) => t.id === id);
   if (!turma) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-fundo">

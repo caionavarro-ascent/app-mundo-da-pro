@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { nomeAno } from '@mdp/core';
-import { turmasDemo, type MaterialDemo } from '@mdp/core/src/mock/acervo';
+import type { MaterialDemo } from '@mdp/core/src/mock/acervo';
 import { Modal, Pressable, Text, View } from 'react-native';
 
 import { useDemo } from '../contexto/demo';
@@ -79,7 +79,7 @@ function FolhaSalvar({
           <Text className="px-1 pt-2 font-corpo-forte text-xs uppercase text-texto-2">
             Adicionar a uma turma
           </Text>
-          {turmasDemo.map((turma) => {
+          {demo.turmas.map((turma) => {
             const naTurma = demo.materiaisDaTurma[turma.id]?.has(material.id) ?? false;
             return (
               <Pressable

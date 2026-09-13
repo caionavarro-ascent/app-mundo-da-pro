@@ -643,6 +643,13 @@ export const nomeDia: Record<DiaDaSemana, string> = {
 
 /** Frase de orientação a partir do nível dominante da sondagem. */
 export function insightDaTurma(turma: TurmaDemo): string {
+  const total = (Object.keys(turma.dist) as NivelEscrita[]).reduce(
+    (soma, nivel) => soma + turma.dist[nivel],
+    0,
+  );
+  if (total === 0) {
+    return 'Registre a sondagem da turma para o app sugerir material do nível certo.';
+  }
   const dominante = (Object.keys(turma.dist) as NivelEscrita[]).reduce((a, b) =>
     turma.dist[b] > turma.dist[a] ? b : a,
   );

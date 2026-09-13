@@ -1,5 +1,4 @@
 import { Ionicons } from '@expo/vector-icons';
-import { turmasDemo } from '@mdp/core/src/mock/acervo';
 import { useRouter } from 'expo-router';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -35,7 +34,7 @@ export default function Ferramentas() {
     {
       icone: 'people',
       nome: 'Minhas turmas',
-      descricao: `Sondagem, plano da semana e o que já foi aplicado · ${turmasDemo.length} turma`,
+      descricao: `Sondagem, plano da semana e o que já foi aplicado · ${demo.turmas.length} ${demo.turmas.length === 1 ? 'turma' : 'turmas'}`,
       estado: 'ativa',
       aoTocar: () => router.push('/turmas'),
     },
@@ -66,7 +65,7 @@ export default function Ferramentas() {
       descricao: 'Monte a semana e baixe num PDF único.',
       estado: 'ativa',
       aoTocar: () =>
-        router.push({ pathname: '/turma/[id]', params: { id: turmasDemo[0].id } }),
+        router.push({ pathname: '/turma/[id]', params: { id: demo.turmas[0].id } }),
     },
     {
       icone: 'bulb',
