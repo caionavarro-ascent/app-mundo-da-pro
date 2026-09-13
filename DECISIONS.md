@@ -302,3 +302,10 @@ home e leitura pelo mesmo caminho do PDF (offline + marca d'água, quando o banc
 Os cursos seguem na parte separada já construída (páginas de Formação).
 **Consequência:** o enum `tipo_material` do schema ganha o valor 'ebook' (ajustado em
 SCHEMA.sql e na migration inicial, ainda não aplicada).
+
+### D38 — Onboarding enxugado de 7 para 4 telas (13/09)
+**Decidido pelo cliente** ("tem muitas telas"). Ficam: vitrine, nível de escrita,
+amostra/cadeado e offline/imprimir. Saem: login por e-mail (a professora vive isso na
+própria tela de login), turmas (descoberta na aba Ferramentas) e formações (só
+interessa a quem tem FDA/FPT). Critério: o onboarding apresenta o valor do app;
+recursos que a interface já ensina sozinha não ganham tela. Revisa a D34.

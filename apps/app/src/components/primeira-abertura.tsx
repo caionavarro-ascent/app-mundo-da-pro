@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { exemploNivel, nomeNivel, type NivelEscrita } from '@mdp/core';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   FlatList,
   Modal,
@@ -15,9 +15,9 @@ import { useDemo } from '../contexto/demo';
 import { useCores } from '../hooks/use-cores';
 
 /**
- * Onboarding visual (D34): sete telas deslizáveis com mini-mockups do próprio
- * app, para a professora entender o funcionamento inteiro antes de entrar.
- * Pulável a qualquer momento; pode ser revisto em Meus materiais.
+ * Onboarding visual (D34, enxugado na D38): quatro telas deslizáveis com
+ * mini-mockups do próprio app. Login, turmas e formações saíram — a professora
+ * encontra tudo isso no próprio uso. Pulável; pode ser revisto em Meus materiais.
  */
 
 // ---------------------------------------------------------------------------
@@ -54,28 +54,6 @@ function MiniVitrine() {
           </View>
         ))}
       </View>
-    </View>
-  );
-}
-
-function MiniCodigo() {
-  return (
-    <View className="w-64 items-center gap-4">
-      <View className="w-full flex-row items-center gap-2 rounded-xl bg-superficie px-4 py-3">
-        <Ionicons name="mail-outline" size={16} color="#A2A8B4" />
-        <Text className="font-corpo text-sm text-texto-2">ana@gmail.com</Text>
-      </View>
-      <View className="flex-row gap-2">
-        {['4', '7', '2', '9', '1', '3'].map((numero, i) => (
-          <View
-            key={i}
-            className="h-12 w-9 items-center justify-center rounded-lg border border-superficie-2 bg-superficie"
-          >
-            <Text className="font-titulo text-lg text-texto">{numero}</Text>
-          </View>
-        ))}
-      </View>
-      <Text className="font-corpo text-xs text-texto-2">sem senha para lembrar</Text>
     </View>
   );
 }
@@ -160,56 +138,6 @@ function MiniOffline() {
   );
 }
 
-function MiniTurma() {
-  return (
-    <View className="w-64 gap-3 rounded-2xl bg-superficie p-4">
-      <Text className="font-corpo-forte text-sm text-texto">2º ano B · 26 alunos</Text>
-      <View className="h-2 flex-row overflow-hidden rounded-full">
-        <View style={{ flex: 4, backgroundColor: '#E4574E' }} />
-        <View style={{ flex: 9, backgroundColor: '#FFD84D' }} />
-        <View style={{ flex: 8, backgroundColor: '#3A57C4' }} />
-        <View style={{ flex: 5, backgroundColor: '#1F9E77' }} />
-      </View>
-      {(
-        [
-          ['Trilha da Leitura', true],
-          ['Ditado Recortado', false],
-        ] as const
-      ).map(([titulo, feito]) => (
-        <View key={titulo} className="flex-row items-center gap-2">
-          <Ionicons
-            name={feito ? 'checkmark-circle' : 'ellipse-outline'}
-            size={18}
-            color={feito ? '#2FBE94' : '#A2A8B4'}
-          />
-          <Text
-            className={`font-corpo text-xs ${
-              feito ? 'text-texto-2 line-through' : 'text-texto'
-            }`}
-          >
-            {titulo}
-          </Text>
-        </View>
-      ))}
-    </View>
-  );
-}
-
-function MiniAula() {
-  return (
-    <View className="w-64 gap-2">
-      <View className="h-36 items-center justify-center rounded-xl bg-black">
-        <View className="h-14 w-14 items-center justify-center rounded-full bg-[#E4574E]">
-          <Ionicons name="play" size={24} color="#FFFFFF" />
-        </View>
-      </View>
-      <Text className="font-corpo-medio text-xs text-texto-2">
-        Formação Destrava Aluno · Módulo 1 · 14 min
-      </Text>
-    </View>
-  );
-}
-
 // ---------------------------------------------------------------------------
 
 const TELAS = [
@@ -218,12 +146,6 @@ const TELAS = [
     texto:
       'O que você já comprou abre direto. O resto aparece com um cadeado discreto, para você conhecer o que existe.',
     Visual: MiniVitrine,
-  },
-  {
-    titulo: 'Entrar é só com o e-mail',
-    texto:
-      'Use o mesmo e-mail da compra. Chega um código de 6 números e pronto — sem senha para lembrar.',
-    Visual: MiniCodigo,
   },
   {
     titulo: 'Filtre pelo nível da sua turma',
@@ -243,18 +165,6 @@ const TELAS = [
       'O PDF fica guardado no seu celular, abre até no modo avião e vai para o xerox da escola pelo botão de imprimir.',
     Visual: MiniOffline,
   },
-  {
-    titulo: 'Suas turmas organizadas',
-    texto:
-      'Registre a sondagem, monte o plano da semana e marque o que já aplicou. O app sugere material do que a turma precisa.',
-    Visual: MiniTurma,
-  },
-  {
-    titulo: 'As formações moram aqui',
-    texto:
-      'As aulas do Destrava Aluno e da Produção de Texto tocam dentro do app, módulo por módulo, no seu ritmo.',
-    Visual: MiniAula,
-  },
 ];
 
 export function PrimeiraAbertura() {
@@ -263,6 +173,12 @@ export function PrimeiraAbertura() {
   const { width } = useWindowDimensions();
   const [indice, setIndice] = useState(0);
   const lista = useRef<FlatList<(typeof TELAS)[number]>>(null);
+
+  // O componente segue montado depois de fechado ("Rever a apresentação"
+  // reabre-o): sem zerar aqui, a reabertura herda o índice da visita anterior.
+  useEffect(() => {
+    if (demo.viuAbertura) setIndice(0);
+  }, [demo.viuAbertura]);
 
   if (!demo.hidratado || demo.viuAbertura) return null;
   const ultimo = indice === TELAS.length - 1;
