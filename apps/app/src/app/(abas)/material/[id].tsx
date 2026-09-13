@@ -18,10 +18,10 @@ import { useEffect, useState } from 'react';
 import { Alert, Modal, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { PlayerAula } from '../../components/player-aula';
-import { Prateleira } from '../../components/prateleira';
-import { useDemo } from '../../contexto/demo';
-import { useCores } from '../../hooks/use-cores';
+import { PlayerAula } from '../../../components/player-aula';
+import { Prateleira } from '../../../components/prateleira';
+import { useDemo } from '../../../contexto/demo';
+import { useCores } from '../../../hooks/use-cores';
 
 const PAGINAS_AMOSTRA = 2; // virá de configuracoes.paginas_amostra (Bloco 7)
 

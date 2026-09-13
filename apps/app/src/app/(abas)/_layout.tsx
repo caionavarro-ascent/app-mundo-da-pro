@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { useColorScheme } from 'nativewind';
 import { Text, View } from 'react-native';
@@ -74,19 +74,19 @@ export default function LayoutAbas() {
         name="meus"
         options={{
           title: 'Meus materiais',
-          // A8: o ícone desta aba usa as iniciais da professora
-          tabBarIcon: () => (
-            <View
-              className="h-6 w-6 items-center justify-center rounded-full"
-              style={{ backgroundColor: cores.marca }}
-            >
-              <Text className="font-corpo-forte text-[11px] text-[#16191F]">
-                {demo.nome.charAt(0)}
-              </Text>
-            </View>
+          // mochilinha: os conteúdos que são dela (pedido do cliente, revisa A8)
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="bag-personal" size={size} color={color} />
           ),
         }}
       />
+      {/* telas de detalhe: dentro do navegador de abas (barra sempre visível),
+          mas sem botão próprio no rodapé */}
+      <Tabs.Screen name="turmas" options={{ href: null }} />
+      <Tabs.Screen name="material/[id]" options={{ href: null }} />
+      <Tabs.Screen name="turma/[id]" options={{ href: null }} />
+      <Tabs.Screen name="formacao/[id]" options={{ href: null }} />
+      <Tabs.Screen name="aula/[id]" options={{ href: null }} />
     </Tabs>
       </View>
     </View>

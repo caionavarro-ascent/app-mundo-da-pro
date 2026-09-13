@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { Link, usePathname } from 'expo-router';
 import { useColorScheme } from 'nativewind';
@@ -15,7 +15,7 @@ const ITENS = [
   { href: '/novidades', icone: 'sparkles', rotulo: 'Novidades' },
   { href: '/buscar', icone: 'search', rotulo: 'Buscar' },
   { href: '/ferramentas', icone: 'grid', rotulo: 'Ferramentas' },
-  { href: '/meus', icone: 'albums', rotulo: 'Meus materiais' },
+  { href: '/meus', icone: 'albums', rotulo: 'Meus materiais' }, // ícone tratado à parte (mochilinha)
 ] as const;
 
 /** Navegação do modo desktop web: o rodapé vira menu lateral esquerdo. */
@@ -46,11 +46,19 @@ export function MenuLateral() {
                     ativo ? 'bg-superficie-2' : ''
                   }`}
                 >
-                  <Ionicons
-                    name={ativo ? item.icone : (`${item.icone}-outline` as never)}
-                    size={20}
-                    color={ativo ? cores.texto : cores.texto2}
-                  />
+                  {item.href === '/meus' ? (
+                    <MaterialCommunityIcons
+                      name={ativo ? 'bag-personal' : 'bag-personal-outline'}
+                      size={20}
+                      color={ativo ? cores.texto : cores.texto2}
+                    />
+                  ) : (
+                    <Ionicons
+                      name={ativo ? item.icone : (`${item.icone}-outline` as never)}
+                      size={20}
+                      color={ativo ? cores.texto : cores.texto2}
+                    />
+                  )}
                   <Text
                     className={`font-corpo-medio text-[15px] ${
                       ativo ? 'text-texto' : 'text-texto-2'

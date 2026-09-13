@@ -5,8 +5,8 @@ import { Link, useRouter } from 'expo-router';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useDemo } from '../contexto/demo';
-import { useCores } from '../hooks/use-cores';
+import { useDemo } from '../../contexto/demo';
+import { useCores } from '../../hooks/use-cores';
 
 const CORES_NIVEL: Record<NivelEscrita, string> = {
   pre: '#E4574E',

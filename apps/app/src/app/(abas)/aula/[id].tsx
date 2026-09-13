@@ -6,9 +6,9 @@ import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { PlayerAula } from '../../components/player-aula';
-import { useDemo } from '../../contexto/demo';
-import { useCores } from '../../hooks/use-cores';
+import { PlayerAula } from '../../../components/player-aula';
+import { useDemo } from '../../../contexto/demo';
+import { useCores } from '../../../hooks/use-cores';
 
 /** Tela de aula (D31): player do Panda, com as próximas aulas do módulo. */
 export default function TelaAula() {

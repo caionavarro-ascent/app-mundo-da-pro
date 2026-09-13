@@ -17,9 +17,9 @@ import { useState } from 'react';
 import { Alert, Modal, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Prateleira } from '../../components/prateleira';
-import { useDemo } from '../../contexto/demo';
-import { useCores } from '../../hooks/use-cores';
+import { Prateleira } from '../../../components/prateleira';
+import { useDemo } from '../../../contexto/demo';
+import { useCores } from '../../../hooks/use-cores';
 
 /**
  * Tela da turma (D30): insight da sondagem, plano da semana, controle do que
