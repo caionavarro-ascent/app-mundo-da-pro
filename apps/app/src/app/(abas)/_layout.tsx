@@ -85,6 +85,7 @@ export default function LayoutAbas() {
       <Tabs.Screen name="turmas" options={{ href: null }} />
       <Tabs.Screen name="material/[id]" options={{ href: null }} />
       <Tabs.Screen name="turma/[id]" options={{ href: null }} />
+      <Tabs.Screen name="turma/criar" options={{ href: null }} />
       <Tabs.Screen name="formacao/[id]" options={{ href: null }} />
       <Tabs.Screen name="aula/[id]" options={{ href: null }} />
     </Tabs>
