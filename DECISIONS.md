@@ -309,3 +309,16 @@ amostra/cadeado e offline/imprimir. Saem: login por e-mail (a professora vive is
 própria tela de login), turmas (descoberta na aba Ferramentas) e formações (só
 interessa a quem tem FDA/FPT). Critério: o onboarding apresenta o valor do app;
 recursos que a interface já ensina sozinha não ganham tela. Revisa a D34.
+
+### D39 — Bloco 1 aplicado no Supabase remoto; o projeto não estava vazio (23/09)
+**Feito na VPS.** Migration inicial (35 objetos), seed (7 produtos + combo, 10
+habilidades) e teste de acesso aplicados no projeto `rrtvbkiesjuvvvgygmmk` via psql.
+Teste do roadmap passou inteiro: Ana/Bia, combo (D22), revogação (regra de ouro 7),
+expiração e duplicata manual barrada. Tipos gerados do schema vivo com o motor da CLI
+(`@supabase/postgres-meta` + `postgrest-typegen` como biblioteca, sem Docker) e
+gravados em `packages/core/types/supabase.ts`; typecheck verde nos 3 workspaces.
+**Atenção:** o projeto Supabase já continha 14 tabelas e 3 views de uma iteração
+anterior do mesmo domínio (`produto`, `sequencia`, `raw_the_members`, `jose_*`).
+Sem colisão de nomes e com RLS ligada em todas, mas os tipos gerados as incluem.
+Pendente decisão do cliente: manter o projeto compartilhado ou migrar para um limpo.
+A senha do banco fica em `.env` na raiz (fora do git), como `SUPABASE_DB_URL`.

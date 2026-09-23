@@ -57,8 +57,9 @@ Não construa nenhuma tela de produto ainda.
 
 ---
 
-## Bloco 1 — Banco
+## Bloco 1 — Banco ✅ (23/09/2026)
 **Pronto quando:** schema aplicado, tipos gerados, seed rodando, RLS testada com dois usuários.
+**Feito:** aplicado no projeto remoto `rrtvbkiesjuvvvgygmmk`; teste de acesso passou inteiro. Ver D39.
 
 ```
 Aplique o SCHEMA.sql como primeira migration em supabase/migrations.

@@ -33,10 +33,10 @@ o Metro com `--clear`.
 
 ## Pendências que travam etapas
 
-- **Supabase:** migration/seed/teste prontos em `supabase/`; falta criar o projeto
-  (a integração MCP do Supabase pode fazer isso) — destrava Blocos 1–5 reais.
+- **Supabase:** ✓ aplicado no projeto `rrtvbkiesjuvvvgygmmk` em 23/09 (Bloco 1, ver
+  D39); atenção às tabelas antigas pré-existentes no projeto. Blocos 2–5 destravados.
 - **TheAccess (D35):** chave pública gerada em `segredos/` — falta colar no painel
   do The Members, obter `organization_id` e o formato da URL de login.
 - **D-U-N-S / contas das lojas:** não iniciado; trava a publicação (Bloco -1).
 - **Decisões do cliente:** AAZ e Canva Prô viram produtos? pitches finais; ícone.
-- Chaves em `.env` (fora do git): Panda ✓ · The Members ✓ · Supabase ✗.
+- Chaves em `.env` (fora do git): Panda ✓ · The Members ✓ · Supabase ✓.
