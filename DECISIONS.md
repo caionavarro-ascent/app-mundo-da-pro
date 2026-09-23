@@ -322,3 +322,13 @@ anterior do mesmo domínio (`produto`, `sequencia`, `raw_the_members`, `jose_*`)
 Sem colisão de nomes e com RLS ligada em todas, mas os tipos gerados as incluem.
 Pendente decisão do cliente: manter o projeto compartilhado ou migrar para um limpo.
 A senha do banco fica em `.env` na raiz (fora do git), como `SUPABASE_DB_URL`.
+
+### D40 — Conta separada; Meus materiais vira estante de produtos (23/09)
+**Pedido do cliente.** A aba Meus materiais deixou de acumular configurações e passou
+a responder "o que eu comprei": cards de produto (não de material) com cor, pitch
+curto e tamanho do acervo ("9 materiais no app", "53 aulas em vídeo"); formações
+navegam para a própria página; combo ganha selo "todos os produtos liberados".
+A gestão da conta (tema, rever apresentação, notificações, WhatsApp, termos, sair,
+excluir conta) mudou para a tela própria `/conta`, aberta pela engrenagem no topo
+da aba. "Ajuda no WhatsApp" já abre o número real (EXPO_PUBLIC_SUPORTE_WHATSAPP).
+Revisa a A8.

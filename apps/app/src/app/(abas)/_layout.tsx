@@ -82,6 +82,7 @@ export default function LayoutAbas() {
       />
       {/* telas de detalhe: dentro do navegador de abas (barra sempre visível),
           mas sem botão próprio no rodapé */}
+      <Tabs.Screen name="conta" options={{ href: null }} />
       <Tabs.Screen name="turmas" options={{ href: null }} />
       <Tabs.Screen name="material/[id]" options={{ href: null }} />
       <Tabs.Screen name="turma/[id]" options={{ href: null }} />

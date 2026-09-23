@@ -1,91 +1,119 @@
 import { Ionicons } from '@expo/vector-icons';
-import { estaLiberado, materiaisDemo, produtoPorId } from '@mdp/core/src/mock/acervo';
+import {
+  estaLiberado,
+  materiaisDemo,
+  produtosDemo,
+  type ProdutoDemo,
+} from '@mdp/core/src/mock/acervo';
+import { aulasPanda } from '@mdp/core/src/mock/aulas-panda';
 import { Link } from 'expo-router';
-import { useColorScheme } from 'nativewind';
-import { Alert, Pressable, ScrollView, Switch, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Prateleira } from '../../components/prateleira';
 import { useDemo } from '../../contexto/demo';
 import { useCores } from '../../hooks/use-cores';
 
-/** Aba Meus materiais (A8): possuídos, favoritos, baixados e conta. */
+/** Resumo curto do card: o pitch do produto + tamanho do acervo dele. */
+function resumoDoProduto(p: ProdutoDemo): string {
+  if (p.cursoExterno) {
+    const aulas = aulasPanda.filter((a) => a.formacao === p.id).length;
+    return aulas > 0 ? `${aulas} aulas em vídeo` : 'Aulas em vídeo';
+  }
+  const materiais = materiaisDemo.filter((m) => m.produtoIds.includes(p.id)).length;
+  return materiais === 1 ? '1 material no app' : `${materiais} materiais no app`;
+}
+
+/** Aba Meus materiais (A8): os produtos comprados e os materiais deles. */
 export default function MeusMateriais() {
   const demo = useDemo();
   const cores = useCores();
-  const { colorScheme: esquema, setColorScheme } = useColorScheme();
   const favoritos = materiaisDemo.filter((m) => demo.favoritos.has(m.id));
   const possuidos = materiaisDemo.filter(
     (m) => !m.gratuito && estaLiberado(m, demo.posse),
   );
 
-  const emBreve = (recurso: string, bloco: string) => () =>
-    Alert.alert(recurso, `Chega no ${bloco}.`);
+  const temCombo = demo.posse.includes('acesso-total');
+  const meusProdutos = produtosDemo
+    .filter((p) => !p.isCombo && (temCombo || demo.posse.includes(p.id)))
+    .sort((a, b) => a.ordemVitrine - b.ordemVitrine);
 
   return (
     <SafeAreaView className="flex-1 bg-fundo" edges={['top']}>
       <ScrollView contentContainerClassName="gap-6 py-4 pb-10">
         <View className="flex-row items-center gap-3 px-4">
-          <View className="h-14 w-14 items-center justify-center rounded-full bg-marca">
-            <Text className="font-titulo text-xl text-[#16191F]">{demo.nome.charAt(0)}</Text>
+          <View className="h-12 w-12 items-center justify-center rounded-full bg-marca">
+            <Text className="font-titulo text-lg text-[#16191F]">{demo.nome.charAt(0)}</Text>
           </View>
-          <View>
+          <View className="flex-1">
             <Text className="font-titulo-semi text-xl text-texto">{demo.nome}</Text>
             <Text className="font-corpo text-sm text-texto-2">conta de demonstração</Text>
           </View>
+          <Link href="/conta" asChild>
+            <Pressable
+              hitSlop={8}
+              className="h-11 w-11 items-center justify-center rounded-full bg-superficie"
+            >
+              <Ionicons name="settings-outline" size={22} color={cores.texto} />
+            </Pressable>
+          </Link>
         </View>
 
         <View className="gap-2 px-4">
           <Text className="font-corpo-forte text-sm uppercase text-texto-2">
-            Meus acessos
+            Meus produtos
           </Text>
-          {demo.posse.length === 0 && (
+          {temCombo && (
+            <View className="flex-row items-center gap-2 rounded-xl bg-marca/15 p-3">
+              <Ionicons name="star" size={16} color={cores.texto} />
+              <Text className="flex-1 font-corpo-medio text-sm text-texto">
+                Acesso Total: todos os produtos liberados
+              </Text>
+            </View>
+          )}
+          {meusProdutos.length === 0 && (
             <Text className="font-corpo text-sm text-texto-2">
-              Nenhum produto neste cenário de teste — só os materiais gratuitos.
+              Você ainda não tem produtos — explore a vitrine e conheça o acervo.
+              Os materiais gratuitos continuam abertos para você.
             </Text>
           )}
-          {demo.posse.map((id) => {
-            const produto = produtoPorId(id);
-            if (!produto) return null;
-            return (
-              <View
-                key={id}
-                className="flex-row items-center gap-3 rounded-xl bg-superficie p-4"
-              >
+          {meusProdutos.map((produto) => {
+            const conteudo = (
+              <View className="flex-row items-center gap-3 rounded-xl bg-superficie p-4">
                 <View
-                  className="h-3 w-3 rounded-full"
+                  className="h-12 w-12 items-center justify-center rounded-xl"
                   style={{ backgroundColor: produto.cor }}
-                />
-                <Text className="flex-1 font-corpo-medio text-base text-texto">
-                  {produto.nome}
-                </Text>
-                <Text className="font-corpo text-xs text-texto-2">liberado</Text>
+                >
+                  <Text className="font-titulo text-lg text-white">
+                    {produto.nome.charAt(0)}
+                  </Text>
+                </View>
+                <View className="flex-1 gap-0.5">
+                  <Text className="font-corpo-forte text-base text-texto">
+                    {produto.nome}
+                  </Text>
+                  <Text className="font-corpo text-xs text-texto-2" numberOfLines={2}>
+                    {produto.pitchParaQue}
+                  </Text>
+                  <Text className="font-corpo-medio text-xs" style={{ color: produto.cor }}>
+                    {resumoDoProduto(produto)}
+                  </Text>
+                </View>
+                {produto.cursoExterno && (
+                  <Ionicons name="chevron-forward" size={18} color={cores.texto2} />
+                )}
               </View>
             );
-          })}
-        </View>
-
-        <View className="gap-2 px-4">
-          <Text className="font-corpo-forte text-sm uppercase text-texto-2">
-            Formações
-          </Text>
-          {(['fda', 'fpt'] as const).map((id) => {
-            const formacao = produtoPorId(id);
-            if (!formacao) return null;
-            return (
+            return produto.cursoExterno ? (
               <Link
-                key={id}
-                href={{ pathname: '/formacao/[id]', params: { id } }}
+                key={produto.id}
+                href={{ pathname: '/formacao/[id]', params: { id: produto.id } }}
                 asChild
               >
-                <Pressable className="flex-row items-center gap-3 rounded-xl bg-superficie p-4">
-                  <Ionicons name="play-circle" size={20} color={formacao.cor} />
-                  <Text className="flex-1 font-corpo-medio text-base text-texto">
-                    {formacao.nome}
-                  </Text>
-                  <Ionicons name="chevron-forward" size={18} color={cores.texto2} />
-                </Pressable>
+                <Pressable>{conteudo}</Pressable>
               </Link>
+            ) : (
+              <View key={produto.id}>{conteudo}</View>
             );
           })}
         </View>
@@ -108,60 +136,6 @@ export default function MeusMateriais() {
           <Text className="font-corpo text-sm text-texto-2">
             O download para usar sem internet chega no Bloco 9.
           </Text>
-        </View>
-
-        <View className="mx-4 flex-row items-center gap-3 rounded-xl bg-superficie p-4">
-          <Ionicons
-            name={esquema === 'light' ? 'sunny-outline' : 'moon-outline'}
-            size={20}
-            color={cores.texto2}
-          />
-          <View className="flex-1">
-            <Text className="font-corpo-medio text-base text-texto">Tema escuro</Text>
-            <Text className="font-corpo text-xs text-texto-2">
-              Compare os dois fundos — decisão em aberto com a equipe (D14)
-            </Text>
-          </View>
-          <Switch
-            value={esquema !== 'light'}
-            onValueChange={(escuro) => setColorScheme(escuro ? 'dark' : 'light')}
-            trackColor={{ false: cores.superficie2, true: '#1F9E77' }}
-            thumbColor="#FFFFFF"
-          />
-        </View>
-
-        <Pressable
-          onPress={demo.reverAbertura}
-          className="mx-4 flex-row items-center gap-3 rounded-xl bg-superficie p-4"
-        >
-          <Ionicons name="sparkles-outline" size={20} color={cores.texto2} />
-          <Text className="flex-1 font-corpo-medio text-base text-texto">
-            Rever a apresentação do app
-          </Text>
-          <Ionicons name="chevron-forward" size={18} color={cores.texto2} />
-        </Pressable>
-
-        <View className="mx-4 overflow-hidden rounded-xl bg-superficie">
-          {(
-            [
-              ['notifications-outline', 'Notificações', 'Bloco 11'],
-              ['logo-whatsapp', 'Ajuda no WhatsApp', 'Bloco 11'],
-              ['document-text-outline', 'Termos e privacidade', 'Bloco 12'],
-              ['exit-outline', 'Sair', 'Bloco 2'],
-              ['trash-outline', 'Excluir minha conta', 'Bloco 11'],
-            ] as const
-          ).map(([icone, rotulo, bloco], i) => (
-            <Pressable
-              key={rotulo}
-              onPress={emBreve(rotulo, bloco)}
-              className={`flex-row items-center gap-3 p-4 ${
-                i > 0 ? 'border-t border-superficie-2' : ''
-              }`}
-            >
-              <Ionicons name={icone} size={20} color={cores.texto2} />
-              <Text className="font-corpo-medio text-base text-texto">{rotulo}</Text>
-            </Pressable>
-          ))}
         </View>
       </ScrollView>
     </SafeAreaView>
