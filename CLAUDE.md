@@ -6,29 +6,19 @@ Store e do Google Play). Registre toda decisão de arquitetura em `DECISIONS.md`
 
 ---
 
-## 0. Onde roda (decisão do Daniel, 24/09/2026)
+## 0. Servidor novo: leia SERVIDOR-NOVO.md antes de qualquer coisa
 
-O app NÃO roda mais na VPS da Ascent: ela é a máquina de produção do SDR da Beascent
-(1 CPU, 3,9 GB, três clientes pagantes) e em 24/09 `expo start` + `next dev` deixados
-rodando lá (~600 MB) esgotaram a memória e o SDR ficou 14 min sem responder. O app foi
-tirado do servidor no mesmo dia; este repositório é a única cópia. Se um dia voltar a
-rodar num servidor compartilhado, valem as regras abaixo, sem exceção:
+O app saiu da VPS da Ascent em 24/09/2026 (ela é a produção do SDR da Beascent, 1 CPU e
+3,9 GB, e dois servidores de desenvolvimento deixados rodando lá derrubaram o backend por
+14 min). Tudo que existia na VPS está neste repositório ou na Release
+`entrada-pdfs-2026-09-24` (os 3,4 GB de PDFs de entrada). **Na primeira sessão em qualquer
+servidor novo, leia `SERVIDOR-NOVO.md` e siga o checklist dele** (env que não está no git,
+PDFs, estado do banco, como rodar sem dev server). Regras permanentes pra servidor:
 
-- **Nada de servidor de desenvolvimento na VPS.** `next dev`, `expo start`, `vite`,
-  `nodemon`: só no Mac de quem desenvolve. Um vigia (`/usr/local/bin/vigia-dev-servers`,
-  cron de 5 min) derruba qualquer um desses que não seja do pm2 e passe de 30 min.
-- **Painel (apps/web) em produção**: `next build --webpack` + `next start` no pm2
-  (`ecosystem.config.cjs` na raiz, nome `mdp-painel`, porta 3000, `max_memory_restart`
-  400 MB). Turbopack estourou 1,3 GB no build e foi morto; webpack fecha em ~600 MB.
-- **App (apps/app) na VPS é só a versão web estática**: `expo export --platform web`
-  → `/var/www/mdp-app`, servido pelo nginx na 8081. Teste no celular (Expo Go) é no Mac.
-- **Publicar = `bash deploy/publicar.sh`** (como root). Ele builda dentro de um cgroup
-  com teto de memória e sem swap: se não couber, morre o build, nunca a VPS. Recusa
-  rodar com menos de 900 MB disponíveis.
-- Antes de qualquer coisa pesada: `free -m`. Com menos de 500 MB disponíveis, não
-  suba build, Playwright nem servidor nenhum: feche o que está pesando primeiro.
-- Sessão do Claude Code parada na VPS também pesa (100 a 400 MB cada): arquive ao
-  terminar.
+- Nada de `next dev`, `expo start`, `vite`, `nodemon` rodando em servidor compartilhado.
+- Painel em produção só com `next build --webpack` + `next start` (pm2, `ecosystem.config.cjs`).
+- App na web só como export estático (`expo export --platform web`) servido pelo nginx.
+- Builds com teto de memória (`deploy/publicar.sh`). Antes de qualquer coisa pesada: `free -m`.
 
 ## 1. O que é
 

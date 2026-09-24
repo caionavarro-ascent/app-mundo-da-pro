@@ -1,0 +1,12 @@
+# Repo próprio clonado do GitHub — nunca versionar dentro deste
+app-mundo-da-pro/
+
+node_modules/
+.env
+.env.*
+!.env.example
+logs/
+*.log
+dist/
+coverage/
+.DS_Store
