@@ -23,6 +23,13 @@ da primeira sessão no servidor novo. Marque o que for fazendo.
   # resultado: entrada-pdfs/cursos/<curso>/... e entrada-pdfs/{educakits,imagine1,imagine2}.json
   ```
 
+- **Dados do painel** (fora do git pelo `.gitignore`): `apps/web/dados/materiais.json` (387
+  materiais com metadados e texto extraído), `apps/web/dados/arquivos/*.pdf` (387 PDFs, todos
+  cópias exatas de `entrada-pdfs`) e `apps/web/public/demo-capas/*.png` (387 capas). Estão na
+  Release `painel-dados-2026-09-24` (índice, capas e um mapa id → PDF de origem). Depois de
+  restaurar os PDFs de entrada, rode `bash deploy/restaurar-dados-painel.sh`: ele baixa,
+  confere os checksums e recria as três pastas. Sem isso o `/admin` abre vazio.
+
 - **Esqueleto da pasta de fora** (`/root/mundo-da-pro`): só `.gitkeep`, README e DECISIONS;
   guardado em `legado/vps-mundo-da-pro/`.
 
@@ -36,7 +43,7 @@ Arquivos de segredo nunca vão pro git. Recrie no servidor novo com os mesmos va
 | `apps/web/.env.local` | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `ANTHROPIC_API_KEY`, `THEMEMBERS_WEBHOOK_SECRET`, `THEMEMBERS_API_TOKEN`, `THEMEMBERS_API_BASE`, `THEMEMBERS_ORGANIZATION_ID`, `PANDA_API_KEY`, `CRON_SECRET`, `EXPO_ACCESS_TOKEN`, `THEACCESS_PRIVATE_KEY_PATH`, `NEXT_PUBLIC_SITE_URL` |
 | `apps/app/.env` | `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`, `EXPO_PUBLIC_API_URL`, `EXPO_PUBLIC_SUPORTE_WHATSAPP` |
 
-`THEACCESS_PRIVATE_KEY_PATH` aponta pra um arquivo de chave que também não está no git.
+`THEACCESS_PRIVATE_KEY_PATH` aponta pra `segredos/theaccess-privada.pem`, que não existia na VPS nem está no git: precisa vir do Mac.
 
 ## 3. Banco (Supabase)
 
@@ -73,7 +80,7 @@ lojas, em aberto). Pendências que travam etapas: seção "Pendências que trava
 1. Ler este arquivo, `CLAUDE.md`, `README.md` e as últimas entradas de `DECISIONS.md`.
 2. Recriar os três arquivos `.env` (seção 2) e o arquivo de chave do THEACCESS.
 3. `npm ci` na raiz (workspaces) e `npm run typecheck`.
-4. Baixar e conferir os PDFs da Release (seção 1) se o servidor for processar acervo.
+4. Baixar e conferir os PDFs da Release (seção 1) e rodar `deploy/restaurar-dados-painel.sh` (dados do painel).
 5. Conferir o banco (seção 3) antes de qualquer migration nova.
 6. Só então decidir como rodar (seção 4). Nunca deixar `next dev`/`expo start` rodando
    num servidor compartilhado.
