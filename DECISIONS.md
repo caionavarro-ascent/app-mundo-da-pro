@@ -332,3 +332,24 @@ A gestão da conta (tema, rever apresentação, notificações, WhatsApp, termos
 excluir conta) mudou para a tela própria `/conta`, aberta pela engrenagem no topo
 da aba. "Ajuda no WhatsApp" já abre o número real (EXPO_PUBLIC_SUPORTE_WHATSAPP).
 Revisa a A8.
+
+
+### D40 — Produção na VPS: nada de dev server; painel com `next start`, app estático (24/09)
+**Contexto.** `expo start` e `next dev` ficaram horas rodando na VPS da Ascent (que é a
+produção do SDR da Beascent, 1 CPU, 3,9 GB); com 8 sessões do Claude Code na mesma máquina
+a memória e a swap esgotaram e o SDR passou 14 min sem responder. O kernel matou um
+`next-server` por OOM duas vezes no dia. Depois, os mesmos dois foram postos no pm2 sem
+derrubar os soltos, e ficaram em loop de reinício (600+ vezes) por porta ocupada.
+**Decisão.** Servidor de desenvolvimento só no Mac. Na VPS: painel em build de produção
+(`next build --webpack`, ~600 MB de pico, 70 s) e `next start` no pm2 (`ecosystem.config.cjs`,
+`mdp-painel`, ~120 MB); app como export estático web (`expo export`, 8,7 MB) no nginx
+porta 8081 (0 MB). Builds rodam dentro de cgroup com teto de memória e sem swap
+(`deploy/publicar.sh`). Vigia de dev server esquecido em cron (30 min). Turbopack foi
+descartado no build por estourar 1,3 GB.
+**Consequência.** Memória do MDP na VPS cai de ~600 MB para ~120 MB. Teste de app no
+celular (Expo Go) e hot reload continuam existindo, mas no Mac.
+
+**Adendo (24/09, mesmo dia):** o Daniel pediu pra tirar o app da VPS da Ascent de vez. Tudo
+que estava na VPS (4 commits do Caio ainda não enviados + `ecosystem.config.cjs`,
+`deploy/publicar.sh`, esta decisão) foi para o GitHub, e o app saiu do servidor. Os
+scripts de deploy ficam como referência para um servidor próprio.
