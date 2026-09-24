@@ -98,6 +98,17 @@ export const produtosDemo: ProdutoDemo[] = [
     ordemVitrine: 50,
   },
   {
+    // TODO: preço e pitches provisórios — cliente confirma (produto novo, 24/09)
+    id: 'cube',
+    nome: 'Cube Mundo da Prô',
+    cor: '#2A9D8F',
+    precoCentavos: 19700,
+    parcelasTexto: 'ou 12x de R$ 19',
+    pitchParaQuem: 'TODO: para quem é o Cube.',
+    pitchParaQue: 'TODO: o que o Cube entrega.',
+    ordemVitrine: 55,
+  },
+  {
     id: 'fda',
     nome: 'Formação Destrava Aluno',
     cor: '#C2483F',
