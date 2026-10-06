@@ -8,6 +8,7 @@ import { Pressable, Text, View, useWindowDimensions } from 'react-native';
 import { useDemo } from '../contexto/demo';
 import { useCores } from '../hooks/use-cores';
 import { useDesktopWeb } from '../hooks/use-desktop-web';
+import { useNoAparelho } from '../hooks/use-esquema';
 
 /**
  * Bloco de destaque da dobra (A2): card grande 4:5, botão primário branco e
@@ -19,7 +20,10 @@ export function Destaque({ destaque }: { destaque: DestaqueResolvido }) {
   const cores = useCores();
   const desktop = useDesktopWeb();
   const { width } = useWindowDimensions();
-  const largura = Math.min(width - 48, 360);
+  // no HTML pré-gerado a largura é 0 (daria -48): até a hidratação, o tamanho cheio do
+  // card; depois, o real. Senão o React não corrige o tamanho na hidratação (D51)
+  const noAparelho = useNoAparelho();
+  const largura = noAparelho ? Math.min(width - 48, 360) : 360;
   const { material } = destaque;
   const salvo =
     demo.favoritos.has(material.id) ||
@@ -63,9 +67,9 @@ export function Destaque({ destaque }: { destaque: DestaqueResolvido }) {
                 {material.descricao}
               </Text>
               <View className="mt-2 flex-row gap-3">
-                <View className="h-12 flex-row items-center justify-center gap-2 rounded-lg bg-botao-prim px-6">
-                  <Ionicons name="download" size={18} color="#FFFFFF" />
-                  <Text className="font-corpo-forte text-base text-botao-prim-texto">
+                <View className="h-12 flex-row items-center justify-center gap-2 rounded-lg bg-white px-6">
+                  <Ionicons name="download" size={18} color="#16191F" />
+                  <Text className="font-corpo-forte text-base text-[#16191F]">
                     {destaque.ctaPrimario}
                   </Text>
                 </View>

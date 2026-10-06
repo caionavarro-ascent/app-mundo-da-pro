@@ -3,30 +3,32 @@
 @tailwind utilities;
 
 /*
- * Tokens dos dois temas (D14). O escuro é o padrão do app — o _layout liga
- * a classe .dark na inicialização; o switch em Meus materiais alterna.
- * Valores espelham packages/core/src/tokens.ts.
+ * Tokens dos dois temas (D14, D54). O claro é o padrão ("Mundo da Prô | Clube
+ * Pedagógico": azul-marinho + rosa); o escuro, em azul-marinho, fica no switch
+ * da Conta. Valores espelham packages/core/src/tokens.ts.
  */
 @layer base {
   :root {
-    --fundo: #f6f7fb;
+    --fundo: #f5f7fb;
     --superficie: #ffffff;
-    --superficie-2: #e8ecf4;
+    --superficie-2: #e8ecf3;
     --texto: #0e2447;
-    --texto-2: #4e5f7c;
+    --texto-2: #5a6782;
+    --borda: #e1e6ef;
     --botao-prim: #ff0167;
     --botao-prim-texto: #ffffff;
-    --marca-legivel: #cc0052;
+    --marca-legivel: #d10057;
   }
 
   .dark {
-    --fundo: #0e2447;
-    --superficie: #16325a;
-    --superficie-2: #1e3e6c;
-    --texto: #f5f7fa;
-    --texto-2: #a3b2cb;
+    --fundo: #071430;
+    --superficie: #0e2447;
+    --superficie-2: #1a3560;
+    --texto: #f3f6fb;
+    --texto-2: #a9b5cc;
+    --borda: #1e3a66;
     --botao-prim: #ff0167;
     --botao-prim-texto: #ffffff;
-    --marca-legivel: #ff7aae;
+    --marca-legivel: #ff5c9a;
   }
 }

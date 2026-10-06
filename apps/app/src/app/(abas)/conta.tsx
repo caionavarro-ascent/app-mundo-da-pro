@@ -5,16 +5,20 @@ import { Alert, Linking, Pressable, ScrollView, Switch, Text, View } from 'react
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useDemo } from '../../contexto/demo';
+import { useSessao } from '../../contexto/sessao';
 import { useCores } from '../../hooks/use-cores';
+import { useEsquema } from '../../hooks/use-esquema';
 
 const WHATSAPP_SUPORTE = process.env.EXPO_PUBLIC_SUPORTE_WHATSAPP;
 
 /** Tela Conta: gestão da conta e configurações, fora da aba Meus materiais. */
 export default function Conta() {
   const demo = useDemo();
+  const sessao = useSessao();
   const cores = useCores();
   const router = useRouter();
-  const { colorScheme: esquema, setColorScheme } = useColorScheme();
+  const { setColorScheme } = useColorScheme();
+  const esquema = useEsquema();
 
   const emBreve = (recurso: string, bloco: string) => () =>
     Alert.alert(recurso, `Chega no ${bloco}.`);
@@ -41,13 +45,34 @@ export default function Conta() {
 
         <View className="flex-row items-center gap-3 px-4">
           <View className="h-14 w-14 items-center justify-center rounded-full bg-marca">
-            <Text className="font-titulo text-xl text-white">{demo.nome.charAt(0)}</Text>
+            <Text className="font-titulo text-xl text-sobre-marca">{demo.nome.charAt(0)}</Text>
           </View>
           <View>
             <Text className="font-titulo-semi text-xl text-texto">{demo.nome}</Text>
-            <Text className="font-corpo text-sm text-texto-2">conta de demonstração</Text>
+            <Text className="font-corpo text-sm text-texto-2">
+              {sessao.email ?? 'conta de demonstração'}
+            </Text>
           </View>
         </View>
+
+        {/* entrar de verdade (Bloco 2, D50): é o e-mail da compra que traz a posse */}
+        {!sessao.email && (
+          <Pressable
+            onPress={() => router.push('/entrar')}
+            className="mx-4 flex-row items-center gap-3 rounded-xl bg-botao-prim p-4"
+          >
+            <Ionicons name="log-in-outline" size={20} color={cores.botaoPrimarioTexto} />
+            <View className="flex-1">
+              <Text className="font-corpo-forte text-base text-botao-prim-texto">
+                Entrar com seu e-mail
+              </Text>
+              <Text className="font-corpo text-xs text-botao-prim-texto opacity-80">
+                O mesmo da compra. Seus materiais aparecem liberados.
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={18} color={cores.botaoPrimarioTexto} />
+          </Pressable>
+        )}
 
         <View className="mx-4 flex-row items-center gap-3 rounded-xl bg-superficie p-4">
           <Ionicons
@@ -58,7 +83,7 @@ export default function Conta() {
           <View className="flex-1">
             <Text className="font-corpo-medio text-base text-texto">Tema escuro</Text>
             <Text className="font-corpo text-xs text-texto-2">
-              Compare os dois fundos — decisão em aberto com a equipe (D14)
+              Fundo azul-marinho, mais confortável à noite
             </Text>
           </View>
           <Switch
@@ -68,6 +93,20 @@ export default function Conta() {
             thumbColor="#FFFFFF"
           />
         </View>
+
+        <Pressable
+          onPress={() => router.push('/boas-vindas')}
+          className="mx-4 flex-row items-center gap-3 rounded-xl bg-superficie p-4"
+        >
+          <Ionicons name="color-wand-outline" size={20} color={cores.texto2} />
+          <View className="flex-1">
+            <Text className="font-corpo-medio text-base text-texto">Minhas preferências</Text>
+            <Text className="font-corpo text-xs text-texto-2">
+              Sua turma e o que você mais usa em sala
+            </Text>
+          </View>
+          <Ionicons name="chevron-forward" size={18} color={cores.texto2} />
+        </Pressable>
 
         <Pressable
           onPress={demo.reverAbertura}
@@ -98,7 +137,6 @@ export default function Conta() {
           {(
             [
               ['document-text-outline', 'Termos e privacidade', 'Bloco 12'],
-              ['exit-outline', 'Sair', 'Bloco 2'],
               ['trash-outline', 'Excluir minha conta', 'Bloco 11'],
             ] as const
           ).map(([icone, rotulo, bloco]) => (
@@ -111,6 +149,15 @@ export default function Conta() {
               <Text className="font-corpo-medio text-base text-texto">{rotulo}</Text>
             </Pressable>
           ))}
+          {sessao.email && (
+            <Pressable
+              onPress={sessao.sair}
+              className="flex-row items-center gap-3 border-t border-superficie-2 p-4"
+            >
+              <Ionicons name="exit-outline" size={20} color={cores.texto2} />
+              <Text className="font-corpo-medio text-base text-texto">Sair</Text>
+            </Pressable>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

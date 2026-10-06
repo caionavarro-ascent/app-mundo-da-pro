@@ -43,7 +43,7 @@ export default function MeusMateriais() {
       <ScrollView contentContainerClassName="gap-6 py-4 pb-10">
         <View className="flex-row items-center gap-3 px-4">
           <View className="h-12 w-12 items-center justify-center rounded-full bg-marca">
-            <Text className="font-titulo text-lg text-white">{demo.nome.charAt(0)}</Text>
+            <Text className="font-titulo text-lg text-sobre-marca">{demo.nome.charAt(0)}</Text>
           </View>
           <View className="flex-1">
             <Text className="font-titulo-semi text-xl text-texto">{demo.nome}</Text>

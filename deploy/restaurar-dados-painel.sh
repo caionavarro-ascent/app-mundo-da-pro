@@ -4,6 +4,7 @@
 #   apps/web/dados/materiais.json        índice dos materiais (metadados + texto extraído)
 #   apps/web/dados/arquivos/<id>.pdf     os PDFs (cópias exatas de entrada-pdfs)
 #   apps/web/public/demo-capas/<id>.png  as capas
+#   apps/web/dados/mapa-arquivos.json    pasta de origem de cada PDF (coleções na Vitrine, D47)
 # a partir das Releases entrada-pdfs-2026-09-24 e painel-dados-2026-09-24.
 #
 # Uso (na raiz do repo, com `gh` autenticado):
@@ -20,6 +21,8 @@ gh release download painel-dados-2026-09-24 -R "$REPO" -D "$T"
 ( cd "$T" && sha256sum -c SHA256SUMS.txt )
 mkdir -p apps/web/dados/arquivos apps/web/public
 cp "$T/materiais.json" apps/web/dados/materiais.json
+# volumes/ordem dos módulos das coleções na Vitrine (D47)
+cp "$T/mapa-arquivos.json" apps/web/dados/mapa-arquivos.json
 tar xf "$T/demo-capas.tar" -C apps/web/public
 python3 - "$T/mapa-arquivos.json" "$ENTRADA" <<'PY'
 import json, shutil, sys, os, hashlib

@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
-import { exemploNivel, nomeAno, nomeNivel, type NivelEscrita } from '@mdp/core';
+import { exemploNivel, nomeAno, type NivelEscrita } from '@mdp/core';
 import { atividadesParaTurma, materialPorId } from '@mdp/core/src/mock/acervo';
 import { Link, useRouter } from 'expo-router';
-import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useDemo } from '../../contexto/demo';

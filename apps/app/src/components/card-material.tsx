@@ -1,11 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { corDoMaterial, estaLiberado, type MaterialDemo } from '@mdp/core/src/mock/acervo';
-import { nomeTipo } from '@mdp/core';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
 import { useDemo } from '../contexto/demo';
+import { TagTipo } from './tag-tipo';
 
 interface Props {
   material: MaterialDemo;
@@ -45,10 +45,7 @@ export function CardMaterial({ material, posse, posicao, largura = 112 }: Props)
               contentFit="cover"
             />
           ) : (
-            <View className="flex-1 justify-between p-2">
-              <Text className="font-corpo-forte text-[10px] uppercase text-white/80">
-                {nomeTipo[material.tipo]}
-              </Text>
+            <View className="flex-1 justify-end p-2">
               <Text
                 className="font-titulo-semi text-sm leading-tight text-white"
                 numberOfLines={4}
@@ -66,6 +63,11 @@ export function CardMaterial({ material, posse, posicao, largura = 112 }: Props)
               </View>
             </View>
           )}
+
+          {/* tipo fixo em todo card (D46): Atividade, Jogo, Ebook… */}
+          <View className="absolute left-1.5 top-1.5">
+            <TagTipo tipo={material.tipo} pequena={largura < 100} />
+          </View>
 
           {material.novo && (
             <View className="absolute right-0 top-0 rounded-bl-lg bg-coral px-1.5 py-0.5">

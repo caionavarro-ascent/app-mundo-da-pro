@@ -58,14 +58,14 @@ Arquivos de segredo nunca vão pro git. Recrie no servidor novo com os mesmos va
 
 - **Desenvolvimento**: no Mac, como no README (`npm run web --workspace apps/app`,
   `npm run web`, `npm run app`). Servidor de desenvolvimento (`next dev`, `expo start`) não
-  é coisa de servidor: foi exatamente isso que derrubou a VPS da Ascent em 24/09 (ver D41).
+  é coisa de servidor: foi exatamente isso que derrubou a VPS da Ascent em 24/09 (ver D40).
 - **Servidor** (produção ou homologação): Node 22, `npm ci`, os `.env` acima, e então
   `bash deploy/publicar.sh` (ajuste os caminhos absolutos no topo dele e em
   `ecosystem.config.cjs`, que apontam pra `/root/mundo-da-pro/app-mundo-da-pro`). O script
   faz `next build --webpack` (Turbopack estourou 1,3 GB e foi morto) e `expo export
   --platform web`, dentro de um limite de memória (`systemd-run`, precisa de cgroup v2), e
   sobe o painel com `next start` no pm2 (`mdp-painel`, porta 3000). O app web estático vai
-  pra `/var/www/mdp-app` pra um nginx servir (exemplo de bloco no histórico do D41).
+  pra `/var/www/mdp-app` pra um nginx servir (exemplo de bloco no histórico do D40).
   Memória: painel ~120 a 200 MB; build ~600 MB de pico; export do Expo ~1 GB de pico.
 
 ## 5. Onde o projeto parou (24/09/2026)

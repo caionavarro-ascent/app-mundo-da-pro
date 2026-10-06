@@ -47,9 +47,17 @@ logo, um card de destaque grande ocupando a maior parte da dobra, prateleiras ho
 abaixo dele, e navegação em abas no rodapé. Quando houver dúvida de layout, a pergunta é
 "como o Netflix resolve isso no celular". O mapeamento completo está na Parte A do `PRD.md`.
 
-Três consequências que não podem ser negociadas:
-- **Não existe campo de busca no topo.** A busca é uma aba do rodapé. Campo no topo rouba
-  a altura da dobra, que pertence ao destaque.
+**Revisto pela D42 (24/09/2026, pedido do cliente):** a home (aba Início) deixou de ser a
+vitrine e virou uma busca por pergunta, estilo assistente: barra no centro e, ao perguntar,
+uma resposta curta com os materiais sugeridos abaixo, cada um com o porquê. A vitrine
+Netflix continua inteira, como a aba **Vitrine** (que substituiu a aba Buscar), e as regras
+abaixo valem para ela.
+
+Consequências que não podem ser negociadas:
+- **Na Vitrine não existe campo de busca no topo.** Perguntar é na aba Início. Campo no topo
+  da Vitrine rouba a altura da dobra, que pertence ao destaque.
+- **A busca da Início não é IA.** É o motor de `packages/core/src/busca.ts` (regras de
+  linguagem), igual no app e no painel. Não diga "IA" na interface enquanto for assim.
 - **O destaque é personalizado por posse**, resolvido no servidor. Não é banner fixo.
 - **A navegação principal mora nas abas do rodapé**, não em menu lateral nem hambúrguer.
 
@@ -68,16 +76,20 @@ Consequências obrigatórias de projeto:
 - Aparelho com pouco espaço: mostre quanto os downloads estão ocupando e deixe apagar.
 - Toque grande, contraste alto, texto legível sem zoom.
 
-**Tema escuro no app.** O acervo é feito de páginas brancas: sobre fundo escuro, cada capa
-vira um cartaz e a cor vem do próprio material, como no Netflix. Também poupa bateria em
-tela OLED e reduz o brilho na mão de quem usa o celular na sala de aula. O painel de
-conteúdo permanece claro — é planilha, não vitrine.
+**Identidade "Mundo da Prô | Clube Pedagógico" (D54, 06/10/2026, pedido do cliente).**
+Tema **claro** como padrão; o escuro (todo em azul-marinho) fica no switch da Conta. O
+azul-marinho da marca vai nos fundos de destaque (banner da home, item ativo do menu); o
+rosa é a cor primária (botões, ícones em círculo, destaques), sempre com texto branco por
+cima. Títulos em **Baloo 2**, texto em **Nunito Sans**; o manuscrito dos níveis segue em
+Patrick Hand. Logo: `logo-vazado.png` (azul-marinho com foguete) no claro. Título da aba:
+"Mundo da Prô | Clube Pedagógico". O painel de conteúdo continua claro e sóbrio.
 
-Tokens do app (rebrand "Clube Pedagógico", D39):
-`--fundo #0E2447` (azul-marinho da marca) · `--superficie #16325A` · `--superficie-2 #1E3E6C` ·
-`--texto #F5F7FA` · `--texto-2 #A3B2CB` · `--marca #FF0167` (rosa) · `--coral #E4574E` ·
-`--verde #1F9E77` · botão primário rosa com texto branco. Fontes: Baloo 2 (títulos)
-e Nunito Sans (texto); Patrick Hand segue nos exemplos manuscritos de nível.
+Tokens do app (claro), espelhados em `packages/core/src/tokens.ts` e `apps/app/src/global.css`:
+`--fundo #F5F7FB` · `--superficie #FFFFFF` · `--superficie-2 #E8ECF3` · `--borda #E1E6EF` ·
+`--texto #0E2447` · `--texto-2 #5A6782` · `marca #FF0167` (texto: `--marca-legivel #D10057`) ·
+`brand #0E2447` · `sobre-marca #FFFFFF` · `--coral #E4574E` · `--verde #1F9E77` ·
+botão primário rosa com texto branco. Não use cor fixa escura (`#16191F`) sobre a marca:
+use `text-sobre-marca`.
 
 ## 3. As três superfícies
 
@@ -124,6 +136,9 @@ Estas regras não são negociáveis. Se um pedido conflitar com elas, pare e avi
    assinada de curta duração, gerada no servidor, depois de checar posse.
 2. **Todo PDF baixado sai com marca d'água** com nome e e-mail de quem baixou, no rodapé
    de todas as páginas. Sem exceção, nem em teste.
+   *Exceção única (D44):* folhas geradas pelas ferramentas (cruzadinha, caça-palavras), feitas
+   com as palavras da própria professora para entregar ao aluno, saem só com o rodapé discreto
+   "Feito com o app Mundo da Prô". Material do acervo continua sem exceção.
 3. **A posse mora em `entitlements`**, nunca em pedido, nunca em campo de perfil. Fonte
    única da verdade sobre quem pode ver o quê.
 4. **O app nunca decide acesso sozinho.** O cadeado na tela é enfeite; a checagem real

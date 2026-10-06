@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 #
-# Publica o Mundo da Prô na VPS da Ascent SEM derrubar o SDR que roda na mesma
-# máquina (1 CPU, 3,9 GB). Rodar como root, na VPS:  bash deploy/publicar.sh
+# Publica o Mundo da Prô no servidor próprio (srv2006395, 1 CPU, 3,8 GB), que ele
+# divide com os Dashboards da Ascent (D41). Rodar como root:  bash deploy/publicar.sh
 #
 # O que faz:
 #   1. painel (apps/web): `next build --webpack` dentro de um cgroup com teto de
 #      memória e SEM swap (systemd-run): se não couber, morre o build, não a VPS.
 #      Turbopack estourou 1,3 GB e foi morto; webpack fecha em ~600 MB.
 #   2. app (apps/app): `expo export --platform web` (estático), copiado pra
-#      /var/www/mdp-app e servido pelo nginx na porta 8081 (0 MB de runtime).
-#   3. pm2 reload do painel (ecosystem.config.cjs na raiz, `next start`).
+#      /var/www/mdp-app e servido pelo nginx na porta 8082 (0 MB de runtime).
+#   3. índice de texto dos PDFs para a busca da home (deploy/indexar-textos.sh, D42).
+#      e o repertório de palavras das ferramentas (deploy/gerar-repertorio.sh, D45).
+#   4. pm2 reload do painel (ecosystem.config.cjs na raiz, `next start`).
 # Nunca: next dev / expo start aqui. Isso é pro Mac de quem desenvolve.
 #
 set -euo pipefail
@@ -31,8 +33,13 @@ mkdir -p /var/www/mdp-app
 rsync -a --delete apps/app/dist/ /var/www/mdp-app/
 chown -R www-data:www-data /var/www/mdp-app
 
+echo "→ busca: índice de texto dos PDFs (D42)"
+nice -n 19 bash deploy/indexar-textos.sh || echo "  aviso: índice não atualizado; a busca segue pelo título"
+echo "→ ferramentas: repertório de palavras dos PDFs (D45)"
+nice -n 19 bash deploy/gerar-repertorio.sh || echo "  aviso: repertório não atualizado; fica o anterior"
+
 echo "→ pm2: reload do painel"
 if pm2 describe mdp-painel >/dev/null 2>&1; then pm2 reload ecosystem.config.cjs --only mdp-painel >/dev/null; else pm2 start ecosystem.config.cjs >/dev/null; fi
 pm2 save >/dev/null
 for _ in $(seq 1 15); do sleep 2; code=$(curl -s -o /dev/null -w '%{http_code}' -m 5 http://127.0.0.1:3000/); [[ "$code" != 000 ]] && break; done
-echo "✓ painel http://127.0.0.1:3000 → HTTP $code | app estático em http://<vps>:8081 | $(free -m | awk 'NR==2{print $7}') MB disponíveis"
+echo "✓ painel http://127.0.0.1:3000 → HTTP $code | app estático em http://<servidor>:8082 | $(free -m | awk 'NR==2{print $7}') MB disponíveis"

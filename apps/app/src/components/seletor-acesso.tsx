@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Modal, Pressable, Text, View } from 'react-native';
 
 import { cenariosAcesso, useDemo } from '../contexto/demo';
+import { useSessao } from '../contexto/sessao';
 import { useCores } from '../hooks/use-cores';
 
 /**
@@ -14,6 +15,10 @@ export function SeletorAcesso() {
   const demo = useDemo();
   const cores = useCores();
   const [aberto, setAberto] = useState(false);
+  const { email } = useSessao();
+
+  // com sessão, a posse é a da conta (D50): o cenário de teste some
+  if (email) return null;
 
   return (
     <>

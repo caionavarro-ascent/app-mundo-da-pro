@@ -4,14 +4,7 @@
  * entrar (Blocos 1–5), a implementação troca e as telas ficam.
  * Não importar em nada além do app de demonstração.
  */
-import {
-  nomeAno,
-  nomeNivel,
-  nomeTipo,
-  type AnoEscolar,
-  type NivelEscrita,
-  type TipoMaterial,
-} from '../tokens';
+import type { AnoEscolar, NivelEscrita, TipoMaterial } from '../tokens';
 
 export interface ProdutoDemo {
   id: string;
@@ -44,6 +37,8 @@ export interface MaterialDemo {
   embedUrl?: string;
   /** capa real vinda do painel (D33); sem ela o card usa a cor do produto */
   capaUrl?: string;
+  /** altura ÷ largura da capa, para o mosaico montar as colunas antes de a imagem chegar */
+  capaProporcao?: number;
 }
 
 export const produtosDemo: ProdutoDemo[] = [
@@ -792,33 +787,4 @@ export function parecidosCom(material: MaterialDemo): MaterialDemo[] {
       m.id !== material.id &&
       (m.tipo === material.tipo || m.niveis.some((n) => material.niveis.includes(n))),
   ).slice(0, 8);
-}
-
-function semAcentos(texto: string): string {
-  return texto
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '');
-}
-
-/**
- * Busca ao vivo: título, descrição e também os nomes de tipo, ano e nível —
- * "jogo", "1º ano" e "silábico" encontram materiais. Cada palavra digitada
- * precisa aparecer em algum campo.
- */
-export function buscarMateriais(termo: string): MaterialDemo[] {
-  const palavras = semAcentos(termo).split(/\s+/).filter(Boolean);
-  if (palavras.length === 0) return [];
-  return materiaisDemo.filter((m) => {
-    const palheiro = semAcentos(
-      [
-        m.titulo,
-        m.descricao,
-        nomeTipo[m.tipo],
-        ...m.anos.map((a) => nomeAno[a]),
-        ...m.niveis.map((n) => nomeNivel[n]),
-      ].join(' '),
-    );
-    return palavras.every((p) => palheiro.includes(p));
-  });
 }

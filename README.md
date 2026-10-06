@@ -19,7 +19,7 @@ o Metro com `--clear`.
 - **App demo completo, sem banco (D29/D33):** vitrine Netflix, busca viva, tema
   claro/escuro, onboarding visual de 7 telas, persistência local (AsyncStorage),
   barra de abas em todas as telas, modo desktop web com menu lateral e hero.
-- **Abas:** Início · Novidades · Buscar · **Ferramentas** (D36: turmas viraram
+- **Abas (D42):** Início (busca por pergunta) · Novidades · Vitrine · **Ferramentas** (D36: turmas viraram
   ferramenta; Corretor/Adaptador de Provas e Sondagem Digital "em breve") ·
   Meus materiais (ícone mochilinha).
 - **Turmas:** dinâmicas e persistidas; tela de criar turma com sondagem por nível.
