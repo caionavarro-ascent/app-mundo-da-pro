@@ -8,7 +8,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import type { AnoEscolar, NivelEscrita, TipoMaterial } from '@mdp/core';
+import { primeiroNome, type AnoEscolar, type NivelEscrita, type TipoMaterial } from '@mdp/core';
 import {
   registrarMateriaisExternos,
   turmasDemo,
@@ -18,6 +18,7 @@ import {
 } from '@mdp/core/src/mock/acervo';
 
 import { buscarMateriaisDoPainel } from '../lib/painel';
+import { useSessao } from './sessao';
 
 const CHAVE_ARMAZENAMENTO = 'mdp-demo-v1';
 
@@ -68,6 +69,12 @@ interface EstadoDemo {
   alternarFavorito: (materialId: string) => void;
   buscasRecentes: string[];
   registrarBusca: (termo: string) => void;
+  /**
+   * Sobe quando os materiais do painel entram no acervo (D33). Quem lê o acervo
+   * direto do módulo precisa usá-la no cálculo: o React Compiler só refaz o que
+   * depende de valores reativos, e o acervo do módulo não é um deles.
+   */
+  versaoAcervo: number;
   /** turmas da professora (D30/D36) — começa com a de exemplo */
   turmas: TurmaDemo[];
   criarTurma: (turma: Omit<TurmaDemo, 'id'>) => TurmaDemo;
@@ -116,6 +123,7 @@ function alternar<T>(conjunto: Set<T>, item: T): Set<T> {
 }
 
 export function ProvedorDemo({ children }: { children: ReactNode }) {
+  const { email: emailDaSessao, posse: posseDaSessao, perfil } = useSessao();
   // "Aluna do FDA" como padrão da demo: as aulas já abrem destravadas
   const [cenario, setCenario] = useState<CenarioAcesso>('fda');
   const [favoritos, setFavoritos] = useState<Set<string>>(new Set());
@@ -178,7 +186,8 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
           if (d.tipos) setTipos(new Set(d.tipos));
           if (d.vistos) setVistos(d.vistos);
           if (d.viuAbertura) setViuAbertura(true);
-          if (d.tema === 'light' || d.tema === 'dark') esquemaGlobal.set(d.tema);
+          // 'tema' guardava o escuro antigo como padrão; com a identidade nova (D54) vale só a escolha feita depois dela
+          if (d.temaEscolhido === 'light' || d.temaEscolhido === 'dark') esquemaGlobal.set(d.temaEscolhido);
         }
       } catch {
         // estado corrompido ou indisponível: segue com os padrões
@@ -207,7 +216,7 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
         tipos: [...tipos],
         vistos,
         viuAbertura,
-        tema: esquemaAtual,
+        temaEscolhido: esquemaAtual,
       }),
     ).catch(() => {});
   }, [
@@ -230,8 +239,13 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
   const valor = useMemo<EstadoDemo>(() => {
     const temFiltro = niveis.size > 0 || anos.size > 0 || tipos.size > 0;
     return {
-      nome: 'Ana',
-      posse: [...(cenariosAcesso.find((c) => c.id === cenario)?.posse ?? [])],
+      // com sessão (D50): nome e posse da conta; sem, a professora de demonstração
+      // o nome que ela deu nas boas-vindas (D53) vale nos dois casos
+      nome: emailDaSessao
+        ? primeiroNome(perfil?.nome, emailDaSessao)
+        : primeiroNome(perfil?.nome || 'Ana', 'ana@'),
+      versaoAcervo,
+      posse: posseDaSessao ?? [...(cenariosAcesso.find((c) => c.id === cenario)?.posse ?? [])],
       cenario,
       definirCenario: setCenario,
       favoritos,
@@ -340,6 +354,9 @@ export function ProvedorDemo({ children }: { children: ReactNode }) {
     tipos,
     // muda quando o acervo do painel chega — re-renderiza a vitrine
     versaoAcervo,
+    emailDaSessao,
+    posseDaSessao,
+    perfil,
   ]);
 
   return <Contexto.Provider value={valor}>{children}</Contexto.Provider>;

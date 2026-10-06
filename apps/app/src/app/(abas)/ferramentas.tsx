@@ -39,6 +39,20 @@ export default function Ferramentas() {
       aoTocar: () => router.push('/turmas'),
     },
     {
+      icone: 'grid-outline',
+      nome: 'Cruzadinha',
+      descricao: 'Escolha as palavras e baixe a cruzadinha pronta, com gabarito.',
+      estado: 'ativa',
+      aoTocar: () => router.push('/ferramenta/cruzadinha'),
+    },
+    {
+      icone: 'search',
+      nome: 'Caça-palavras',
+      descricao: 'Monte um caça-palavras no nível da turma e baixe em PDF.',
+      estado: 'ativa',
+      aoTocar: () => router.push('/ferramenta/caca-palavras'),
+    },
+    {
       icone: 'checkmark-done-circle',
       nome: 'Corretor de Provas',
       descricao: 'Fotografe a prova e receba a correção pronta.',
@@ -125,7 +139,7 @@ export default function Ferramentas() {
                       <Ionicons
                         name={ferramenta.icone}
                         size={22}
-                        color={ferramenta.estado === 'ativa' ? '#16191F' : cores.texto2}
+                        color={ferramenta.estado === 'ativa' ? '#FFFFFF' : cores.texto2}
                       />
                     </View>
                     {ferramenta.estado === 'em-breve' && (

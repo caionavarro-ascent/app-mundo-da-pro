@@ -5,6 +5,7 @@ import { FlatList, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useDemo } from '../../contexto/demo';
+import { doAcervo } from '../../lib/acervo-reativo';
 
 /** Aba Novidades (A8): lista cronológica completa. */
 export default function Novidades() {
@@ -13,7 +14,7 @@ export default function Novidades() {
   return (
     <SafeAreaView className="flex-1 bg-fundo" edges={['top']}>
       <FlatList
-        data={novidades()}
+        data={doAcervo(novidades, demo.versaoAcervo)}
         keyExtractor={(m) => m.id}
         contentContainerClassName="gap-3 p-4"
         ListHeaderComponent={

@@ -3,38 +3,48 @@
  * acontece aqui e se propaga para o app (NativeWind) e o painel (Tailwind).
  */
 
-/** App da Professora — tema escuro (ver CLAUDE.md §2) */
+/**
+ * Identidade "Mundo da Prô | Clube Pedagógico" (D54): azul-marinho da marca (#0E2447)
+ * nos fundos de destaque, menu ativo e banners; rosa (#FF0167) como cor primária
+ * (botões, destaques, ícones em círculo). Texto sobre o rosa é sempre branco.
+ */
+
+/** App da Professora — tema escuro, todo em azul-marinho (alternativa no switch da Conta) */
 export const coresApp = {
-  fundo: '#0B0D12',
-  superficie: '#16191F',
-  superficie2: '#1F232B',
-  texto: '#F5F6F8',
-  texto2: '#A2A8B4',
-  marca: '#FFD84D',
+  fundo: '#071430',
+  superficie: '#0E2447',
+  superficie2: '#1A3560',
+  texto: '#F3F6FB',
+  texto2: '#A9B5CC',
+  borda: '#1E3A66',
+  marca: '#FF0167',
   /** marca quando usada como TEXTO/ícone: precisa de contraste no fundo */
-  marcaLegivel: '#FFD84D',
+  marcaLegivel: '#FF5C9A',
+  /** texto e ícone por cima da marca */
+  sobreMarca: '#FFFFFF',
+  /** azul-marinho da marca: banners, menu ativo */
+  brand: '#0E2447',
   coral: '#E4574E',
   verde: '#1F9E77',
-  /** Botão primário sempre branco com texto escuro, como na referência */
-  botaoPrimarioFundo: '#FFFFFF',
-  botaoPrimarioTexto: '#0B0D12',
+  botaoPrimarioFundo: '#FF0167',
+  botaoPrimarioTexto: '#FFFFFF',
 } as const;
 
-/**
- * App da Professora — tema claro (D14 em avaliação: o switch existe na demo
- * para a Gi e a Flávia compararem os dois fundos). Marca e apoios não mudam.
- */
+/** App da Professora — tema claro: o padrão (D54, encerra a dúvida da D14). */
 export const coresAppClara = {
-  fundo: '#F4F4F2',
+  fundo: '#F5F7FB',
   superficie: '#FFFFFF',
-  superficie2: '#E7E8EA',
-  texto: '#16191F',
-  texto2: '#5B626E',
-  marca: '#FFD84D',
-  marcaLegivel: '#8A6D1A',
+  superficie2: '#E8ECF3',
+  texto: '#0E2447',
+  texto2: '#5A6782',
+  borda: '#E1E6EF',
+  marca: '#FF0167',
+  marcaLegivel: '#D10057',
+  sobreMarca: '#FFFFFF',
+  brand: '#0E2447',
   coral: '#E4574E',
   verde: '#1F9E77',
-  botaoPrimarioFundo: '#16191F',
+  botaoPrimarioFundo: '#FF0167',
   botaoPrimarioTexto: '#FFFFFF',
 } as const;
 

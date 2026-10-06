@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { exemploNivel, nomeNivel, type NivelEscrita } from '@mdp/core';
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'expo-router';
 import {
   FlatList,
   Modal,
@@ -174,17 +175,23 @@ export function PrimeiraAbertura() {
   const [indice, setIndice] = useState(0);
   const lista = useRef<FlatList<(typeof TELAS)[number]>>(null);
   const [alturaLista, setAlturaLista] = useState(0);
+  // na tela de entrar a apresentação sobra: ela já mostra a visão geral do app (D52)
+  const rota = usePathname();
 
   // O componente segue montado depois de fechado ("Rever a apresentação"
-  // reabre-o): sem zerar aqui, a reabertura herda o índice — e, no web, o
-  // navegador ainda restaura o scroll antigo da lista.
+  // reabre-o): sem zerar, a reabertura herda o índice — e, no web, o
+  // navegador ainda restaura o scroll antigo da lista. O índice volta a 0
+  // durante a renderização (ajuste por mudança de prop); o efeito só rola a lista.
+  const [viuAntes, setViuAntes] = useState(demo.viuAbertura);
+  if (viuAntes !== demo.viuAbertura) {
+    setViuAntes(demo.viuAbertura);
+    if (!demo.viuAbertura) setIndice(0);
+  }
   useEffect(() => {
-    if (demo.viuAbertura) return;
-    setIndice(0);
-    lista.current?.scrollToOffset({ offset: 0, animated: false });
+    if (!demo.viuAbertura) lista.current?.scrollToOffset({ offset: 0, animated: false });
   }, [demo.viuAbertura]);
 
-  if (!demo.hidratado || demo.viuAbertura) return null;
+  if (!demo.hidratado || demo.viuAbertura || rota === '/entrar' || rota === '/boas-vindas') return null;
   const ultimo = indice === TELAS.length - 1;
 
   const irPara = (destino: number) => {

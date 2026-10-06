@@ -1,18 +1,20 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import { useColorScheme } from 'nativewind';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { MenuLateral } from '../../components/menu-lateral';
-import { useDemo } from '../../contexto/demo';
 import { useCores } from '../../hooks/use-cores';
+import { useEsquema, useNoAparelho } from '../../hooks/use-esquema';
 import { useDesktopWeb } from '../../hooks/use-desktop-web';
+import { voltarAoInicio } from '../../lib/voltar-ao-inicio';
 
 /** Barra de abas do rodapé (A8 + D30); no desktop web, menu lateral. */
 export default function LayoutAbas() {
-  const demo = useDemo();
   const cores = useCores();
-  const { colorScheme: esquema } = useColorScheme();
+  const esquema = useEsquema();
+  // a barra de abas não sai igual no HTML pré-gerado (largura 0 some com os rótulos):
+  // só aparece depois da hidratação, senão o React refaz a página inteira (#418, D51)
+  const noAparelho = useNoAparelho();
   const desktop = useDesktopWeb();
 
   return (
@@ -20,6 +22,7 @@ export default function LayoutAbas() {
       {desktop && <MenuLateral />}
       <View className="flex-1">
     <Tabs
+      {...(noAparelho ? {} : { tabBar: () => null })}
       screenOptions={{
         headerShown: false,
         tabBarStyle: desktop
@@ -31,15 +34,18 @@ export default function LayoutAbas() {
             },
         tabBarActiveTintColor: cores.texto,
         tabBarInactiveTintColor: cores.texto2,
-        tabBarLabelStyle: { fontFamily: 'InstrumentSans_500Medium', fontSize: 10 },
+        tabBarLabelStyle: { fontFamily: 'NunitoSans_600SemiBold', fontSize: 10 },
       }}
     >
       <Tabs.Screen
         name="index"
+        // tocar em Início sempre volta à tela principal da home (pergunta limpa + mosaico)
+        listeners={{ tabPress: () => voltarAoInicio() }}
         options={{
+          // D42: a home é a busca por pergunta, estilo assistente
           title: 'Início',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color={color} />
+            <Ionicons name="sparkles" size={size} color={color} />
           ),
         }}
       />
@@ -48,16 +54,16 @@ export default function LayoutAbas() {
         options={{
           title: 'Novidades',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="sparkles" size={size} color={color} />
+            <Ionicons name="notifications" size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="buscar"
+        name="vitrine"
         options={{
-          title: 'Buscar',
+          title: 'Vitrine',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="search" size={size} color={color} />
+            <Ionicons name="film" size={size} color={color} />
           ),
         }}
       />
@@ -89,6 +95,8 @@ export default function LayoutAbas() {
       <Tabs.Screen name="turma/criar" options={{ href: null }} />
       <Tabs.Screen name="formacao/[id]" options={{ href: null }} />
       <Tabs.Screen name="aula/[id]" options={{ href: null }} />
+      <Tabs.Screen name="ferramenta/cruzadinha" options={{ href: null }} />
+      <Tabs.Screen name="ferramenta/caca-palavras" options={{ href: null }} />
     </Tabs>
       </View>
     </View>

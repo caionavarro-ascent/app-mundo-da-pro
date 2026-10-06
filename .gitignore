@@ -29,3 +29,8 @@ npm-debug.log*
 apps/web/dados/
 apps/web/public/demo-capas/
 segredos/
+
+# resultados dos testes e2e (traces e capturas)
+e2e/resultados/
+e2e/test-results/
+e2e/playwright-report/

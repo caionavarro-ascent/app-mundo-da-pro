@@ -24,6 +24,7 @@ export function PlayerAula({ url }: { url: string }) {
   }
 
   // import dinâmico: react-native-webview não existe no bundle web
+  // eslint-disable-next-line @typescript-eslint/no-require-imports -- só no nativo (ver acima)
   const { WebView } = require('react-native-webview');
   return (
     <View
