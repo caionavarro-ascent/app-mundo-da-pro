@@ -688,3 +688,22 @@ celular a navegação continua nas abas do rodapé (CLAUDE.md §1), não em gave
 todo mundo tinha "escuro" salvo (era o padrão); assim todos abrem no claro.
 **Armadilha:** no web, o `TextInput` tem largura própria; numa linha com botão ao lado ele
 precisa de `minWidth: 0`, senão empurra o botão para fora no celular.
+
+### D55 — Rebrand paralelo de 05/10 juntado à D54 (06/10)
+Em 05/10 (23h34–23h52) outra sessão aplicou o mesmo rebrand direto na `main`, partindo da
+`main` de 24/09, que não tinha o trabalho de D41 a D53 (feito só no servidor). Lá as
+decisões foram numeradas **D39** e **D42**, números que aqui já são outras. Registro delas:
+- **"D39" de 05/10 — Rebrand "Clube Pedagógico":** azul-marinho #0E2447 e rosa #FF0167,
+  Baloo 2 + Nunito Sans; o app seguia **escuro** (fundo azul-marinho). Rejeitado do documento
+  de referência, com aviso ao cliente: recriar como web (Vite/TanStack), menu lateral no
+  celular, login com senha/Google, arquivo por URL pública, créditos/limites de plano. A
+  escala de cores da sondagem por nível (coral/amarelo/azul/verde) é semântica e fica.
+- **"D42" de 05/10 — Home do desktop web como painel:** cartões de resumo (materiais,
+  novidades, grupo de WhatsApp, sugerir material) e saudação com busca que levava à aba
+  Buscar (`?q=`), em `painel-inicio-desktop.tsx`.
+**Decidido pelo cliente (06/10):** vale a versão da D54 (tema claro, banner da home com
+"Buscar" e números). O merge manteve o código deste branch nos arquivos em conflito; o
+painel desktop de 05/10 não entrou, porque dependia da aba Buscar, que a D42 daqui removeu.
+Ideias aproveitáveis dele: cartão do grupo de WhatsApp e "sugerir material" na home.
+**Lição:** trabalho feito só no servidor e não enviado ao GitHub gera ramos paralelos.
+Ao terminar uma sessão, subir o que mudou.
