@@ -75,7 +75,7 @@ export function MenuLateral() {
 
       <View className="flex-row items-center gap-3 px-3">
         <View className="h-9 w-9 items-center justify-center rounded-full bg-marca">
-          <Text className="font-corpo-forte text-sm text-[#16191F]">
+          <Text className="font-corpo-forte text-sm text-white">
             {demo.nome.charAt(0)}
           </Text>
         </View>

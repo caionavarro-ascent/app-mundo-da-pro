@@ -63,9 +63,9 @@ export function Destaque({ destaque }: { destaque: DestaqueResolvido }) {
                 {material.descricao}
               </Text>
               <View className="mt-2 flex-row gap-3">
-                <View className="h-12 flex-row items-center justify-center gap-2 rounded-lg bg-white px-6">
-                  <Ionicons name="download" size={18} color="#16191F" />
-                  <Text className="font-corpo-forte text-base text-[#16191F]">
+                <View className="h-12 flex-row items-center justify-center gap-2 rounded-lg bg-botao-prim px-6">
+                  <Ionicons name="download" size={18} color="#FFFFFF" />
+                  <Text className="font-corpo-forte text-base text-botao-prim-texto">
                     {destaque.ctaPrimario}
                   </Text>
                 </View>

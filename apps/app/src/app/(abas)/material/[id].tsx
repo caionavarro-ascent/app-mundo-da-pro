@@ -154,7 +154,7 @@ export default function FichaMaterial() {
                   }`}
                 >
                   {naAmostra ? (
-                    <Text className="font-corpo text-xs text-[#16191F]">página {i + 1}</Text>
+                    <Text className="font-corpo text-xs text-[#0E2447]">página {i + 1}</Text>
                   ) : (
                     <Ionicons name="lock-closed" size={16} color={cores.texto2} />
                   )}
@@ -288,7 +288,7 @@ export default function FichaMaterial() {
             <View className="gap-2 rounded-2xl border border-marca bg-superficie-2 p-4">
               <View className="flex-row items-center gap-2">
                 <View className="rounded-full bg-marca px-2 py-0.5">
-                  <Text className="font-corpo-forte text-[10px] uppercase text-[#16191F]">
+                  <Text className="font-corpo-forte text-[10px] uppercase text-white">
                     Happy Friday
                   </Text>
                 </View>
@@ -308,7 +308,7 @@ export default function FichaMaterial() {
                   )
                 }
               >
-                <Text className="font-corpo-forte text-base text-[#16191F]">
+                <Text className="font-corpo-forte text-base text-white">
                   {formatarPreco(produtoPorId('acesso-total')?.precoCentavos ?? 0)} ·{' '}
                   {produtoPorId('acesso-total')?.parcelasTexto}
                 </Text>

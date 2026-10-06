@@ -34,8 +34,8 @@ function MiniVitrine() {
         <Text className="font-titulo text-lg leading-tight text-white">
           Sequência Didática:{'\n'}Festa Junina
         </Text>
-        <View className="mt-1 items-center rounded-md bg-white py-2">
-          <Text className="font-corpo-forte text-xs text-[#16191F]">Baixar agora</Text>
+        <View className="mt-1 items-center rounded-md bg-botao-prim py-2">
+          <Text className="font-corpo-forte text-xs text-botao-prim-texto">Baixar agora</Text>
         </View>
       </View>
       <View className="flex-row gap-2">
@@ -98,7 +98,7 @@ function MiniCadeado() {
         </Text>
         <View className="items-end">
           <View className="rounded-full bg-white p-1.5">
-            <Ionicons name="checkmark" size={10} color="#16191F" />
+            <Ionicons name="checkmark" size={10} color="#0E2447" />
           </View>
         </View>
       </View>

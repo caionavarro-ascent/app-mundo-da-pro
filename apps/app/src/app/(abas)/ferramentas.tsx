@@ -125,7 +125,7 @@ export default function Ferramentas() {
                       <Ionicons
                         name={ferramenta.icone}
                         size={22}
-                        color={ferramenta.estado === 'ativa' ? '#16191F' : cores.texto2}
+                        color={ferramenta.estado === 'ativa' ? '#FFFFFF' : cores.texto2}
                       />
                     </View>
                     {ferramenta.estado === 'em-breve' && (

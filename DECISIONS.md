@@ -303,6 +303,18 @@ Os cursos seguem na parte separada já construída (páginas de Formação).
 **Consequência:** o enum `tipo_material` do schema ganha o valor 'ebook' (ajustado em
 SCHEMA.sql e na migration inicial, ainda não aplicada).
 
+### D39 — Rebrand visual "Clube Pedagógico" (05/10)
+**Decidido pelo cliente**, a partir de um documento de identidade (Downloads/
+prompt-claude-code-mundo-da-pro.md). Adotado: azul-marinho #0E2447 como fundo da
+vitrine escura e cor de marca, rosa #FF0167 como cor primária (botões e destaques,
+substituindo o botão branco e a marca amarela #FFD84D), fontes Baloo 2 (títulos) e
+Nunito Sans (corpo) no lugar de Bricolage Grotesque e Instrument Sans.
+**Rejeitado do documento, com aviso ao cliente:** recriar o app como web (Vite/
+TanStack), menu lateral no celular, busca no topo da home, login com senha/Google,
+servir arquivo por URL pública e créditos/limites de plano — conflitam com as
+regras de ouro e com a estrutura Netflix do PRD. A escala de cores da sondagem por
+nível (coral/amarelo/azul/verde) permanece: é semântica, não marca.
+
 ### D38 — Onboarding enxugado de 7 para 4 telas (13/09)
 **Decidido pelo cliente** ("tem muitas telas"). Ficam: vitrine, nível de escrita,
 amostra/cadeado e offline/imprimir. Saem: login por e-mail (a professora vive isso na

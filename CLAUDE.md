@@ -73,10 +73,11 @@ vira um cartaz e a cor vem do próprio material, como no Netflix. Também poupa 
 tela OLED e reduz o brilho na mão de quem usa o celular na sala de aula. O painel de
 conteúdo permanece claro — é planilha, não vitrine.
 
-Tokens do app:
-`--fundo #0B0D12` · `--superficie #16191F` · `--superficie-2 #1F232B` ·
-`--texto #F5F6F8` · `--texto-2 #A2A8B4` · `--marca #FFD84D` · `--coral #E4574E` ·
-`--verde #1F9E77` · botão primário sempre branco com texto escuro, como na referência.
+Tokens do app (rebrand "Clube Pedagógico", D39):
+`--fundo #0E2447` (azul-marinho da marca) · `--superficie #16325A` · `--superficie-2 #1E3E6C` ·
+`--texto #F5F7FA` · `--texto-2 #A3B2CB` · `--marca #FF0167` (rosa) · `--coral #E4574E` ·
+`--verde #1F9E77` · botão primário rosa com texto branco. Fontes: Baloo 2 (títulos)
+e Nunito Sans (texto); Patrick Hand segue nos exemplos manuscritos de nível.
 
 ## 3. As três superfícies
 

@@ -1,12 +1,9 @@
+import { Baloo2_600SemiBold, Baloo2_700Bold } from '@expo-google-fonts/baloo-2';
 import {
-  BricolageGrotesque_600SemiBold,
-  BricolageGrotesque_700Bold,
-} from '@expo-google-fonts/bricolage-grotesque';
-import {
-  InstrumentSans_400Regular,
-  InstrumentSans_500Medium,
-  InstrumentSans_600SemiBold,
-} from '@expo-google-fonts/instrument-sans';
+  NunitoSans_400Regular,
+  NunitoSans_500Medium,
+  NunitoSans_700Bold,
+} from '@expo-google-fonts/nunito-sans';
 import { PatrickHand_400Regular } from '@expo-google-fonts/patrick-hand';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -55,11 +52,11 @@ function Navegacao() {
 
 export default function LayoutRaiz() {
   const [fontesProntas] = useFonts({
-    BricolageGrotesque_600SemiBold,
-    BricolageGrotesque_700Bold,
-    InstrumentSans_400Regular,
-    InstrumentSans_500Medium,
-    InstrumentSans_600SemiBold,
+    Baloo2_600SemiBold,
+    Baloo2_700Bold,
+    NunitoSans_400Regular,
+    NunitoSans_500Medium,
+    NunitoSans_700Bold,
     PatrickHand_400Regular,
   });
 

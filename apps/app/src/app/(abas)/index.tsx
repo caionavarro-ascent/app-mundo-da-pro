@@ -72,7 +72,7 @@ export default function Inicio() {
             </Pressable>
             <Pressable hitSlop={8} onPress={() => router.navigate('/meus')}>
               <View className="h-7 w-7 items-center justify-center rounded-full bg-marca">
-                <Text className="font-corpo-forte text-xs text-[#16191F]">
+                <Text className="font-corpo-forte text-xs text-white">
                   {demo.nome.charAt(0)}
                 </Text>
               </View>
@@ -153,7 +153,7 @@ export default function Inicio() {
           <View className="mx-4 gap-3 rounded-2xl bg-superficie p-5">
             <View className="flex-row items-center gap-2">
               <View className="rounded-full bg-marca px-2 py-0.5">
-                <Text className="font-corpo-forte text-[10px] uppercase text-[#16191F]">
+                <Text className="font-corpo-forte text-[10px] uppercase text-white">
                   Happy Friday
                 </Text>
               </View>
