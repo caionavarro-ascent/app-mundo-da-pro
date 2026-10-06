@@ -41,7 +41,7 @@ export default function Conta() {
 
         <View className="flex-row items-center gap-3 px-4">
           <View className="h-14 w-14 items-center justify-center rounded-full bg-marca">
-            <Text className="font-titulo text-xl text-[#16191F]">{demo.nome.charAt(0)}</Text>
+            <Text className="font-titulo text-xl text-white">{demo.nome.charAt(0)}</Text>
           </View>
           <View>
             <Text className="font-titulo-semi text-xl text-texto">{demo.nome}</Text>
