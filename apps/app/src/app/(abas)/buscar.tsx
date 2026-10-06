@@ -1,7 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { nomeTipo, type TipoMaterial } from '@mdp/core';
 import { buscarMateriais } from '@mdp/core/src/mock/acervo';
-import { useState } from 'react';
+import { useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { FlatList, Pressable, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -17,6 +18,12 @@ export default function Buscar() {
   const demo = useDemo();
   const cores = useCores();
   const [termo, setTermo] = useState('');
+
+  // ?q= chega da busca central do painel desktop (a aba continua autônoma)
+  const { q } = useLocalSearchParams<{ q?: string }>();
+  useEffect(() => {
+    if (typeof q === 'string' && q.trim()) setTermo(q);
+  }, [q]);
   const resultados = buscarMateriais(termo);
   const buscando = termo.trim().length > 0;
 

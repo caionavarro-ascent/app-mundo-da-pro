@@ -18,6 +18,7 @@ import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Destaque } from '../../components/destaque';
+import { PainelInicioDesktop } from '../../components/painel-inicio-desktop';
 import { PilulasFiltro } from '../../components/pilulas-filtro';
 import { Prateleira } from '../../components/prateleira';
 import { SeletorAcesso } from '../../components/seletor-acesso';
@@ -47,7 +48,10 @@ export default function Inicio() {
 
   return (
     <SafeAreaView className="flex-1 bg-fundo" edges={['top']}>
-      <ScrollView stickyHeaderIndices={[1]} contentContainerClassName="gap-6 pb-8">
+      <ScrollView
+        stickyHeaderIndices={desktop ? undefined : [1]}
+        contentContainerClassName="gap-6 pb-8"
+      >
         {/* A0 — topo enxuto, sem campo de busca */}
         <View className="flex-row items-center justify-between px-4 pt-2">
           {desktop ? (
@@ -80,13 +84,23 @@ export default function Inicio() {
           </View>
         </View>
 
-        {/* A1 — pílulas fixas na rolagem */}
-        <View className="bg-fundo">
-          <PilulasFiltro aoTocarNovidades={() => router.navigate('/novidades')} />
-        </View>
+        {/* A1 — pílulas fixas na rolagem (no desktop ficam junto das prateleiras) */}
+        {!desktop && (
+          <View className="bg-fundo">
+            <PilulasFiltro aoTocarNovidades={() => router.navigate('/novidades')} />
+          </View>
+        )}
 
-        {/* A2 — destaque personalizado por posse */}
-        <Destaque destaque={destaque} />
+        {/* No desktop a home abre como painel (cartões + busca central);
+            no celular segue a estrutura Netflix do PRD com o destaque A2. */}
+        {desktop ? (
+          <>
+            <PainelInicioDesktop />
+            <PilulasFiltro aoTocarNovidades={() => router.navigate('/novidades')} />
+          </>
+        ) : (
+          <Destaque destaque={destaque} />
+        )}
 
         {/* A3 — com histórico vira "Continue de onde parou"; nunca aparece vazia */}
         {(() => {

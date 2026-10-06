@@ -346,7 +346,7 @@ da aba. "Ajuda no WhatsApp" já abre o número real (EXPO_PUBLIC_SUPORTE_WHATSAP
 Revisa a A8.
 
 
-### D40 — Produção na VPS: nada de dev server; painel com `next start`, app estático (24/09)
+### D41 — Produção na VPS: nada de dev server; painel com `next start`, app estático (24/09)
 **Contexto.** `expo start` e `next dev` ficaram horas rodando na VPS da Ascent (que é a
 produção do SDR da Beascent, 1 CPU, 3,9 GB); com 8 sessões do Claude Code na mesma máquina
 a memória e a swap esgotaram e o SDR passou 14 min sem responder. O kernel matou um
@@ -365,3 +365,12 @@ celular (Expo Go) e hot reload continuam existindo, mas no Mac.
 que estava na VPS (4 commits do Caio ainda não enviados + `ecosystem.config.cjs`,
 `deploy/publicar.sh`, esta decisão) foi para o GitHub, e o app saiu do servidor. Os
 scripts de deploy ficam como referência para um servidor próprio.
+
+### D42 — Home do desktop web vira painel com busca central (05/10)
+**Decidido pelo cliente**, a partir de um print de referência (painel estilo FoxEdu).
+Só no modo desktop web (≥1024px): cartões de resumo (materiais disponíveis, novidades
+do mês, grupo de WhatsApp, sugerir material — sem créditos nem limite de downloads, a
+pedido), saudação com busca central que leva à aba Buscar com `?q=`, e as prateleiras
+seguem abaixo. **No celular nada muda:** a home continua Netflix (destaque + prateleiras,
+busca como aba), que é inegociável no PRD. A numeração pulou: havia dois D40 de sessões
+paralelas; o da VPS virou D41.
